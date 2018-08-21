@@ -1,7 +1,7 @@
 export const languages = [
-  {id: 1, name:'ENG'},
-  {id: 2, name:'GER'},
-  {id: 3, name:'PL'}
+  {code:'en', name:'EN'},
+  {code:'de', name:'GER'},
+  {code:'pl', name:'PL'}
 ];
 
 export const services = [

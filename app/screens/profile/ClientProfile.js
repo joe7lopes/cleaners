@@ -1,7 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {ActionCreators} from '../../actions';
 import {View, Text, StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native';
 import {FormInput, FormLabel, Avatar, Button} from 'react-native-elements';
+
 import {LanguageBox} from '../../components/UI';
 import {languages as languagesData} from '../../config/data';
 
@@ -15,6 +18,11 @@ class ClientProfile extends React.Component {
   }
 
   componentDidMount() {
+
+    this
+      .props
+      .fetchProfile(123);
+
     let languages = languagesData.map(lang => {
       return {
         ...lang,
@@ -25,13 +33,25 @@ class ClientProfile extends React.Component {
     this.setState({languages});
   }
 
-  handleLanguageSelection = (id) => {
+  componentWillReceiveProps(nextProps){
+    this.updateLanguages(nextProps); 
+  }
+
+  updateLanguages = (nextProps) => {
+    const receivedLanguages = nextProps.profile.languages || {};
+    const codes = Object.keys(receivedLanguages);
+    codes.forEach(code => {
+      this.handleLanguageSelection(code);
+    });
+  }
+
+  handleLanguageSelection = (code) => {
     let languages = this
       .state
       .languages
       .slice();
     const index = languages.findIndex(el => {
-      return id === el.id;
+      return code === el.code;
     });
 
     languages[index].selected = !languages[index].selected;
@@ -42,21 +62,23 @@ class ClientProfile extends React.Component {
     const {languages} = this.state;
 
     return languages.map(lang => {
-      const {id, name, selected} = lang;
+      const {code, name, selected} = lang;
       return <LanguageBox
         style={styles.languageBox}
-        key={id}
+        key={code}
         text={name}
         selected={selected}
-        onSelect={() => this.handleLanguageSelection(id)}/>
+        onSelect={() => this.handleLanguageSelection(code)}/>
     });
   }
 
+  
+
   render() {
-    const {name, phone, address} = this.state;
+    const {name, phone, address} = this.props.profile;
+    console.log('in render', this.props.profile);
     return (
-      <ScrollView
-        contentContainerStyle={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
 
         <View style={styles.header}>
           <Avatar
@@ -75,7 +97,7 @@ class ClientProfile extends React.Component {
               <FormLabel>Home Address</FormLabel>
               <FormInput value={address}/>
               <FormLabel>Phone</FormLabel>
-              <FormInput value={phone}/>
+              <FormInput value={String(phone)}/>
             </View>
 
             <FormLabel>Languages</FormLabel>
@@ -85,34 +107,28 @@ class ClientProfile extends React.Component {
           </KeyboardAvoidingView>
         </View>
 
-          <Button title="Save"  
-            buttonStyle= {styles.saveButton} 
-          />
+        <Button title="Save" buttonStyle={styles.saveButton}/>
 
       </ScrollView>
     );
   }
 }
 
-
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
 const mapStateToProps = ({profile}) => {
-    return {
-      user: profile.user,
-      error: profile.error
-    };
+  return {profile: profile.profile};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (ClientProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(ClientProfile);
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
   header: {
     flex: 2,
@@ -122,7 +138,7 @@ const styles = StyleSheet.create({
   body: {
     flex: 2,
     paddingLeft: 8,
-    paddingRight: 8,
+    paddingRight: 8
   },
   row: {
     paddingLeft: 20,
