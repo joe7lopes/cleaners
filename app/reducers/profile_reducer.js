@@ -7,21 +7,28 @@ import {
   PENDING
 } from '../actions/types';
 
-export default (state = {}, action) => {
+const INITIAL_STATE = {
+  profile: {},
+  status: undefined
+}
+export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
     case FETCH_PROFILE_SUCCESS:
+    console.log("fetch profile success", action.payload);
       return {
         ...state,
-        user: action.payload,
+        profile: action.payload.data,
         status: SUCCESS
       };
     case FETCH_PROFILE_FAILURE:
+    console.log("fetch profile failure", action.payload);
       return {
         ...state,
         error: action.payload,
         status: FAILURE
       };
     case FETCH_PROFILE_PENDING:
+    console.log("fetch profile pending", action.payload);
       return {
         ...state,
         status: PENDING

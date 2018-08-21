@@ -5,7 +5,7 @@ import {
   FETCH_PROFILE_PENDING
 } from './types';
 
-const ROOT_URL = 'https://us-central1-cleaners-c4bcb.cloudfunctions.net';
+const ROOT_URL = 'https://us-central1-cleaners-c4bcb.cloudfunctions.net/api';
 
 export const fetchProfilePending = () => {
   return {
@@ -31,7 +31,7 @@ export const fetchProfile = (id) => {
   return async dispatch => {
     dispatch(fetchProfilePending());
     try{
-      let profile = await axios.get(`${ROOT_URL}/profile/${id}`);
+      let profile = await axios.get(`${ROOT_URL}/users/${id}`);
       dispatch(fetchProfileSuccess(profile));
     }catch(err){
       dispatch(fetchProfileFailure(err));
