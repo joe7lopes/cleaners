@@ -19,3 +19,9 @@ export const FETCH_USER_PENDING = 'fetch_user_pending';
 export const SAVE_USER_SUCCESS = 'save_user_success';
 export const SAVE_USER_FAILURE = 'save_user_failure';
 export const SAVE_USER_PENDING = 'save_user_pending';
+
+//SEARCH ACTIONS
+
+export const FETCH_CLEANERS_SUCCESS = 'fetch_cleaners_success';
+export const FETCH_CLEANERS_FAILURE = 'fetch_cleaners_failure';
+export const FETCH_CLEANERS_PENDING = 'fetch_cleaners_pending';

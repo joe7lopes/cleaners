@@ -5,7 +5,6 @@ import { StyleSheet, View, SafeAreaView, Modal, Text, Alert } from 'react-native
 import { FormLabel, FormInput, Button } from 'react-native-elements'
 import { ActivityStatusIndicator } from '../../components/UI';
 import { ActionCreators } from '../../actions';
-import { color } from '../../config/styles';
 import { SUCCESS } from '../../actions/types';
 
 class SignIn extends React.Component {
@@ -126,7 +125,7 @@ export default connect(mapStateToProps, mapDispatchToProps) (SignIn);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.white,
+    backgroundColor: 'white',
     
   },
   logo: {

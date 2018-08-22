@@ -2,7 +2,6 @@ import { createBottomTabNavigator, createSwitchNavigator } from 'react-navigatio
 import SearchStack from './search';
 import ProfileStack from './profile';
 import OffersStack from './offers';
-import { SignInStack, AuthLoading } from './auth'
 
 const ClientStack = createBottomTabNavigator({
   Search: {
@@ -25,11 +24,8 @@ const ClientStack = createBottomTabNavigator({
 export default createSwitchNavigator(
   {
     App: ClientStack,
-    Auth: SignInStack,
-    AuthLoading: AuthLoading
   },
   {
-    // initialRouteName: 'AuthLoading'
     initialRouteName: 'App'
   }
 );
