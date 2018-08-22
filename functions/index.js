@@ -8,6 +8,7 @@ const serviceAccount = require('./service_account.json');
 const requestOneTimePassword = require('./request_one_time_password');
 const verifyOneTimePassword = require('./verify_one_time_password');
 const fetchUser = require('./fetch_user');
+const updateUser = require('./update_user');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -36,5 +37,6 @@ app.get('/users', (req, res) => {
 });
 
 app.get('/users/:id', fetchUser);
+app.patch('/users/:id', updateUser)
 
 exports.api = functions.https.onRequest(app);

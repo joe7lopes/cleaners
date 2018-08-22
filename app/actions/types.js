@@ -10,8 +10,12 @@ export const SIGN_IN_SUCCESS = 'sign_in_success';
 export const SIGN_IN_FAILURE = 'sign_in_failure';
 export const SIGN_IN_PENDING = 'sign_in_pending';
 
-//PROFILE ACTIONS
+//USER ACTIONS
 
-export const FETCH_PROFILE_SUCCESS = 'fetch_profile_success';
-export const FETCH_PROFILE_FAILURE = 'fetch_profile_failure';
-export const FETCH_PROFILE_PENDING = 'fetch_profile_pending';
+export const FETCH_USER_SUCCESS = 'fetch_user_success';
+export const FETCH_USER_FAILURE = 'fetch_user_failure';
+export const FETCH_USER_PENDING = 'fetch_user_pending';
+
+export const SAVE_USER_SUCCESS = 'save_user_success';
+export const SAVE_USER_FAILURE = 'save_user_failure';
+export const SAVE_USER_PENDING = 'save_user_pending';

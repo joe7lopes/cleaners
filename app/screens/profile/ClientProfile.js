@@ -11,9 +11,7 @@ import {languages as languagesData} from '../../config/data';
 class ClientProfile extends React.Component {
 
   state = {
-    name: '',
     address: '',
-    phone: '',
     languages: []
   }
 
@@ -21,7 +19,7 @@ class ClientProfile extends React.Component {
 
     this
       .props
-      .fetchProfile(123);
+      .fetchUser(123);
 
     let languages = languagesData.map(lang => {
       return {
@@ -33,29 +31,19 @@ class ClientProfile extends React.Component {
     this.setState({languages});
   }
 
-  componentWillReceiveProps(nextProps){
-    this.updateLanguages(nextProps); 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.profile){
+      this.updateLanguages(nextProps.profile);
+      this.setState({address:nextProps.profile.address});
+    }
   }
 
-  updateLanguages = (nextProps) => {
-    const receivedLanguages = nextProps.profile.languages || {};
+  updateLanguages = (profile) => {
+    const receivedLanguages = profile.languages || {};
     const codes = Object.keys(receivedLanguages);
     codes.forEach(code => {
       this.handleLanguageSelection(code);
     });
-  }
-
-  handleLanguageSelection = (code) => {
-    let languages = this
-      .state
-      .languages
-      .slice();
-    const index = languages.findIndex(el => {
-      return code === el.code;
-    });
-
-    languages[index].selected = !languages[index].selected;
-    this.setState({languages});
   }
 
   renderLanguages = () => {
@@ -72,11 +60,33 @@ class ClientProfile extends React.Component {
     });
   }
 
-  
+  //Handlers
+  handleLanguageSelection = (code) => {
+    let languages = this
+      .state
+      .languages
+      .slice();
+    const index = languages.findIndex(el => {
+      return code === el.code;
+    });
+
+    languages[index].selected = !languages[index].selected;
+    this.setState({languages});
+  }
+
+  handleSaveProfile = () => {
+    var state = Object.assign({}, this.state);
+    const languages = state.languages.filter(lang => {
+      return lang.selected === true;
+    });
+    state.languages = languages;
+    
+    this.props.saveUser(state);
+
+  }
 
   render() {
-    const {name, phone, address} = this.props.profile;
-    console.log('in render', this.props.profile);
+    const {firstName, lastName, phone, address} = this.props.profile;
     return (
       <ScrollView contentContainerStyle={styles.container}>
 
@@ -84,7 +94,7 @@ class ClientProfile extends React.Component {
           <Avatar
             xlarge
             rounded
-            title="AS"
+            title={`${lastName.toUpperCase()[0] || ""}${firstName.toUpperCase()[0] || ""}`}
             onPress={() => console.log("upload picture not implemented")}
             activeOpacity={0.7}/>
         </View>
@@ -93,11 +103,11 @@ class ClientProfile extends React.Component {
           <KeyboardAvoidingView behavior="padding" enabled>
             <View>
               <FormLabel>Name</FormLabel>
-              <Text style={styles.fullName}>{name}</Text>
+              <Text style={styles.readOnlyText}>{`${firstName} ${lastName}`}</Text>
               <FormLabel>Home Address</FormLabel>
-              <FormInput value={address}/>
+              <FormInput value={address} onChangeText={address => this.setState({address})}/>
               <FormLabel>Phone</FormLabel>
-              <FormInput value={String(phone)}/>
+              <Text style={styles.readOnlyText}>{phone}</Text>
             </View>
 
             <FormLabel>Languages</FormLabel>
@@ -107,7 +117,10 @@ class ClientProfile extends React.Component {
           </KeyboardAvoidingView>
         </View>
 
-        <Button title="Save" buttonStyle={styles.saveButton}/>
+        <Button
+          title="Save"
+          buttonStyle={styles.saveButton}
+          onPress={this.handleSaveProfile}/>
 
       </ScrollView>
     );
@@ -118,8 +131,10 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-const mapStateToProps = ({profile}) => {
-  return {profile: profile.profile};
+const mapStateToProps = (state) => {
+  return {
+    profile: state.user.profile
+  }
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientProfile);
@@ -146,7 +161,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     flexDirection: 'row'
   },
-  fullName: {
+  readOnlyText: {
     paddingLeft: 20,
     paddingTop: 8,
     color: 'gray'
