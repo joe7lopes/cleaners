@@ -29,7 +29,7 @@ function getCleaners() {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(cleaners);
-    }, 0);
+    }, 3000);
   })
 };
 
