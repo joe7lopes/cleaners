@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../../../actions';
 import {View, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import {FormLabel, FormInput, Icon, Button} from 'react-native-elements';
 import {Dropdown} from 'react-native-material-dropdown';
@@ -8,12 +11,12 @@ import {languages as languagesData, services as servicesData, rating} from '../.
 class SearchCleanerFilter extends React.Component {
 
   state = {
-    address: 'ul ttt',
-    priceMin: '0',
+    address: undefined,
+    priceMin: undefined,
     priceMax: undefined,
     languages: [],
     services: [],
-    ratingMin: 6,
+    ratingMin: undefined,
     ratingMax: undefined
   }
 
@@ -115,7 +118,20 @@ class SearchCleanerFilter extends React.Component {
   }
 
   handleOnFilter = () => {
-    console.log("filter", this.state);
+    const languages = this.state.languages
+      .filter(lang => lang.selected === true)
+      .map(lang => ({code: lang.code}));
+
+    const services = this.state.services
+    .filter(service => service.selected === true)
+    .map(service => ({id: service.id}));
+
+    var criteria = Object.assign({},this.state);
+    criteria.languages = languages;
+    criteria.services = services;
+    console.log('criteria', criteria);
+    this.props.fetchCleaners(criteria);
+    this.props.onClose();
   }
 
   handleOnRatingMinChanged = (ratingMin) => {
@@ -127,7 +143,7 @@ class SearchCleanerFilter extends React.Component {
   }
 
   render() {
-    const { address, priceMin, priceMax, ratingMin, ratingMax } = this.state;
+    const { address, priceMin, priceMax, ratingMin, ratingMax } = this.props;
     return (
       <View style={styles.container}>
 
@@ -154,7 +170,7 @@ class SearchCleanerFilter extends React.Component {
               multiline={false}
               maxLength={3}
               value={priceMin}
-              placeholder="undefined"
+              placeholder="not set"
               onChangeText={this.handleOnPriceMinChanged}/>
           </View>
 
@@ -167,7 +183,7 @@ class SearchCleanerFilter extends React.Component {
               multiline={false}
               maxLength={3}
               value={priceMax}
-              placeholder="undefined'"
+              placeholder="not set"
               onChangeText={this.handleOnPriceMaxChanged}/>
           </View>
 
@@ -184,7 +200,7 @@ class SearchCleanerFilter extends React.Component {
         </View>
           <View style={ styles.ratingContainer}>
             <Dropdown containerStyle={{width: '45%'}} label="rating min." value={ratingMin} data={this.getRatingData()} onChangeText={this.handleOnRatingMinChanged} />
-            <Dropdown containerStyle={{width: '45%', marginLeft: '10%'}} label="rating max." value={2} data={this.getRatingData()} onChangeText={this.handleOnRatingMaxChanged}/>
+            <Dropdown containerStyle={{width: '45%', marginLeft: '10%'}} label="rating max." value={ratingMax} data={this.getRatingData()} onChangeText={this.handleOnRatingMaxChanged}/>
           </View>
           <Button style={{paddingTop: 20}}title="filter" onPress={this.handleOnFilter}/>
       </View>
@@ -192,7 +208,23 @@ class SearchCleanerFilter extends React.Component {
   }
 }
 
-export default SearchCleanerFilter;
+mapStateToProps = (state) => {
+  return {
+    address: state.search.filter.address,
+    priceMin: state.search.filter.priceMin,
+    priceMax: state.search.filter.priceMax,
+    languages: state.search.filter.languages,
+    services: state.search.filter.services,
+    ratingMin: state.search.filter.ratingMin,
+    ratingMax: state.search.filter.ratingMax,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchCleanerFilter);
 
 const styles = StyleSheet.create({
   container: {

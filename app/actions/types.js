@@ -25,3 +25,5 @@ export const SAVE_USER_PENDING = 'save_user_pending';
 export const FETCH_CLEANERS_SUCCESS = 'fetch_cleaners_success';
 export const FETCH_CLEANERS_FAILURE = 'fetch_cleaners_failure';
 export const FETCH_CLEANERS_PENDING = 'fetch_cleaners_pending';
+
+export const SET_PRICE = 'set_price';

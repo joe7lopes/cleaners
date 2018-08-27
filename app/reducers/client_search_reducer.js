@@ -8,6 +8,15 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
+  filter: {
+    address: undefined,
+    priceMin: undefined,
+    priceMax: undefined,
+    languages: [],
+    services: [],
+    ratingMin: undefined,
+    ratingMax: undefined,
+  },
   cleaners: [],
   status: undefined
 }

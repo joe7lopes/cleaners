@@ -1,4 +1,3 @@
-import firebase from '../config/firebase';
 import {FETCH_CLEANERS_PENDING, FETCH_CLEANERS_SUCCESS, FETCH_CLEANERS_FAILURE} from './types';
 
 const ROOT_URL = 'https://us-central1-cleaners-c4bcb.cloudfunctions.net';
@@ -15,11 +14,30 @@ const fetchCleanersPending = () => {
   return {type: FETCH_CLEANERS_PENDING}
 }
 
-export const fetchCleaners = () => {
+export const fetchCleaners = (criteria) => {
   return async dispatch => {
     dispatch(fetchCleanersPending());
-    var cleaners = await getCleaners();
-    dispatch(fetchCleanersSuccess(cleaners))
+    if(criteria){
+      let priceMin = criteria.priceMin;
+      let priceMax = criteria.priceMax;
+      var cleaners = await getCleaners();
+      let result = cleaners.filter(c => {
+        if (priceMin && priceMax){
+          return c.price >= priceMin && c.price <=priceMax;
+        }else if(priceMin){
+          return c.price >= priceMin;
+        }else if(priceMax){
+          return c.price <= priceMax;
+        }else {
+          return true;
+        }
+      });
+
+      dispatch(fetchCleanersSuccess(result));
+    }else{
+      var cleaners = await getCleaners();
+      dispatch(fetchCleanersSuccess(cleaners))
+    }
   }
 };
 
@@ -51,7 +69,8 @@ const cleaners = [
     lastName: 'alice',
     rating: '8',
     languages: [],
-    phone: '222'
+    phone: '222',
+    price: 12
   }, {
     id: 3,
     firstName: 'alice3',
@@ -60,27 +79,31 @@ const cleaners = [
     languages: [
       'PL', 'EN'
     ],
-    phone: '3333'
+    phone: '3333',
+    price: 15
   }, {
     id: 4,
     firstName: 'alice4',
     lastName: 'alice',
     rating: '10',
     languages: [],
-    phone: '444'
+    phone: '444',
+    price: 10
   }, {
     id: 5,
     firstName: 'alice5',
     lastName: 'alice',
     rating: '10',
     languages: [],
-    phone: '444'
+    phone: '444',
+    price: 100
   }, {
     id: 6,
     firstName: 'alice6',
     lastName: 'alice',
     rating: '10',
     languages: [],
-    phone: '444'
+    phone: '444',
+    price: 50
   }
 ]
