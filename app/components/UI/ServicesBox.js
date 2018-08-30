@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
 export default (props) => {
   const { selected, text }= props; 
-  const backgroundColor = selected ? 'blue' : 'white';
+  const backgroundColor = selected ? '#1E88E5' : 'white';
   const color = selected ? 'white' : 'black';
   return (
     <View style={[props.style, styles.container ,{backgroundColor}]}>

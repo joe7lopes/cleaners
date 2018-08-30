@@ -5,6 +5,8 @@ import FloatingButton from './Buttons/FloatingButton';
 import ActivityStatusIndicator from './ActivityIndicators/ActivityStatusIndicator';
 import LanguageBox from './LanguageBox';
 import ServicesBox from './ServicesBox';
+import DatePicker from './pickers/DatePicker';
+import TimePicker from './pickers/TimePicker';
 
 export {
   Text,
@@ -14,4 +16,6 @@ export {
   ActivityStatusIndicator,
   LanguageBox,
   ServicesBox,
+  DatePicker,
+  TimePicker
 }

@@ -3,8 +3,8 @@ import { createStackNavigator } from 'react-navigation';
 import Profile from '../../screens/profile';
 
 
-const ProfileStack = createStackNavigator({
-  Profile:{
+const profileStack = createStackNavigator({
+  profile:{
     screen: Profile,
     navigationOptions: {
       headerTitle: 'Profile'
@@ -12,4 +12,4 @@ const ProfileStack = createStackNavigator({
   } 
 });
 
-export default ProfileStack;
+export default profileStack;

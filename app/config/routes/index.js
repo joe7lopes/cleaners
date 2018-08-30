@@ -1,20 +1,20 @@
 import { createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
-import SearchStack from './search';
-import ProfileStack from './profile';
-import OffersStack from './offers';
+import searchStack from './search';
+import profileStack from './profile';
+import offersStack from './offers';
 
-const ClientStack = createBottomTabNavigator({
-  Search: {
-    screen: SearchStack,
+const clientStack = createBottomTabNavigator({
+  search: {
+    screen: searchStack,
     navigationOptions: {
       tabBarLabel: 'Search'
     }
   },
-  Offers: {
-    screen: OffersStack
+  offers: {
+    screen: offersStack
   },
-  Profile: {
-    screen: ProfileStack,
+  profile: {
+    screen: profileStack,
     navigationOptions: {
       tabBarLabel: 'Profile'
     }
@@ -23,9 +23,9 @@ const ClientStack = createBottomTabNavigator({
 
 export default createSwitchNavigator(
   {
-    App: ClientStack,
+    app: clientStack,
   },
   {
-    initialRouteName: 'App'
+    initialRouteName: 'app'
   }
 );

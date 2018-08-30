@@ -1,16 +1,18 @@
 import { createStackNavigator } from 'react-navigation';
-import  Search from '../../screens/search';
-
-const SearchStack = createStackNavigator({
-  Search:{
+import  { Search, CleanerDetail } from '../../screens/search';
+const searchStack = createStackNavigator({
+  search:{
     screen: Search,
     navigationOptions: {
       headerTitle: 'Seach Cleaner'
     }
   },
-},
-{
-  mode: 'modal'
+  cleanerDetail:{
+    screen: CleanerDetail,
+    navigationOptions: {
+      headerTitle: 'cleaner detail'
+    }
+  }
 });
 
-export default SearchStack;
+export default searchStack;
