@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+  ScrollView
+} from 'react-native';
 import {Icon, Button, FormInput, FormLabel} from 'react-native-elements';
 import {DatePicker, TimePicker, ServicesBox} from '../../../components/UI';
 import {services as servicesData} from '../../../config/data';
@@ -13,7 +20,6 @@ class ContactCleaner extends React.Component {
     message: 'message /n sss'
   }
 
-
   componentWillMount() {
     let services = servicesData.map(lang => {
       return {
@@ -25,14 +31,20 @@ class ContactCleaner extends React.Component {
   }
 
   renderServices = () => {
-    return this.state.services.map(service => {
-      const {id, name, selected} = service;
-      return <ServicesBox
-        key={id}
-        text={name}
-        selected={selected}
-        onSelect={() => this.handleServiceSelection(id)}/>
-    });
+    return this
+      .state
+      .services
+      .map(service => {
+        const {id, name, selected} = service;
+        return <ServicesBox
+          key={id}
+          style={{
+          marginLeft: 8
+        }}
+          text={name}
+          selected={selected}
+          onSelect={() => this.handleServiceSelection(id)}/>
+      });
   };
 
   // handlers
@@ -50,63 +62,63 @@ class ContactCleaner extends React.Component {
     this.setState({services});
   };
 
-   // note, we need to validade if the cleaner performs the service in that address
+  // note, we need to validade if the cleaner performs the service in that address
 
-   setDate = (date) => {
+  setDate = (date) => {
     this.setState({date})
+  }
+
+  handleOnSend = () => {
+    //fire action with data
+    this.props.onSend();
   }
 
   render() {
     const {address, message} = this.state;
     return (
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.closeButton} onPress={this.props.onClose}>
-          <Icon name='cancel' color='#d3d3d3'/>
-        </TouchableOpacity>
-        <View style={styles.body}>
-          <Text>Please confirm where the service should be realised</Text>
-          <FormLabel>Address</FormLabel>
-          <FormInput value={address}/>
+      <ScrollView bounces={false}>
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.closeButton} onPress={this.props.onClose}>
+            <Icon name='cancel' color='#d3d3d3'/>
+          </TouchableOpacity>
+          <View style={styles.body}>
+            <Text>Service should be realised in:</Text>
+            <FormLabel>Address</FormLabel>
+            <FormInput value={address}/>
 
-          <FormLabel>Date</FormLabel>
-          <View style={styles.datePickerContainer}>
-            <DatePicker/>
-          </View>
-
-          <FormLabel>Time</FormLabel>
-          <View
-            style={[
-            styles.datePickerContainer, {
-              flexDirection: 'row'
-            }
-          ]}>
-            <View>
-              <FormLabel>From</FormLabel>
-              <TimePicker/>
+            <FormLabel>Date</FormLabel>
+            <View style={styles.datePickerContainer}>
+              <DatePicker/>
             </View>
+
             <View style={{
-              marginLeft: 20
+              flexDirection: 'row'
             }}>
-              <FormLabel>To</FormLabel>
-              <TimePicker/>
+              <View>
+                <FormLabel>From</FormLabel>
+                <TimePicker style={styles.datePickerContainer}/>
+              </View>
+              <View>
+                <FormLabel>To</FormLabel>
+                <TimePicker style={styles.datePickerContainer}/>
+              </View>
             </View>
 
-          </View>
+            <FormLabel>Services that you'll request</FormLabel>
+            <View style={styles.servicesContainer}>
+              {this.renderServices()}
+            </View>
 
-          <FormLabel>Services that you'll request</FormLabel>
-          <View style={{
-            flexDirection: 'row'
-          }}>
-            {this.renderServices()}
-          </View>
+            <FormLabel>Aditional message</FormLabel>
+            <TextInput style={styles.textArea} multiline={true} value={message}/>
 
-          
-          <FormLabel>Aditional message</FormLabel>
-          <TextInput style={styles.textArea} multiline={true} value={message}/>
+          </View>
 
         </View>
-        <Button title='Send'/>
-      </View>
+        <Button 
+        onPress={this.handleOnSend} 
+        style={styles.sendButton} title='Send'/>
+      </ScrollView>
     )
   }
 }
@@ -115,7 +127,7 @@ export default ContactCleaner;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
     marginVertical: 20
   },
   body: {
@@ -130,8 +142,19 @@ const styles = StyleSheet.create({
   },
   textArea: {
     marginHorizontal: 20,
-    height: '20%',
-    paddingHorizontal: 20,
+    paddingHorizontal: 8,
+    marginTop: 8,
+    height: 100,
     backgroundColor: '#d3d3d3'
+  },
+  servicesContainer: {
+    flexDirection: 'row',
+    marginLeft: 20,
+    marginTop: 8
+  },
+  sendButton: {
+    marginHorizontal: 8,
+    paddingTop: 20,
+    bottom: 0
   }
 });

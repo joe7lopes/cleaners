@@ -10,10 +10,10 @@ import store from './config/store';
 //   </Provider>
 // );
 
-import ContactCleaner from './screens/search/client/ContactCleaner';
+import Offer from './screens/offer';
 
 export default App = () => (
     <Provider store={store}>
-      <ContactCleaner />
+      <Offer />
     </Provider>
   );

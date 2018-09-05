@@ -4,14 +4,11 @@ const searchStack = createStackNavigator({
   search:{
     screen: Search,
     navigationOptions: {
-      headerTitle: 'Seach Cleaner'
+      headerTitle: 'Seach'
     }
   },
   cleanerDetail:{
-    screen: CleanerDetail,
-    navigationOptions: {
-      headerTitle: 'cleaner detail'
-    }
+    screen: CleanerDetail
   }
 });
 

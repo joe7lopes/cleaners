@@ -8,6 +8,10 @@ import ContactCleaner from './ContactCleaner';
 
 class CleanerDetail extends React.Component {
 
+  static navigationOptions = ({navigation}) => ({
+    title: navigation.state.params.title
+  });
+
   state = {
     index: 0,
     routes: [
@@ -22,35 +26,54 @@ class CleanerDetail extends React.Component {
     isModalVisible: false
   };
 
-  componentWillMount() {
-    // const cleaner = this.props.navigation.getParam('cleaner', undefined);
-
-  }
-
   renderProfile = () => {
-    return (<CleanerDetailProfile/>)
+    const cleaner = this.props.navigation.getParam('cleaner', undefined);
+    const {firstName, lastName, price, languages, services} = cleaner;
+    return <CleanerDetailProfile 
+    firstName={firstName} 
+    lastName={lastName}
+    price={price}
+    languages={languages}
+    services={services}/>
   };
 
   renderReviews = () => {
-    return (<CleanerDetailReviews/>)
+    const cleaner = this.props.navigation.getParam('cleaner', undefined);
+    const {reviews} = cleaner;
+    return <CleanerDetailReviews reviews={reviews}/>
   }
 
   renderContact = () => {
    
     return (
     <Modal
-    transparent={true}>
-      <ContactCleaner />
+    transparent={false}>
+      <ContactCleaner onClose={this.handleOnCloseContact} onSend={this.handleOnOfferSent} />
     </Modal>
     )
   }
 
+  //HANDLERS
+
+  handleOnOfferSent = () => {
+    // show some message status??
+    this.setState({isModalVisible: false})
+    this.props.navigation.pop();
+  }
+
+  handleOnCloseContact = () => {
+    this.setState({isModalVisible: false})
+  }
   handleOnConnect = () => {
     this.setState({isModalVisible: true})
   }
 
   render() {
     const { isModalVisible } = this.state;
+    const cleaner = this.props.navigation.getParam('cleaner', undefined);
+    const {firstName, lastName, rating, reviews = []} = cleaner;
+    const title=`${firstName.toUpperCase()[0] || ""}${lastName.toUpperCase()[0] || ""}`
+    const reviewsCount = reviews.length;
     return (
       <View style={styles.container}>
         {isModalVisible && this.renderContact()}
@@ -60,11 +83,11 @@ class CleanerDetail extends React.Component {
             <Text>Jobs</Text>
           </View>
           <View style={styles.headerSubContainer}>
-            <Avatar large rounded title="MT" activeOpacity={0.7}/>
+            <Avatar large rounded title={title} activeOpacity={0.7}/>
           </View>
           <View style={styles.headerSubContainer}>
-            <Text>rating 7</Text>
-            <Text>out of 99 Reviews</Text>
+            <Text>{`rating ${rating}`}</Text>
+            <Text>{`${reviewsCount} Reviews`}</Text>
           </View>
 
         </View>

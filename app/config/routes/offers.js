@@ -1,16 +1,13 @@
 import { createStackNavigator } from 'react-navigation';
-import { ClientOffer, NewClientOffer } from '../../screens/offer';
+import Offer from '../../screens/offer';
 
 const offersStack = createStackNavigator({
   offers:{
-    screen: ClientOffer,
+    screen: Offer,
     navigationOptions: {
       headerTitle: 'Offers'
     }
-  },
-  newClientOffer: {
-    screen: NewClientOffer
-  } 
+  }
 });
 
 export default offersStack;

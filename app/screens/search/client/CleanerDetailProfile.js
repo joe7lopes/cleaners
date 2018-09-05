@@ -3,34 +3,10 @@ import {View, Text, StyleSheet} from 'react-native';
 import {FormLabel} from 'react-native-elements';
 import {ServicesBox, LanguageBox} from '../../../components/UI';
 
-const props = {
-  firstName: 'amalia',
-  lastName: 'rodrigues',
-  price: 50,
-  services: [
-    {
-      id: 2,
-      name: 'Ironing'
-    }, {
-      id: 3,
-      name: 'Washing'
-    }
-  ],
-  languages: [
-    {
-      code: 'de',
-      name: 'GER'
-    }, {
-      code: 'pl',
-      name: 'PL'
-    }
-  ]
-}
-
 export default class CleanerDetailProfile extends React.Component {
 
   renderServices = () => {
-    const {services} = props;
+    const {services} = this.props;
     return services.map(service => {
       const {id, name} = service;
       return <ServicesBox key={id} text={name} selected={true}/>
@@ -38,15 +14,16 @@ export default class CleanerDetailProfile extends React.Component {
   };
 
   renderLanguages = () => {
-    const {languages} = props;
+    const {languages} = this.props;
+    console.log(languages);
     return languages.map(lang => {
-      const {code, name} = lang;
-      return <LanguageBox key={code} text={name} selected ={true}/>
+      const {id, name} = lang;
+      return <LanguageBox key={id} text={name} selected ={true}/>
     });
   }
 
   render() {
-    const {firstName, lastName, price} = props;
+    const {firstName, lastName, price, services = [], languages = []} = this.props;
     return (
       <View style={styles.container}>
         <FormLabel>Name</FormLabel>
@@ -55,12 +32,12 @@ export default class CleanerDetailProfile extends React.Component {
         </Text>
         <FormLabel>Services</FormLabel>
         <View style={styles.boxContainer}>
-          {this.renderServices()}
+          { services.length > 0 && this.renderServices()}
         </View>
 
         <FormLabel>Languages</FormLabel>
         <View style={styles.boxContainer}>
-          {this.renderLanguages()}
+          {languages.length > 0 && this.renderLanguages()}
         </View>
         <FormLabel>Price</FormLabel>
         <Text style={styles.text}>{`${price}zl`}</Text>

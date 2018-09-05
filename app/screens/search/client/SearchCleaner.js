@@ -81,7 +81,8 @@ class SearchCleaner extends React.Component {
 
     //HANDLERS
     handleSelectedCleaner(cleaner){
-      this.props.navigation.navigate('cleanerDetail', {cleaner});
+      const title = cleaner.firstName || '';
+      this.props.navigation.navigate('cleanerDetail', {cleaner, title});
     }
 
     hadleFilterTap = () => {

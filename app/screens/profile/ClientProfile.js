@@ -94,7 +94,7 @@ class ClientProfile extends React.Component {
           <Avatar
             xlarge
             rounded
-            title={`${lastName.toUpperCase()[0] || ""}${firstName.toUpperCase()[0] || ""}`}
+            title={`${firstName.toUpperCase()[0] || ""}${lastName.toUpperCase()[0] || ""}`}
             onPress={() => console.log("upload picture not implemented")}
             activeOpacity={0.7}/>
         </View>

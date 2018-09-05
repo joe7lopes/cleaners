@@ -7,19 +7,18 @@ export default CleanerCard = ({
   firstName = '',
   lastName = '',
   services = [],
-  price = 0,
   languages = [],
+  price = 0,
   rating = 0
 }) => {
 
-  const arrayToString = (array) => {
-    return array.reduce((acc, curr) => {
-      return acc + curr + ', ';
+  const arrayToString = (array) => array.reduce((acc, curr) => {
+      return acc + curr.name + ', ';
     }, '');
-  };
+  
 
-  let languagesList = arrayToString(languages);
-  let servicesList = arrayToString(services);
+  const languagesList = arrayToString(languages);
+  const servicesList = arrayToString(services);
   const title = `${firstName.toUpperCase()[0]}${lastName.toUpperCase()[0]}`;
 
   return (

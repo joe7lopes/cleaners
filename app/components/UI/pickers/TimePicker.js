@@ -17,6 +17,8 @@ export default class TimePicker extends React.Component {
   }
 
   handleOnDateChanged = (date) => {
+    //fix timezone
+    console.log(date);
     if (date >= this.state.date) {
       this.setState({date});
     }else{
@@ -40,10 +42,10 @@ export default class TimePicker extends React.Component {
 
   render() {
     const {expanded} = this.state;
-    const date = moment(this.state.date).format('DD-MM-YYYY');
+    const date = moment(this.state.date).format('HH:MM');
     return (
       <TouchableWithoutFeedback onPress={this.handleOnPress}>
-        <View style={styles.container}>
+        <View style={[styles.container, this.props.style]}>
 
           <View>
             <Text>{date}</Text>

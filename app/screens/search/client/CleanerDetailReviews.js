@@ -1,12 +1,25 @@
-import React from 'react'
-import {View, Text, StyleSheet} from 'react-native';
+import React from 'react';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
+import ReviewCard from '../../../components/ReviewCard';
 
 export default class CleanerDetailReviews extends React.Component {
+
+  renderReviewCard = ({item}) => (
+    <ReviewCard
+    title={item.title}
+    rating={item.rating}
+    date={item.date}
+    comment={item.comment}/>
+  )
+
   render(){
     return(
       <View style={styles.container}>
-      <Text>review 1</Text>
-      <Text>need to do review card</Text>
+       <FlatList
+        data={this.props.reviews}
+        renderItem={this.renderReviewCard}
+        keyExtractor={(item) => item.id.toString()}
+    />
       </View>
     );
   }
@@ -16,7 +29,6 @@ export default class CleanerDetailReviews extends React.Component {
 
 const styles = StyleSheet.create({
 container: {
-  flex: 1,
-  backgroundColor: 'orange'
+  flex: 1
 }
 });

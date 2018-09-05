@@ -1,7 +1,3 @@
-import ClientOffer from './ClientOffer';
-import NewClientOffer from './NewClientOffer';
+import Offer from './client/Offer';
 
-export {
-  ClientOffer,
-  NewClientOffer
-};
+export default Offer;

@@ -57,12 +57,21 @@ const cleaners = [
     firstName: 'alice',
     lastName: 'jlice',
     rating: '7',
-    languages: [],
+    languages: [
+      {id:'en', name:'English'},
+      {id:'pl', name:'Polish'}
+    ],
     services: [
-      'ironing', 'cleaning'
+      {id:1, name:'Ironing'},
+      {id:2, name:'Cleaning'}
     ],
     phone: '12333',
-    price: 20
+    price: 20,
+    reviews: [
+      {id:1, title: 'excellent', date: new Date(), comment:'bla bla bla comment', rating: 8},
+      {id:2, title: "She's ugly", date: new Date(), comment:'ugly girl mannn', rating: 2},
+      {id:3, title: "Perfect", date: new Date(), comment:'Leaves everything super clean and nice...', rating: 7}
+    ]
   }, {
     id: 2,
     firstName: 'alice2',
@@ -77,7 +86,8 @@ const cleaners = [
     lastName: 'alice',
     rating: '10',
     languages: [
-      'PL', 'EN'
+      {id:'en', name:'English'},
+      {id:'pl', name:'Polish'}
     ],
     phone: '3333',
     price: 15
