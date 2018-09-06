@@ -1,6 +1,6 @@
-export const SUCCESS = 'success';
-export const FAILURE = 'failure';
-export const PENDING = 'pending';
+export const SUCCESS = 'SUCCESS';
+export const FAILURE = 'FAILURE';
+export const PENDING = 'PENDING';
 
 export const REGISTER_PHONE_SUCCESS = 'register_phone_success';
 export const REGISTER_PHONE_FAILURE = 'register_phone_failure';
@@ -25,5 +25,24 @@ export const SAVE_USER_PENDING = 'save_user_pending';
 export const FETCH_CLEANERS_SUCCESS = 'fetch_cleaners_success';
 export const FETCH_CLEANERS_FAILURE = 'fetch_cleaners_failure';
 export const FETCH_CLEANERS_PENDING = 'fetch_cleaners_pending';
+
+//OFFER ACTIONS
+
+export const FETCH_OFFERS_SUCCESS = 'fetch_offers_success';
+export const FETCH_OFFERS_FAILURE = 'fetch_offers_failure';
+export const FETCH_OFFERS_PENDING = 'fetch_offers_pending';
+
+export const APPROVE_OFFER_PENDING = 'approve_offer_pending';
+export const APPROVE_OFFER_SUCCESS = 'approve_offer_success';
+export const APPROVE_OFFER_FAILURE = 'approve_offer_failure';
+
+export const REJECT_OFFER_PENDING = 'reject_offer_pending';
+export const REJECT_OFFER_SUCCESS = 'reject_offer_success';
+export const REJECT_OFFER_FAILURE = 'reject_offer_failure';
+
+export const APPROVED = 'APPROVED';
+export const REJECTED = 'REJECTED';
+
+
 
 export const SET_PRICE = 'set_price';

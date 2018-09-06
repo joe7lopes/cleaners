@@ -6,23 +6,9 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import ClientOfferCard from '../../../components/ClientOfferCard';
 import { PENDING, SUCCESS} from '../../../actions/types';
 
-class PendingOffers extends React.Component {
-
-  componentDidMount() {
-    this
-      .props
-      .fetchOffers()
-  }
+class RejectedOffers extends React.Component {
 
   //HANDLERS
-
-  handleOnApprove = (id) => {
-    this.props.approveOffer(id);
-  }
-
-  handleOnReject = (id) => {
-    this.props.rejectOffer(id);
-  }
 
   renderCard = ({item}) => {
     return (<ClientOfferCard
@@ -34,9 +20,7 @@ class PendingOffers extends React.Component {
       lastName={item.lastName}
       price={item.price}
       address={item.address}
-      date={item.date}
-      onApprove={() => this.handleOnApprove(item.id)}
-      onReject={() => this.handleOnReject(item.id)}/>)
+      date={item.date}/>)
   }
 
   renderOffers = () => {
@@ -58,7 +42,7 @@ class PendingOffers extends React.Component {
 
   renderNoPendingOffers = () => (
     <View>
-      <Text>No pending orders found</Text>
+      <Text>No rejected orders found</Text>
     </View>
   )
 
@@ -79,11 +63,11 @@ class PendingOffers extends React.Component {
 }
 
 mapStateToProps = ({offers}) => {
-  return {offers: offers.offers.pending, fetchStatus: offers.fetchStatus}
+  return {offers: offers.offers.rejected, fetchStatus: offers.fetchStatus}
 }
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PendingOffers);
+export default connect(mapStateToProps, mapDispatchToProps)(RejectedOffers);

@@ -2,6 +2,8 @@ import React from 'react';
 import {SafeAreaView, View, Text, StyleSheet, Dimensions} from 'react-native';
 import {TabView, SceneMap} from 'react-native-tab-view';
 import PedingOffers from './PendingOffers';
+import ApprovedOffers from './ApprovedOffers';
+import RejectedOffers from './RejectedOffers';
 
 class Offer extends React.Component {
 
@@ -25,13 +27,9 @@ class Offer extends React.Component {
 
   renderPendingOffers = () => (<PedingOffers/>)
 
-  renderApprovedOffers = () => {
-    return <Text>Approved</Text>
-  }
+  renderApprovedOffers = () => <ApprovedOffers/>
 
-  renderRejectedOffers = () => {
-    return <Text>Rejected</Text>
-  }
+  renderRejectedOffers = () => <RejectedOffers/>
 
   render() {
     return (
