@@ -1,5 +1,5 @@
 const admin = require('firebase-admin');
-const twilio = require('./twilio');
+const twilio = require('../../twilio');
 const twilioConfig = require('./twilio_config');
 module.exports = (req, res) => {
   if(!req.body.phone){

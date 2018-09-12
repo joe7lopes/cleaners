@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 module.exports = (req, res) => {
   
   if(!req.params.id){
-    return res.status(400).send({error:'Missing profile id'});
+    return res.status(400).send({error:'Missing user id'});
   }
 
   const id = String(req.params.id).replace(/[^\d]/g, "");
