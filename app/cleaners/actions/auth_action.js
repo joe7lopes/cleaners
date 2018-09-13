@@ -1,5 +1,4 @@
 import axios from 'axios';
-import firebase from '../config/firebase';
 import { 
   REGISTER_PHONE_SUCCESS,
   REGISTER_PHONE_FAILURE,
@@ -64,16 +63,3 @@ export const registerPhone = (phone) => {
 
 };
 
-export const signIn = (phone, code) => {
-  return async dispatch => {
-    dispatch(signInPending());
-    try{
-      let { data } = await axios.post(`${ROOT_URL}/verifyOneTimePassword`,{phone, code});
-      firebase.auth().signInWithCustomToken(data.token);
-      dispatch(signInSuccess());
-    }catch(err){
-      dispatch(signInFailure(err));
-    }
-  }
-
-};
