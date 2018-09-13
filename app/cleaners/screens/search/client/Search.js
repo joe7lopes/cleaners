@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../../../actions';
 import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity, TouchableWithoutFeedback, Modal, Platform} from 'react-native';
-import SearchCleanerFilter from './SearchCleanerFilter';
+import SearchFilter from './SearchFilter';
 import CleanerCard from '../../../components/CleanerCard';
 import {PENDING, SUCCESS} from '../../../actions/types';
 
-class SearchCleaner extends React.Component {
+class Search extends React.Component {
 
   state = {
     cleaners: [],
@@ -73,7 +73,7 @@ class SearchCleaner extends React.Component {
           <Modal 
             transparent={true}>
             <View style={styles.searchModal}>
-              <SearchCleanerFilter onClose={this.handleOnFilterClose}/>
+              <SearchFilter onClose={this.handleOnFilterClose}/>
             </View>
           </Modal>
       )
@@ -125,7 +125,7 @@ const mapStateToProps = (state) => {
   return {cleaners: state.search.cleaners, status: state.search.status}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchCleaner);
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
 
 const styles = StyleSheet.create({
   container: {

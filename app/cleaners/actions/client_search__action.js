@@ -1,6 +1,6 @@
+import axios from 'axios';
 import {FETCH_CLEANERS_PENDING, FETCH_CLEANERS_SUCCESS, FETCH_CLEANERS_FAILURE} from './types';
-
-const ROOT_URL = 'https://us-central1-cleaners-c4bcb.cloudfunctions.net';
+import {SERVER_URL} from '../config/api';
 
 const fetchCleanersSuccess = (cleaners) => {
   return {type: FETCH_CLEANERS_SUCCESS, payload: cleaners}
@@ -20,7 +20,7 @@ export const fetchCleaners = (criteria) => {
     if(criteria){
       let priceMin = criteria.priceMin;
       let priceMax = criteria.priceMax;
-      var cleaners = await getCleaners();
+      var cleaners = await axios.get(`${SERVER_URL}/users/`)
       let result = cleaners.filter(c => {
         if (priceMin && priceMax){
           return c.price >= priceMin && c.price <=priceMax;

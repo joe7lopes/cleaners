@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
 }
 
 const createOffer = (ref, from, to, status=PENDING) => {
- return ref.set({from, to, status, createdAt: new Date()});
+ return ref.set({id: ref.key, from, to, status, createdAt: new Date()});
 }
 
 const updateUserOffers = async (userId, offerId) => {

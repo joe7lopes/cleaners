@@ -8,7 +8,7 @@ import {Dropdown} from 'react-native-material-dropdown';
 import {LanguageBox, ServicesBox} from '../../../components/UI';
 import {languages as languagesData, services as servicesData, rating} from '../../../config/data';
 
-class SearchCleanerFilter extends React.Component {
+class SearchFilter extends React.Component {
 
   state = {
     address: undefined,
@@ -224,7 +224,7 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchCleanerFilter);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchFilter);
 
 const styles = StyleSheet.create({
   container: {

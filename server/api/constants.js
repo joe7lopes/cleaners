@@ -1,7 +1,10 @@
 //offer status
-const PENDING = 'pending'
-
+const PENDING = 'PENDING';
+const CLEANER = 'CLEANER';
+const CLIENT = 'CLIENT';
 
 module.exports = {
-  PENDING
+  PENDING,
+  CLEANER,
+  CLIENT
 }

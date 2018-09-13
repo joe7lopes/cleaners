@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
   FETCH_OFFERS_SUCCESS,
   FETCH_OFFERS_FAILURE,
@@ -13,7 +14,7 @@ import {
   REJECTED
 } from './types';
 
-const ROOT_URL = 'https://us-central1-cleaners-c4bcb.cloudfunctions.net';
+import { SERVER_URL } from '../config/api';
 
 const fetchOffersSuccess = (offers) => {
   return {type: FETCH_OFFERS_SUCCESS, payload: offers}
@@ -55,7 +56,10 @@ export const fetchOffers = () => {
   return async dispatch => {
     dispatch(fetchOffersPending());
     try{
-      let offers = await getOffers()
+      //TODO get this from store
+      const userId = 123;
+      let req = await axios.get(`${SERVER_URL}/users/${userId}/offers`);
+      const offers = req.data;
       dispatch(fetchOffersSuccess(offers));
     }catch(err){
       dispatch(fetchOffersFailure(err));
@@ -63,64 +67,28 @@ export const fetchOffers = () => {
   }
 }
 
-export const approveOffer = (id) => {
+export const approveOffer = (offerId) => {
   return async dispatch => {
     dispatch(approveOfferPending());
     try{
-      await setApprovedOffer(id);
+      await axios.patch(`${SERVER_URL}/offers/${offerId}`,{id: offerId, status: APPROVED});
       dispatch(approveOfferSuccess());
-      dispatch(fetchOffers())
+      dispatch(fetchOffers());
     }catch(err){
       dispatch(approveOfferFailure(err));
     }
   }
 }
 
-export const rejectOffer = (id) => {
+export const rejectOffer = (offerId) => {
   return async dispatch => {
     dispatch(rejectOfferPending());
     try{
-      await setRejectOffer(id);
+      await axios.patch(`${SERVER_URL}/offers/${offerId}`,{id: offerId, status: REJECTED});
       dispatch(rejectOfferSuccess());
-      dispatch(fetchOffers())
+      dispatch(fetchOffers());
     }catch(err){
       dispatch(rejectOfferFailure(err));
     }
   }
-}
-
-
-//MOCKED BACKEND
-
-const getOffers = () =>{
-  return  new Promise((resolve, reject)=>{
-    setTimeout(() => {
-      resolve(offersData);
-    }, 3000);
-  })
-} 
-
-var offersData = [
-  {id: 1, firstName: 'alice', lastName: 'macee', address:'Ul. traugutta', date: new Date(), price: 20, status: PENDING},
-  {id: 2, firstName: 'alice', lastName: 'macee', date: new Date(), price: 20, status: PENDING},
-  {id: 3, firstName: 'alice', lastName: 'macee', date: new Date(), price: 20,status: APPROVED},
-  {id: 4, firstName: 'Albert', lastName: 'maceerr', date: new Date(), price: 100,status: REJECTED}
-]
-
-const setApprovedOffer = (id) => {
-  return new Promise((resolve, reject)=>{
-    setTimeout(() => {
-      offersData[id - 1].status = APPROVED;
-      resolve();
-    }, 3000);
-  });
-}
-
-const setRejectOffer = (id) => {
-  return new Promise((resolve, reject)=>{
-    setTimeout(() => {
-      offersData[id - 1].status = REJECTED;
-      resolve();
-    }, 3000);
-  });
 }

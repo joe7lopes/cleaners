@@ -7,7 +7,7 @@ import {
   SAVE_USER_SUCCESS
 } from './types';
 
-const ROOT_URL = 'https://us-central1-cleaners-c4bcb.cloudfunctions.net/api';
+import { SERVER_URL } from '../config/api';
 
 export const fetchUserPending = () => {
   return {
@@ -33,7 +33,7 @@ export const fetchUser = (id) => {
   return async dispatch => {
     dispatch(fetchUserPending());
     try{
-      var request = await axios.get(`${ROOT_URL}/users/${id}`);
+      var request = await axios.get(`${SERVER_URL}/users/${id}`);
       const user = request.data;
       dispatch(fetchUserSuccess(user));
     }catch(err){
