@@ -8,8 +8,7 @@ import {
   SIGN_IN_PENDING
 } from './types';
 
-const ROOT_URL = 'https://us-central1-cleaners-c4bcb.cloudfunctions.net';
-
+import {SERVER_URL} from '../config/api';
 
 const registerPhoneSuccess = () => {
   return {
@@ -30,9 +29,10 @@ const registerPhonePending = () => {
   }
 }
 
-const signInSuccess = () => {
+const signInSuccess = (authData) => {
   return {
-    type: SIGN_IN_SUCCESS
+    type: SIGN_IN_SUCCESS,
+    payload: authData
   }
 }
 
@@ -49,17 +49,29 @@ const signInPending = () => {
   }
 }
 
+export const signIn = (phone, code) => {
+  return dispatch => {
+    dispatch(signInPending());
+    if(phone === String(123) || code === String(123)){
+      dispatch(signInSuccess({token: "123token"}))
+    }else{
+      dispatch(signInFailure({err: 'wrong code provided'}));
+    }
+  }
+}
+
+
 export const registerPhone = (phone) => {
   return async dispatch => {
     dispatch(registerPhonePending());
     try{
-      await axios.post(`${ROOT_URL}/createUser`,{phone});
-      await axios.post(`${ROOT_URL}/requestOneTimePassword`,{phone});
+      await axios.post(`${SERVER_URL}/createUser`,{phone});
+      await axios.post(`${SERVER_URL}/requestOneTimePassword`,{phone});
+
       dispatch(registerPhoneSuccess());
     }catch(err){
       dispatch(registerPhoneFailure(err));
     }
   }
-
 };
 

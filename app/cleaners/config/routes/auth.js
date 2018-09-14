@@ -1,24 +1,15 @@
 import { createStackNavigator } from 'react-navigation';
-import {
-  AuthLoading,
-  SignIn
- } from '../../screens/auth';
-
- const SignInStack = createStackNavigator({
-  SignIn: {
-    screen: SignIn,
-    navigationOptions: {
-      header: null
-    }
+import {SignIn} from '../../screens/auth';
+import {screen} from './navigation';
+ const authStack = createStackNavigator({
+  [screen.auth]: {
+    screen: SignIn
   }
 },
 {
   mode: 'modal',
-  headerMode: null
+  headerMode: 'none'
 });
 
 
-export {
-  SignInStack,
-  AuthLoading
-};
+export default authStack;

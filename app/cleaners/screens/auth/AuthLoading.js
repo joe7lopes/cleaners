@@ -1,38 +1,36 @@
 import React from 'react';
-import {View, Text } from 'react-native';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { ActionCreators } from '../../actions';
-import { auth } from '../../config/firebase'; 
+import {View, Text, StyleSheet} from 'react-native';
+import {connect} from 'react-redux';
 
 class AuthLoading extends React.Component {
 
-  componentDidMount(){
-    // auth.onAuthStateChanged(user =>{
-    //   console.log('firebase user', user);
-    //   if(user){
-    //     this.props.navigation.navigate('Search');
-    //   }else{
-    //     this.props.navigation.navigate('SignIn');
-    //   }
-    // });
-    this.props.navigation.navigate('SignIn');
+  componentWillMount() {
+    const {token} = this.props;
+    this.props.navigation.navigate(token ? 'app': 'auth');
   }
 
-  render(){
-    return(
-      <View>
-        <Text>Auth Loading...</Text>
-        <Text>Auth Loading...</Text>
-        <Text>Auth Loading...</Text>
+  render() {
+    
+    return (
+      <View style={styles.container}>
+        <Text>AuthLoading...</Text>
       </View>
-    );
+    )
   }
 }
 
+const mapStateToProps = ({auth}) => {
+  return {
+    token: auth.token
+  }
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(ActionCreators, dispatch);
-}
+export default connect(mapStateToProps)(AuthLoading);
 
-export default connect(null, mapDispatchToProps)(AuthLoading);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});

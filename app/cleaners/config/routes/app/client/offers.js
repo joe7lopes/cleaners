@@ -1,5 +1,5 @@
 import { createStackNavigator } from 'react-navigation';
-import Offer from '../../screens/offer';
+import Offer from '../../../../screens/offer';
 
 const offersStack = createStackNavigator({
   offers:{

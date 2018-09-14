@@ -15,7 +15,6 @@ export default CleanerCard = ({
   const arrayToString = (array) => array.reduce((acc, curr) => {
       return acc + curr.name + ', ';
     }, '');
-  
 
   const languagesList = arrayToString(languages);
   const servicesList = arrayToString(services);

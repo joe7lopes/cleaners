@@ -2,13 +2,41 @@ import {
   REGISTER_PHONE_SUCCESS,
   REGISTER_PHONE_FAILURE,
   REGISTER_PHONE_PENDING,
+  SIGN_IN_PENDING,
+  SIGN_IN_SUCCESS,
+  SIGN_IN_FAILURE,
   SUCCESS,
   FAILURE,
   PENDING
 } from '../actions/types';
 
-export default (state = {}, action) => {
+const INITIAL_STATE = {
+  token: undefined
+}
+
+export default (state = INITIAL_STATE, action) => {
   switch(action.type) {
+    case SIGN_IN_PENDING:
+      return {
+        ...state,
+        status: PENDING
+      }
+    case SIGN_IN_SUCCESS:
+      return {
+        ...state,
+        status: SUCCESS,
+        token: action.payload.token
+      }
+    case SIGN_IN_FAILURE:
+      return {
+        ...state,
+        status: FAILURE,
+      }
+    case REGISTER_PHONE_PENDING:
+    return {
+      ...state,
+      status: PENDING
+    };
     case REGISTER_PHONE_SUCCESS:
       return {
         ...state,
@@ -20,11 +48,7 @@ export default (state = {}, action) => {
         error: action.payload,
         status: FAILURE
       };
-    case REGISTER_PHONE_PENDING:
-      return {
-        ...state,
-        status: PENDING
-      };
+    
     default:
       return state;
   }

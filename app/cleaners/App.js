@@ -10,10 +10,10 @@ export default App = () => (
   </Provider>
 );
 
-// import Offer from './screens/offer';
+// import Onboarding from './screens/onboarding';
 
 // export default App = () => (
 //     <Provider store={store}>
-//       <Offer />
+//       <Onboarding />
 //     </Provider>
 //   );

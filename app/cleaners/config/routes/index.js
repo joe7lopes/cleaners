@@ -1,31 +1,16 @@
-import { createBottomTabNavigator, createSwitchNavigator } from 'react-navigation';
-import searchStack from './search';
-import profileStack from './profile';
-import offersStack from './offers';
-
-const clientStack = createBottomTabNavigator({
-  search: {
-    screen: searchStack,
-    navigationOptions: {
-      tabBarLabel: 'Search'
-    }
-  },
-  offers: {
-    screen: offersStack
-  },
-  profile: {
-    screen: profileStack,
-    navigationOptions: {
-      tabBarLabel: 'Profile'
-    }
-  }
-});
+import { createSwitchNavigator } from 'react-navigation';
+import authStack from './auth';
+import appStack from './app';
+import {AuthLoading} from '../../screens/auth';
+import {screen, route} from './navigation';
 
 export default createSwitchNavigator(
   {
-    app: clientStack,
+    [screen.authLoading]: AuthLoading,
+    [route.auth]: authStack,
+    [route.app]: appStack
   },
   {
-    initialRouteName: 'app'
+    initialRouteName: screen.authLoading
   }
 );

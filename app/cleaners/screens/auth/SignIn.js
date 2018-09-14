@@ -1,109 +1,57 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { StyleSheet, View, SafeAreaView, Modal, Text, Alert } from 'react-native';
-import { FormLabel, FormInput, Button } from 'react-native-elements'
-import { ActivityStatusIndicator } from '../../components/UI';
-import { ActionCreators } from '../../actions';
-import { SUCCESS } from '../../actions/types';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {StyleSheet, View, SafeAreaView, Text} from 'react-native';
+import {FormLabel, FormInput, Button} from 'react-native-elements'
+import {ActionCreators} from '../../actions';
 
 class SignIn extends React.Component {
-  
+
   state = {
-    isSignUpVisible: false,
-    phone: '',
-    code: '',
+    phone: '123',
+    code: undefined,
     status: undefined
   }
 
-  componentWillReceiveProps(prevProps, nextProps){
-    const { status } = prevProps
-    if(status === SUCCESS){
-      this.setState({isSignUpVisible: false})
-    }
+  componentWillReceiveProps(props){
+    this.props.navigation.navigate(props.token ? 'app': 'auth');
   }
 
   handleSignIn = () => {
-    const { phone, code } = this.state;
-    this.props.signIn(phone, code);
+    const {phone, code} = this.state;
+    this
+      .props
+      .signIn(phone, code);
   }
-
-  handleRegistration = () => {
-    const { phone } = this.state;
-    this.props.registerPhone(phone);
-  }
-
-  renderRegistrationStatusPopup = () => {
-    const { status, error } = this.props;
-    return (
-      <ActivityStatusIndicator 
-        successText="Phone registered"
-        failureText="Unable to register phone"
-        errorMessage={"error message " + error}
-        pendingText= "Registering phone..."
-        status={status}/>
-    );
-  }
-
-  renderRegistrationPopup = () => {
-    const { phone, isSignUpVisible } = this.state;
-    return (
-    <Modal
-      visible={isSignUpVisible}
-      transparent={false}>
-      <View style={styles.modalContainer}>
-        <FormLabel>Enter Phone Number</FormLabel>
-        <FormInput
-          value={phone}
-          onChangeText={phone=> this.setState({phone})}/>
-          <Button
-            large 
-            title="Register"
-            onPress={this.handleRegistration}/>
-          <Button
-            large 
-            title="Close"
-            onPress={()=> this.setState({isSignUpVisible: false})}/>
-          {this.renderRegistrationStatusPopup()}
-      </View>
-    </Modal>
-    
-  );}
 
   render() {
-    const { phone, code, isSignUpVisible } = this.state;
+    const {phone, code} = this.state;
 
     return (
       <SafeAreaView style={styles.container}>
-          <View style={styles.logo}>
-            <Text>Logo</Text>
-          </View>
-          
-          <View style={styles.signinContainer}>
-            <FormLabel>Enter Phone Number</FormLabel>
-            <FormInput
-              value={phone}
-              onChangeText={phone => this.setState({phone})}/>
-            <FormLabel>Enter Received Code</FormLabel>
-            <FormInput 
-              value={code}
-              onChangeText={code => this.setState({code})}
-              keyboardType='numeric'/>
-            <Button
-              large
-              title='SIGN IN'
-              onPress={this.handleSignIn}/>
-          </View>
+        <View style={styles.header}>
+          <Text style={styles.logoText}>Cleaners</Text>
+        </View>
 
-          <View style={styles.bottom}>
-            <View>
-              <Button
-                large 
-                title="Don't have an account? Register"
-                onPress={()=> this.setState({isSignUpVisible: true})}/>
-            </View>
-          </View>
-          { isSignUpVisible && this.renderRegistrationPopup()}
+        <View style={styles.body}>
+
+          <FormLabel>Enter Phone Number</FormLabel>
+          <FormInput 
+            value={phone} 
+            onChangeText={phone => this.setState({phone})}/>
+          <FormLabel>Enter Received Code</FormLabel>
+          <FormInput
+            value={code}
+            onChangeText={code => this.setState({code})}
+            keyboardType='numeric'/>
+          <Button
+            large
+            title='SIGN IN'
+            style={styles.signInButton}
+            onPress={this.handleSignIn}/>
+
+        </View>
+
       </SafeAreaView>
     );
   }
@@ -114,39 +62,32 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = ({auth}) => {
-    return {
-      status: auth.status,
-      error: auth.error
-    };
+  return {
+    status: auth.status,
+    error: auth.error,
+    token: auth.token
+  }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    
+    backgroundColor: 'white'
   },
-  logo: {
+  header: {
     flex: 1,
-    backgroundColor: 'orange'
-  },
-  signinContainer: {
-    flex: 2,
-  },
-  inputView:{
-    marginBottom: 40,
-    width: '80%',
-  },
-  bottom: {
-    height: '10%'
-  },
-  registerButton: {
-    height: '100%'
-  },
-  modalContainer: {
-    flex: 1,
+    alignItems: 'center',
     justifyContent: 'center'
+  },
+  body: {
+    flex: 2
+  },
+  logoText: {
+    fontSize: 60
+  },
+  signInButton: {
+    marginVertical: 20
   }
 });
