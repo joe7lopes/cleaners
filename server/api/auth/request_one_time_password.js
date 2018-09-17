@@ -1,6 +1,7 @@
 const admin = require('firebase-admin');
 const twilio = require('../../twilio');
 const twilioConfig = require('./twilio_config');
+
 module.exports = (req, res) => {
   if(!req.body.phone){
     res.status(422).send({error:'phone number not provided'});

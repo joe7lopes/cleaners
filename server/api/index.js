@@ -4,6 +4,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const serviceAccount = require('./config/service_account.json');
 
+const signIn = require('./auth/sign-in');
+const signUp = require('./auth/sign_up');
+
 const createUser = require('./user/create_user');
 const fetchUsers = require('./user/fetch_users');
 const fetchUser = require('./user/fetch_user');
@@ -15,7 +18,7 @@ const updateOffer = require('./offers/update_offer');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://cleaners-c4bcb.firebaseio.com"
+  databaseURL: "https://cleaners-test.firebaseio.com"
 });
 
 const app = express();
@@ -23,6 +26,10 @@ const app = express();
 //MIDLEWARE
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+//AUTH
+app.post('/sign-in',signIn);
+app.post('/sign-up', signUp);
 
 //USERS
 app.post('/users', createUser);

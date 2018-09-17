@@ -50,13 +50,18 @@ const signInPending = () => {
 }
 
 export const signIn = (phone, code) => {
-  return dispatch => {
+  return async dispatch => {
     dispatch(signInPending());
-    if(phone === String(123) || code === String(123)){
-      dispatch(signInSuccess({token: "123token"}))
-    }else{
-      dispatch(signInFailure({err: 'wrong code provided'}));
+
+    try{
+      let {data} = await axios.post(`${SERVER_URL}/sign-in`,{phone,code});
+      dispatch(signInSuccess(data));
+    }catch(err){
+      dispatch(signInFailure({err: 'Invalid Login'}));
     }
+    
+
+    
   }
 }
 
@@ -65,9 +70,8 @@ export const registerPhone = (phone) => {
   return async dispatch => {
     dispatch(registerPhonePending());
     try{
-      await axios.post(`${SERVER_URL}/createUser`,{phone});
-      await axios.post(`${SERVER_URL}/requestOneTimePassword`,{phone});
-
+      await axios.post(`${SERVER_URL}/users`,{phone});
+      await axios.post(`${SERVER_URL}/request-one-time-password`,{phone});
       dispatch(registerPhoneSuccess());
     }catch(err){
       dispatch(registerPhoneFailure(err));

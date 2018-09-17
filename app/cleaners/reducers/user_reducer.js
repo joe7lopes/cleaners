@@ -1,4 +1,7 @@
 import { 
+  CREATE_USER_SUCCESS,
+  CREATE_USER_FAILURE,
+  CREATE_USER_PENDING,
   FETCH_USER_SUCCESS,
   FETCH_USER_FAILURE,
   FETCH_USER_PENDING,
@@ -10,17 +13,14 @@ import {
   PENDING
 } from '../actions/types';
 
-const INITIAL_STATE = {
-  profile: {
-    firstName: '',
-    lastName: '',
-    address: '',
-    phone: ''
-  },
-  status: undefined
-}
-export default (state = INITIAL_STATE, action) => {
+export default (state = {}, action) => {
   switch(action.type) {
+    case CREATE_USER_PENDING:
+      return {...state, status: PENDING};
+    case CREATE_USER_SUCCESS:
+      return {...state, status: SUCCESS, profile: action.payload};
+    case CREATE_USER_FAILURE:
+      return {...state, status: FAILURE};
     case FETCH_USER_SUCCESS:
       return {
         ...state,

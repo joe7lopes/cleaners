@@ -11,6 +11,9 @@ export const SIGN_IN_FAILURE = 'sign_in_failure';
 export const SIGN_IN_PENDING = 'sign_in_pending';
 
 //USER ACTIONS
+export const CREATE_USER_SUCCESS = 'create_user_success';
+export const CREATE_USER_FAILURE = 'create_user_failure';
+export const CREATE_USER_PENDING = 'create_user_pending';
 
 export const FETCH_USER_SUCCESS = 'fetch_user_success';
 export const FETCH_USER_FAILURE = 'fetch_user_failure';

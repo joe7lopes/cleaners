@@ -1,19 +1,34 @@
 import axios from 'axios';
 import { 
+  CREATE_USER_PENDING,
+  CREATE_USER_SUCCESS,
+  CREATE_USER_FAILURE,
   FETCH_USER_FAILURE,
   FETCH_USER_SUCCESS,
   FETCH_USER_PENDING,
   SAVE_USER_PENDING,
-  SAVE_USER_SUCCESS
+  SAVE_USER_SUCCESS,
 } from './types';
 
 import { SERVER_URL } from '../config/api';
 
-export const fetchUserPending = () => {
-  return {
+const createUserPending = () => ({
+  type: CREATE_USER_PENDING
+})
+
+const createUserSuccess = (user) => ({
+  type: CREATE_USER_SUCCESS,
+  payload: user
+});
+
+const createUserFailure = (err) => ({
+  type: CREATE_USER_FAILURE,
+  payload: err
+});
+
+export const fetchUserPending = () => ({
     type: FETCH_USER_PENDING
-  }
-};
+});
 
 export const fetchUserSuccess = (user) => {
   return {
@@ -29,6 +44,22 @@ export const fetchUserFailure = (err) => {
   }
 };
 
+
+//dispatch actions
+
+export const createUser = (newUser) => {
+  return async (dispatch) => {
+    dispatch(createUserPending())
+    try{
+      let req = await axios.post(`${SERVER_URL}/users`, newUser);
+      console.log("action", req);
+      dispatch(createUserSuccess(req.data));
+    }catch(err){
+      dispatch(createUserFailure(err));
+    }
+  }
+}
+
 export const fetchUser = (id) => {
   return async dispatch => {
     dispatch(fetchUserPending());
@@ -42,7 +73,6 @@ export const fetchUser = (id) => {
   }
 
 };
-
 
 export const saveUser = (user) => {
   return async (dispatch, getState) => {
@@ -59,3 +89,5 @@ export const saveUser = (user) => {
   }
 
 };
+
+

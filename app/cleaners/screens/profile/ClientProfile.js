@@ -16,10 +16,12 @@ class ClientProfile extends React.Component {
   }
 
   componentDidMount() {
-
-    this
+    if(!this.props.user){
+      this
       .props
       .fetchUser(123);
+    }
+    
 
     let languages = languagesData.map(lang => {
       return {
@@ -32,14 +34,14 @@ class ClientProfile extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.profile){
-      this.updateLanguages(nextProps.profile);
-      this.setState({address:nextProps.profile.address});
+    if(nextProps.user){
+      this.updateLanguages(nextProps.user);
+      this.setState({address:nextProps.user.address});
     }
   }
 
-  updateLanguages = (profile) => {
-    const receivedLanguages = profile.languages || {};
+  updateLanguages = (user) => {
+    const receivedLanguages = user.languages || {};
     const codes = Object.keys(receivedLanguages);
     codes.forEach(code => {
       this.handleLanguageSelection(code);
@@ -86,7 +88,7 @@ class ClientProfile extends React.Component {
   }
 
   render() {
-    const {firstName, lastName, phone, address} = this.props.profile;
+    const {firstName, lastName, phone, address} = this.props.user;
     return (
       <ScrollView contentContainerStyle={styles.container}>
 
@@ -133,7 +135,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    profile: state.user.profile
+    user: state.user.profile
   }
 };
 

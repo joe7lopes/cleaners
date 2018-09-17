@@ -8,4 +8,5 @@ const middleware = [reduxThunk, logger];
 // eslint-disable-next-line no-underscore-dangle
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default createStore(reducers, composeEnhancers(applyMiddleware(...middleware)));
+const store = createStore(reducers, composeEnhancers(applyMiddleware(...middleware)));
+export default store;

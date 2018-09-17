@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   
   if(!req.params.id){
     return res.status(400).send({error:'Missing user id'});
@@ -8,14 +8,16 @@ module.exports = (req, res) => {
 
   const id = String(req.params.id).replace(/[^\d]/g, "");
 
-  admin.database().ref(`/users/${id}/profile`).once('value')
-  .then(snap => {
-    if(!snap.val()) {
+  try{
+    let snap = await admin.database().ref(`/users/${id}`).once('value');
+    let user = snap.val();
+    if(!user) {
       return res.status(404).send();
+    }else{
+      return res.send(user);
     }
-    return res.send(snap.val());
-  }).catch(err => {
+  }catch(err){
     return res.status(422).send(err);
-  });
+  }
 
 }

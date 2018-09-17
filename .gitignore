@@ -1,6 +1,6 @@
 #CONFIG FILES
 .env
-twilio_config.js
+twilio_config.json
 service_account.json
 
 # Xcode

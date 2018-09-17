@@ -2,14 +2,14 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {StyleSheet, View, SafeAreaView, Text} from 'react-native';
-import {FormLabel, FormInput, Button} from 'react-native-elements'
+import {FormLabel, FormInput, Button, Divider} from 'react-native-elements'
 import {ActionCreators} from '../../actions';
 
 class SignIn extends React.Component {
 
   state = {
-    phone: '123',
-    code: undefined,
+    phone: '+48792702968',
+    code: '123',
     status: undefined
   }
 
@@ -22,6 +22,11 @@ class SignIn extends React.Component {
     this
       .props
       .signIn(phone, code);
+  }
+
+  handleSignUp = () => {
+    const {phone} = this.state;
+    this.props.registerPhone(phone);
   }
 
   render() {
@@ -49,6 +54,16 @@ class SignIn extends React.Component {
             title='SIGN IN'
             style={styles.signInButton}
             onPress={this.handleSignIn}/>
+          <Divider/>
+          <FormLabel>Enter Phone Number</FormLabel>
+          <FormInput 
+            value={phone} 
+            onChangeText={phone => this.setState({phone})}/>
+            <Button
+            large
+            title='Register'
+            style={styles.signInButton}
+            onPress={this.handleSignUp}/>
 
         </View>
 
