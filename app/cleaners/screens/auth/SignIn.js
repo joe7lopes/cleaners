@@ -1,32 +1,40 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {StyleSheet, View, SafeAreaView, Text} from 'react-native';
+import {StyleSheet, View, SafeAreaView, Text, AsyncStorage} from 'react-native';
 import {FormLabel, FormInput, Button, Divider} from 'react-native-elements'
 import {ActionCreators} from '../../actions';
+import {route} from '../../config/routes/navigation';
 
 class SignIn extends React.Component {
 
   state = {
-    phone: '+48792702968',
-    code: '123',
+    phone: undefined,
+    code: undefined,
     status: undefined
   }
 
-  componentWillReceiveProps(props){
-    this.props.navigation.navigate(props.token ? 'app': 'auth');
+  componentWillMount(){
+    const phone = this.props.navigation.getParam('phone', undefined);
+    this.setState({phone});
+  }
+
+  componentWillReceiveProps = async (nextProps) =>{
+    let token = nextProps.token || undefined;
+    if(token){
+      try{
+        await AsyncStorage.setItem('auth_token', token);
+        this.props.navigation.navigate(route.app);
+      }catch(err){
+        console.log(err);
+      }
+    }
+    
   }
 
   handleSignIn = () => {
     const {phone, code} = this.state;
-    this
-      .props
-      .signIn(phone, code);
-  }
-
-  handleSignUp = () => {
-    const {phone} = this.state;
-    this.props.registerPhone(phone);
+    this.props.signIn(phone, code);
   }
 
   render() {
@@ -55,15 +63,6 @@ class SignIn extends React.Component {
             style={styles.signInButton}
             onPress={this.handleSignIn}/>
           <Divider/>
-          <FormLabel>Enter Phone Number</FormLabel>
-          <FormInput 
-            value={phone} 
-            onChangeText={phone => this.setState({phone})}/>
-            <Button
-            large
-            title='Register'
-            style={styles.signInButton}
-            onPress={this.handleSignUp}/>
 
         </View>
 

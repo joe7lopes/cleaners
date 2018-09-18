@@ -25,7 +25,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         status: SUCCESS,
-        token: action.payload.token
+        token: action.payload
       }
     case SIGN_IN_FAILURE:
       return {

@@ -1,12 +1,13 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, AsyncStorage} from 'react-native';
 import {connect} from 'react-redux';
+import {route} from '../../config/routes/navigation';
 
 class AuthLoading extends React.Component {
 
-  componentWillMount() {
-    const {token} = this.props;
-    this.props.navigation.navigate(token ? 'app': 'auth');
+  componentWillMount = async() => {
+    const token = await AsyncStorage.getItem('auth_token');
+    this.props.navigation.navigate(token !== null ? route.app: route.auth);
   }
 
   render() {

@@ -17,6 +17,13 @@ class Step1 extends React.Component {
     email: undefined
   }
 
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.status === SUCCESS){
+      this.props.navigation.navigate(route.clientApp);
+    }
+  }
+
   handleOnDone = () => {
     const {userType} = this.props;
     const newUser = {
@@ -25,12 +32,6 @@ class Step1 extends React.Component {
     };
     console.log("creating user",newUser);
     this.props.createUser(newUser);
-  }
-
-  componentWillReceiveProps(nextProps){
-    if(nextProps.status === SUCCESS){
-      this.props.navigation.navigate(route.clientApp);
-    }
   }
 
   render() {

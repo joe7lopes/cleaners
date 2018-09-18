@@ -4,9 +4,9 @@ module.exports = async (req, res) => {
 
   //validation
   const phone = String(req.body.phone);
-  const code = String(req.body.code);
+  const verificationCode = String(req.body.code);
 
-  if(!phone || !code){
+  if(!phone || !verificationCode){
     return res.status(401).send('invalid credentials');
   }
 
@@ -16,13 +16,14 @@ module.exports = async (req, res) => {
     let snap = await dbRef.once('value');
     const auth = snap.val();
     
-    if(!auth.codeValid || String(auth.code) !== code){
+    if(!auth.codeValid || String(auth.code) !== verificationCode){
       return res.status(403).send({error: 'invalid code'});
     }
 
     await dbRef.update({codeValid: false});
 
     let token = await admin.auth().createCustomToken(user.uid);
+    await dbRef.update({token});
     res.send({token, phone});
   }catch(err){
     console.log(err);

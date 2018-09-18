@@ -49,15 +49,16 @@ const signInPending = () => {
   }
 }
 
-export const signIn = (phone, code) => {
+export const signIn = (phone, verificationCode) => {
   return async dispatch => {
     dispatch(signInPending());
 
     try{
-      let {data} = await axios.post(`${SERVER_URL}/sign-in`,{phone,code});
-      dispatch(signInSuccess(data));
+      // let {data} = await axios.post(`${SERVER_URL}/sign-in`,{phone,verificationCode});
+      let token = await fakeSignIn(phone, verificationCode);
+      dispatch(signInSuccess(token));
     }catch(err){
-      dispatch(signInFailure({err: 'Invalid Login'}));
+      dispatch(signInFailure({err}));
     }
     
 
@@ -70,8 +71,8 @@ export const registerPhone = (phone) => {
   return async dispatch => {
     dispatch(registerPhonePending());
     try{
-      await axios.post(`${SERVER_URL}/users`,{phone});
-      await axios.post(`${SERVER_URL}/request-one-time-password`,{phone});
+      // await axios.post(`${SERVER_URL}/sign-up`,{phone});
+      await fakeSignUp(phone);
       dispatch(registerPhoneSuccess());
     }catch(err){
       dispatch(registerPhoneFailure(err));
@@ -79,3 +80,21 @@ export const registerPhone = (phone) => {
   }
 };
 
+//MOCKED fuctions
+
+const fakeSignUp = (phone) => {
+  return new Promise((resolve, reject)=>{
+    setTimeout(() => {
+      resolve(phone);
+    }, 2000);
+  });
+};
+
+const fakeSignIn = (phone, verificationCode) => {
+  return new Promise((resolve, reject)=>{
+    setTimeout(() => {
+      let token = "123ddd"
+      resolve(token);
+    }, 2000);
+  });
+};

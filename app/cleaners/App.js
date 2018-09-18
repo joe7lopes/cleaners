@@ -10,10 +10,10 @@ export default App = () => (
   </Provider>
 );
 
-// import Onboarding from './screens/onboarding';
+// import Step1 from './screens/onboarding/cleaner/Step1';
 
 // export default App = () => (
 //     <Provider store={store}>
-//       <Onboarding />
+//       <Step1 />
 //     </Provider>
 //   );

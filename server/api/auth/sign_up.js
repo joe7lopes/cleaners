@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
-const twilio = require('../config/twilio');
-const twilioConfig = require('../config/twilio_config.json');
+// const twilio = require('../config/twilio');
+// const twilioConfig = require('../config/twilio_config.json');
 
 module.exports = async (req, res) => {
 
@@ -33,6 +33,7 @@ module.exports = async (req, res) => {
     res.send();
 
   }catch(err){
+    console.log(err);
     res.status(422).send({error: err});
   }
 

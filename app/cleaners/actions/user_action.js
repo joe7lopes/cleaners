@@ -51,9 +51,8 @@ export const createUser = (newUser) => {
   return async (dispatch) => {
     dispatch(createUserPending())
     try{
-      let req = await axios.post(`${SERVER_URL}/users`, newUser);
-      console.log("action", req);
-      dispatch(createUserSuccess(req.data));
+      let {data} = await axios.post(`${SERVER_URL}/users`, newUser);
+      dispatch(createUserSuccess(data));
     }catch(err){
       dispatch(createUserFailure(err));
     }
@@ -89,5 +88,3 @@ export const saveUser = (user) => {
   }
 
 };
-
-
