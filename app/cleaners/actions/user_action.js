@@ -63,9 +63,8 @@ export const fetchUser = (id) => {
   return async dispatch => {
     dispatch(fetchUserPending());
     try{
-      var request = await axios.get(`${SERVER_URL}/users/${id}`);
-      const user = request.data;
-      dispatch(fetchUserSuccess(user));
+      var {data} = await axios.get(`${SERVER_URL}/users/${id}`);
+      dispatch(fetchUserSuccess(data));
     }catch(err){
       dispatch(fetchUserFailure(err));
     }
@@ -78,8 +77,6 @@ export const saveUser = (user) => {
     dispatch({
       type: SAVE_USER_PENDING
     });
-    console.log("in action state",getState().user);
-
     setTimeout(() => {
       dispatch({
         type: SAVE_USER_SUCCESS

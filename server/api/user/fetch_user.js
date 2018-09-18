@@ -6,7 +6,7 @@ module.exports = async (req, res) => {
     return res.status(400).send({error:'Missing user id'});
   }
 
-  const id = String(req.params.id).replace(/[^\d]/g, "");
+  const id = String(req.params.id);
 
   try{
     let snap = await admin.database().ref(`/users/${id}`).once('value');

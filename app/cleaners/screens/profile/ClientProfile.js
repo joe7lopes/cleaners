@@ -16,12 +16,9 @@ class ClientProfile extends React.Component {
   }
 
   componentDidMount() {
-    if(!this.props.user){
       this
       .props
-      .fetchUser(123);
-    }
-    
+      .fetchUser("-LMg4Q-LA_N_pk58N6qt");
 
     let languages = languagesData.map(lang => {
       return {
@@ -88,7 +85,8 @@ class ClientProfile extends React.Component {
   }
 
   render() {
-    const {firstName, lastName, phone, address} = this.props.user;
+    const {firstName='', lastName='', phone, address} = this.props.user;
+    const title = `${firstName.toUpperCase()[0] || ""}${lastName.toUpperCase()[0] || ""}`;
     return (
       <ScrollView contentContainerStyle={styles.container}>
 
@@ -96,7 +94,7 @@ class ClientProfile extends React.Component {
           <Avatar
             xlarge
             rounded
-            title={`${firstName.toUpperCase()[0] || ""}${lastName.toUpperCase()[0] || ""}`}
+            title={title}
             onPress={() => console.log("upload picture not implemented")}
             activeOpacity={0.7}/>
         </View>
@@ -133,11 +131,9 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.user.profile
-  }
-};
+const mapStateToProps = ({user}) => ({
+    user: user.profile
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ClientProfile);
 

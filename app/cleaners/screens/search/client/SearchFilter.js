@@ -1,7 +1,7 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../../../actions';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {ActionCreators} from '../../../actions';
 import {View, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 import {FormLabel, FormInput, Icon, Button} from 'react-native-elements';
 import {Dropdown} from 'react-native-material-dropdown';
@@ -11,7 +11,7 @@ import {languages as languagesData, services as servicesData, rating} from '../.
 class SearchFilter extends React.Component {
 
   state = {
-    address: undefined,
+    address: '',
     priceMin: undefined,
     priceMax: undefined,
     languages: [],
@@ -118,20 +118,28 @@ class SearchFilter extends React.Component {
   }
 
   handleOnFilter = () => {
-    const languages = this.state.languages
+    const languages = this
+      .state
+      .languages
       .filter(lang => lang.selected === true)
       .map(lang => ({code: lang.code}));
 
-    const services = this.state.services
-    .filter(service => service.selected === true)
-    .map(service => ({id: service.id}));
+    const services = this
+      .state
+      .services
+      .filter(service => service.selected === true)
+      .map(service => ({id: service.id}));
 
-    var criteria = Object.assign({},this.state);
+    var criteria = Object.assign({}, this.state);
     criteria.languages = languages;
     criteria.services = services;
     console.log('criteria', criteria);
-    this.props.fetchCleaners(criteria);
-    this.props.onClose();
+    this
+      .props
+      .fetchCleaners(criteria);
+    this
+      .props
+      .onClose();
   }
 
   handleOnRatingMinChanged = (ratingMin) => {
@@ -139,20 +147,25 @@ class SearchFilter extends React.Component {
   }
 
   handleOnRatingMaxChanged = (ratingMax) => {
-   this.setState({ratingMax})
+    this.setState({ratingMax})
   }
 
   render() {
-    const { address, priceMin, priceMax, ratingMin, ratingMax } = this.props;
+    const {
+      address,
+      priceMin,
+      priceMax,
+      ratingMin,
+      ratingMax
+    } = this.props;
     return (
       <View style={styles.container}>
 
-        <TouchableOpacity 
-        style={{
+        <TouchableOpacity
+          style={{
           alignItems: 'flex-end'
         }}
-        onPress={this.props.onClose}
-        >
+          onPress={this.props.onClose}>
           <Icon name='cancel' color='#d3d3d3'/>
         </TouchableOpacity>
 
@@ -198,25 +211,53 @@ class SearchFilter extends React.Component {
         <View style={[styles.languagesContainer, styles.row]}>
           {this.renderServices()}
         </View>
-          <View style={ styles.ratingContainer}>
-            <Dropdown containerStyle={{width: '45%'}} label="rating min." value={ratingMin} data={this.getRatingData()} onChangeText={this.handleOnRatingMinChanged} />
-            <Dropdown containerStyle={{width: '45%', marginLeft: '10%'}} label="rating max." value={ratingMax} data={this.getRatingData()} onChangeText={this.handleOnRatingMaxChanged}/>
-          </View>
-          <Button style={{paddingTop: 20}}title="filter" onPress={this.handleOnFilter}/>
+        <View style={styles.ratingContainer}>
+          <Dropdown
+            containerStyle={{
+            width: '45%'
+          }}
+            label="rating min."
+            value={ratingMin}
+            data={this.getRatingData()}
+            onChangeText={this.handleOnRatingMinChanged}/>
+          <Dropdown
+            containerStyle={{
+            width: '45%',
+            marginLeft: '10%'
+          }}
+            label="rating max."
+            value={ratingMax}
+            data={this.getRatingData()}
+            onChangeText={this.handleOnRatingMaxChanged}/>
+        </View>
+        <Button
+          style={{
+          paddingTop: 20
+        }}
+          onPress={this.handleOnFilter}title="filter"/>
       </View>
     );
   }
 }
 
-mapStateToProps = (state) => {
+mapStateToProps = ({search}) => {
+  const {
+    address,
+    priceMin,
+    priceMax,
+    languages,
+    services,
+    ratingMin,
+    ratingMax
+  } = search.filter;
   return {
-    address: state.search.filter.address,
-    priceMin: state.search.filter.priceMin,
-    priceMax: state.search.filter.priceMax,
-    languages: state.search.filter.languages,
-    services: state.search.filter.services,
-    ratingMin: state.search.filter.ratingMin,
-    ratingMax: state.search.filter.ratingMax,
+    address,
+    priceMin,
+    priceMax,
+    languages,
+    services,
+    ratingMin,
+    ratingMax
   }
 }
 
@@ -243,6 +284,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20
   },
   ratingContainer: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   }
 });

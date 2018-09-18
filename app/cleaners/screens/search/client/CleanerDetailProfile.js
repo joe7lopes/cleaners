@@ -15,10 +15,9 @@ export default class CleanerDetailProfile extends React.Component {
 
   renderLanguages = () => {
     const {languages} = this.props;
-    console.log(languages);
     return languages.map(lang => {
-      const {id, name} = lang;
-      return <LanguageBox key={id} text={name} selected ={true}/>
+      const {code, name} = lang;
+      return <LanguageBox key={code} text={name} selected ={true}/>
     });
   }
 

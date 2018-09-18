@@ -11,7 +11,6 @@ class AuthLoading extends React.Component {
   }
 
   render() {
-    
     return (
       <View style={styles.container}>
         <Text>AuthLoading...</Text>

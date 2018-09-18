@@ -37,22 +37,29 @@ module.exports = async (req, res) => {
 //TODO
 
 const getClientFromRequest = (req) => {
-  const { firstName, lastName, address, email } = req;
+  const { firstName, lastName, address, email, rating= 0 } = req;
   return {
     firstName,
     lastName,
     address,
     email,
+    rating,
     type: CLIENT,
     createdAt: new Date()
   }
 };
 
 const getCleanerFromRequest = (req) => {
-  const { firstName, lastName } = req;
+  const { firstName, lastName, phone, email, price, services, languages, rating=0 } = req;
   return {
     firstName,
     lastName,
+    phone,
+    email,
+    price,
+    services,
+    languages,
+    rating,
     type: CLEANER,
     createdAt: new Date()
   }

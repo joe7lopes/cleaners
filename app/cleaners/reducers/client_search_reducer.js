@@ -7,20 +7,7 @@ import {
  PENDING
 } from '../actions/types';
 
-const INITIAL_STATE = {
-  filter: {
-    address: undefined,
-    priceMin: undefined,
-    priceMax: undefined,
-    languages: [],
-    services: [],
-    ratingMin: undefined,
-    ratingMax: undefined,
-  },
-  cleaners: [],
-  status: undefined
-}
-export default (state = INITIAL_STATE, action) => {
+export default (state = {filter: {}}, action) => {
   switch(action.type) {
     case FETCH_CLEANERS_SUCCESS:
       return {

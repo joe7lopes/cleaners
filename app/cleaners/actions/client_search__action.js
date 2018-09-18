@@ -18,12 +18,18 @@ const fetchCleanersPending = () => {
 export const fetchCleaners = (criteria) => {
   return async dispatch => {
     dispatch(fetchCleanersPending());
-    if(criteria){
-      var req = await axios.get(`${SERVER_URL}/users?type=${CLEANER}`,criteria);
-      dispatch(fetchCleanersSuccess(req.data));
-    }else{
-      var req = await axios.get(`${SERVER_URL}/users?type=${CLEANER}`);
-      dispatch(fetchCleanersSuccess(req.data))
+
+    try{
+      if(criteria){
+        var {data} = await axios.get(`${SERVER_URL}/users?type=${CLEANER}`,criteria);
+        dispatch(fetchCleanersSuccess(data));
+      }else{
+        var {data} = await axios.get(`${SERVER_URL}/users?type=${CLEANER}`);
+        dispatch(fetchCleanersSuccess(data))
+      }
+    }catch(err){
+      dispatch(fetchCleanersFailure(err));
     }
+    
   }
 };

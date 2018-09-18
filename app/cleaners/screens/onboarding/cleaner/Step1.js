@@ -78,14 +78,22 @@ class Step1 extends React.Component {
   }
 
   handleOnDone = () => {
+    const languages = this.state.languages
+    .filter(lang=> lang.selected === true)
+    .map(lang =>({code:lang.code, name: lang.name}));
+
+    const services = this.state.services
+    .filter(s=>s.selected === true).map(s=>({id: s.id, name: s.name}));
+
     const {userType} = this.props;
     const newUser = {
       ...Object.assign({}, this.state),
+      languages,
+      services,
       type: userType
     };
-    this
-      .props
-      .createUser(newUser);
+
+    this.props.createUser(newUser);
   }
 
   renderServices = () => {
@@ -163,7 +171,10 @@ class Step1 extends React.Component {
               {this.renderServices()}
             </View>
             <FormLabel>My price per hour (ZL)</FormLabel>
-            <FormInput keyboardType='numeric' value={price}/>
+            <FormInput
+              keyboardType='numeric'
+              value={price}
+              onChangeText={(price) => this.setState({price})}/>
           </View>
           <Button style={styles.button} title='Done' onPress={this.handleOnDone}/>
 

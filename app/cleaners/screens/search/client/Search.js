@@ -2,7 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {ActionCreators} from '../../../actions';
-import {View, SafeAreaView, Text, StyleSheet, FlatList, TouchableOpacity, TouchableWithoutFeedback, Modal, Platform} from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  Text,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Modal,
+  Platform
+} from 'react-native';
 import SearchFilter from './SearchFilter';
 import CleanerCard from '../../../components/CleanerCard';
 import {PENDING, SUCCESS} from '../../../actions/types';
@@ -11,7 +21,7 @@ class Search extends React.Component {
 
   state = {
     cleaners: [],
-    isFilterVisible: false,
+    isFilterVisible: false
   }
 
   componentDidMount() {
@@ -43,67 +53,65 @@ class Search extends React.Component {
     </View>
   )
 
-  renderCleanersList = () => (
-    <FlatList
-        data={this.props.cleaners}
-        renderItem={this.renderCard}
-        keyExtractor={(item, index) => item.id.toString()}
-    />
-  )
+  renderCleanersList = () => (<FlatList
+    data={this.props.cleaners}
+    renderItem={this.renderCard}
+    keyExtractor={(item, index) => item.uid.toString()}/>)
 
   renderCard = ({item}) => (
-  <TouchableOpacity onPress={()=>this.handleSelectedCleaner(item)}>
-  <CleanerCard
-    key={item.id}
-    style={styles.cleanerCard}
-    firstName={item.firstName}
-    lastName={item.lastName}
-    phone={item.phone}
-    services={item.services}
-    languages={item.languages}
-    rating={item.rating}
-    price={item.price}
-    />
-    </TouchableOpacity>)
+    <TouchableOpacity onPress={() => this.handleSelectedCleaner(item)}>
+      <CleanerCard
+        key={item.uid}
+        style={styles.cleanerCard}
+        firstName={item.firstName}
+        lastName={item.lastName}
+        phone={item.phone}
+        services={item.services}
+        languages={item.languages}
+        rating={item.rating}
+        price={item.price}/>
+    </TouchableOpacity>
+  )
 
+  renderFilter = () => {
 
-    renderFilter = () => {
+    return (
+      <Modal transparent={true}>
+        <View style={styles.searchModal}>
+          <SearchFilter onClose={this.handleOnFilterClose}/>
+        </View>
+      </Modal>
+    )
+  }
 
-      return (
-          <Modal 
-            transparent={true}>
-            <View style={styles.searchModal}>
-              <SearchFilter onClose={this.handleOnFilterClose}/>
-            </View>
-          </Modal>
-      )
-    }
+  //HANDLERS
+  handleSelectedCleaner(cleaner) {
+    const title = cleaner.firstName || '';
+    this
+      .props
+      .navigation
+      .navigate('cleanerDetail', {cleaner, title});
+  }
 
-    //HANDLERS
-    handleSelectedCleaner(cleaner){
-      const title = cleaner.firstName || '';
-      this.props.navigation.navigate('cleanerDetail', {cleaner, title});
-    }
+  hadleFilterTap = () => {
+    this.setState({isFilterVisible: true});
+  }
 
-    hadleFilterTap = () => {
-      this.setState({isFilterVisible: true});
-    }
-
-    handleOnFilterClose = () => {
-      this.setState({isFilterVisible: false});
-    }
+  handleOnFilterClose = () => {
+    this.setState({isFilterVisible: false});
+  }
 
   render() {
-      const count = this.props.cleaners.length;
-      const { isFilterVisible } = this.state;
+    const count = this.props.cleaners.length;
+    const {isFilterVisible} = this.state;
     return (
       <SafeAreaView style={styles.container}>
         {isFilterVisible && this.renderFilter()}
         <View style={styles.header}>
-        <TouchableWithoutFeedback onPress={this.hadleFilterTap}>
-          <View style={styles.searchBar}>
-            <Text>filter</Text>
-          </View>
+          <TouchableWithoutFeedback onPress={this.hadleFilterTap}>
+            <View style={styles.searchBar}>
+              <Text>filter</Text>
+            </View>
           </TouchableWithoutFeedback>
         </View >
 
@@ -121,15 +129,20 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-const mapStateToProps = (state) => {
-  return {cleaners: state.search.cleaners, status: state.search.status}
+const mapStateToProps = ({search}) => {
+  var cleaners = []
+  const cleanersObj = search.cleaners || {};
+  cleaners = Object
+    .keys(cleanersObj)
+    .map(key => cleanersObj[key]);
+  return {cleaners, status: search.status}
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   header: {
     height: '20%',
@@ -137,7 +150,7 @@ const styles = StyleSheet.create({
   },
   body: {
     height: '80%',
-    marginHorizontal: 20,
+    marginHorizontal: 20
   },
   statusContainer: {
     flex: 1,
@@ -147,14 +160,17 @@ const styles = StyleSheet.create({
   cleanerCard: {
     marginTop: 20,
     backgroundColor: 'white',
-    shadowOffset:{  width: 0.5,  height: 1,  },
+    shadowOffset: {
+      width: 0.5,
+      height: 1
+    },
     shadowColor: 'gray',
     shadowOpacity: 0.7,
     shadowRadius: 0.5
   },
-  resultCount:{
+  resultCount: {
     marginVertical: 10,
-    alignSelf: 'flex-end',
+    alignSelf: 'flex-end'
   },
   searchBar: {
     flex: 1,
@@ -162,7 +178,9 @@ const styles = StyleSheet.create({
   },
   searchModal: {
     flex: 1,
-    marginTop: Platform.OS === 'ios' ? 64 : 54,
+    marginTop: Platform.OS === 'ios'
+      ? 64
+      : 54,
     backgroundColor: 'white'
   }
 });

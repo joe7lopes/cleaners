@@ -13,7 +13,7 @@ import {
   PENDING
 } from '../actions/types';
 
-export default (state = {}, action) => {
+export default (state = {profile:{}}, action) => {
   switch(action.type) {
     case CREATE_USER_PENDING:
       return {...state, status: PENDING};
