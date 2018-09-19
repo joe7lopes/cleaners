@@ -3,18 +3,11 @@ const functions = require('firebase-functions');
 const express = require('express');
 const bodyParser = require('body-parser');
 const serviceAccount = require('./config/service_account.json');
+const AuthController = require('./auth/auth_controller');
+const UserController = require('./user/user_controller');
 
-const signIn = require('./auth/sign-in');
-const signUp = require('./auth/sign_up');
-
-const createUser = require('./user/create_user');
-const fetchUsers = require('./user/fetch_users');
-const fetchUser = require('./user/fetch_user');
-const updateUser = require('./user/update_user');
-
-const fetchUserOffers = require('./user/fetch_user_offers');
-const createOffer = require('./offers/create_offer');
-const updateOffer = require('./offers/update_offer');
+// const createOffer = require('./offers/create_offer');
+// const updateOffer = require('./offers/update_offer');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -28,18 +21,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 //AUTH
-app.post('/sign-in',signIn);
-app.post('/sign-up', signUp);
+app.use('/auth',AuthController);
 
 //USERS
-app.post('/users', createUser);
-app.get('/users', fetchUsers);
-app.get('/users/:id', fetchUser);
-app.patch('/users/:id',updateUser);
-app.get('/users/:id/offers', fetchUserOffers);
+app.use('/users',UserController);
+
 
 //OFFERS
-app.post('/offers', createOffer);
-app.patch('/offers/:id', updateOffer);
+// app.post('/offers', createOffer);
+// app.patch('/offers/:id', updateOffer);
 
 exports.api = functions.https.onRequest(app);

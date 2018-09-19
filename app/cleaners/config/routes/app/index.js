@@ -2,20 +2,18 @@ import { createSwitchNavigator } from 'react-navigation';
 import onboardingStack from './onboarding';
 import {clientStack} from './client';
 import {cleanerStack} from './cleaner';
-import {route} from '../navigation';
-import store from '../../store';
+import AppLoading from '../../../screens/AppLoading';
+import {route, screen} from '../navigation';
 
-const getInitialRoute = () =>{
-  return store.getState().user.profile ? route.clientApp : route.onboarding
-}
 
 export default createSwitchNavigator({
     [route.clientApp]: clientStack,
     [route.cleanerApp]: cleanerStack,
     [route.onboarding]: onboardingStack,
+    [screen.appLoading]: AppLoading
   },
   {
-    initialRouteName: getInitialRoute()
+    initialRouteName: screen.appLoading
   }
 );
 

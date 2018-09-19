@@ -37,11 +37,12 @@ module.exports = async (req, res) => {
 //TODO
 
 const getClientFromRequest = (req) => {
-  const { firstName, lastName, address, email, rating= 0 } = req;
+  const { firstName, lastName, address, phone, email, rating= 0 } = req;
   return {
     firstName,
     lastName,
     address,
+    phone,
     email,
     rating,
     type: CLIENT,

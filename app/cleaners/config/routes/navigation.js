@@ -1,11 +1,12 @@
 const screen = {
-  signUp: 'signUp',
-  signIn: 'signIn',
+  appLoading: 'appLoading',
   authLoading: 'authLoading',
+  offers: 'offers',
   onboardingUserTypeSelection: 'onboardingUserTypeSelection',
   onboardingStep1: 'onboardingStep1',
   profile: 'profile',
-  offers: 'offers'
+  register: 'register',
+  login: 'login',
 }
 
 const route = {

@@ -6,12 +6,11 @@ import {FormLabel, FormInput, Button, Divider} from 'react-native-elements'
 import {ActionCreators} from '../../actions';
 import {route} from '../../config/routes/navigation';
 
-class SignIn extends React.Component {
+class Login extends React.Component {
 
   state = {
     phone: undefined,
-    code: undefined,
-    status: undefined
+    code: undefined
   }
 
   componentWillMount(){
@@ -23,6 +22,7 @@ class SignIn extends React.Component {
     let token = nextProps.token || undefined;
     if(token){
       try{
+        console.log("has token",token);
         await AsyncStorage.setItem('auth_token', token);
         this.props.navigation.navigate(route.app);
       }catch(err){
@@ -32,9 +32,9 @@ class SignIn extends React.Component {
     
   }
 
-  handleSignIn = () => {
+  handleLogin = () => {
     const {phone, code} = this.state;
-    this.props.signIn(phone, code);
+    this.props.login(phone, code);
   }
 
   render() {
@@ -60,8 +60,8 @@ class SignIn extends React.Component {
           <Button
             large
             title='SIGN IN'
-            style={styles.signInButton}
-            onPress={this.handleSignIn}/>
+            style={styles.loginButton}
+            onPress={this.handleLogin}/>
           <Divider/>
 
         </View>
@@ -83,7 +83,7 @@ const mapStateToProps = ({auth}) => {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
 const styles = StyleSheet.create({
   container: {
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 60
   },
-  signInButton: {
+  loginButton: {
     marginVertical: 20
   }
 });

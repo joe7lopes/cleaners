@@ -1,13 +1,16 @@
 import React from 'react';
 import {View, Text, StyleSheet, AsyncStorage} from 'react-native';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {route} from '../../config/routes/navigation';
+import {ActionCreators} from '../../actions';
 
 class AuthLoading extends React.Component {
 
-  componentWillMount = async() => {
-    const token = await AsyncStorage.getItem('auth_token');
-    this.props.navigation.navigate(token !== null ? route.app: route.auth);
+  componentWillMount() {
+    AsyncStorage.getItem('auth_token', (err, token)=>{
+      this.props.navigation.navigate(token ? route.app:route.auth);  
+    });
   }
 
   render() {
@@ -19,13 +22,16 @@ class AuthLoading extends React.Component {
   }
 }
 
-const mapStateToProps = ({auth}) => {
-  return {
-    token: auth.token
-  }
+const mapStateToProps = ({auth}) => ({
+    token: auth.token,
+    user: auth.user
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(ActionCreators, dispatch);
 };
 
-export default connect(mapStateToProps)(AuthLoading);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthLoading);
 
 const styles = StyleSheet.create({
   container: {

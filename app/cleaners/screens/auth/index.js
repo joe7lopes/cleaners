@@ -1,9 +1,9 @@
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import Login from './Login';
+import Register from './Register';
 import AuthLoading from './AuthLoading';
 
 export {
-  SignIn,
-  SignUp,
+  Login,
+  Register,
   AuthLoading
 };

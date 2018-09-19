@@ -1,13 +1,13 @@
 import { createStackNavigator } from 'react-navigation';
-import {SignIn, SignUp} from '../../screens/auth';
+import {Login, Register} from '../../screens/auth';
 import {screen} from './navigation';
 
  const authStack = createStackNavigator({
-  [screen.signUp]: {
-    screen: SignUp
+  [screen.register]: {
+    screen: Register
   },
-  [screen.signIn]: {
-    screen: SignIn
+  [screen.login]: {
+    screen: Login
   }
 },
 {

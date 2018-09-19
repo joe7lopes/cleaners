@@ -1,2 +1,2 @@
-export const CLEANER = 'cleaner';
-export const CLIENT = 'client';
+export const CLEANER = 'CLEANER';
+export const CLIENT = 'CLIENT';

@@ -1,29 +1,37 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View, Text, SafeAreaView, StyleSheet} from 'react-native';
+import {View, Text, SafeAreaView, StyleSheet, TouchableWithoutFeedback} from 'react-native';
 import {FormInput, FormLabel, Button} from 'react-native-elements';
 import {ActionCreators} from '../../actions';
 import {SUCCESS} from '../../actions/types';
 import {screen} from '../../config/routes/navigation';
 
-class SignUp extends React.Component {
+class Register extends React.Component {
 
   state = {
     phone: undefined
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps) {
     const {status} = nextProps;
-    if(status === SUCCESS){
+    if (status === SUCCESS) {
       const {phone} = this.state;
-      this.props.navigation.navigate(screen.signIn,{phone});
+      this.props.navigation.navigate(screen.login, {phone});
     }
   }
 
-  handleSignUp = () => {
+  handleRegistration = () => {
     const {phone} = this.state;
     this.props.registerPhone(phone);
+  }
+
+  handleOnAlreadyHaveAccount = () => {
+    const {phone} = this.state;
+    this
+      .props
+      .navigation
+      .navigate(screen.login, {phone});
   }
 
   render() {
@@ -44,7 +52,13 @@ class SignUp extends React.Component {
           large
           title='Register'
           style={styles.registerButton}
-          onPress={this.handleSignUp}/>
+          onPress={this.handleRegistration}/>
+        <TouchableWithoutFeedback onPress={this.handleOnAlreadyHaveAccount}>
+          <View>
+            <Text style={styles.existingAccountText}>I already have an account</Text>
+          </View>
+        </TouchableWithoutFeedback>
+
       </SafeAreaView>
     )
   }
@@ -54,11 +68,9 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-const mapStateToProps = ({auth}) => ({
-  status: auth.status
-});
+const mapStateToProps = ({auth}) => ({status: auth.status});
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
 
 const styles = StyleSheet.create({
   container: {
@@ -71,17 +83,23 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   inputForm: {
-    flex: 1,
+    flex: 1
   },
   titleText: {
     fontSize: 40,
     textAlign: 'center'
   },
+  existingAccountText: {
+    bottom: 20,
+    marginLeft: 20,
+    color: 'blue',
+    textAlign: 'center'
+  },
   registerButton: {
-    bottom: 20
+    bottom: 60
   }
 
 });

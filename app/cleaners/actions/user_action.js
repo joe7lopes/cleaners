@@ -1,87 +1,100 @@
 import axios from 'axios';
-import { 
-  CREATE_USER_PENDING,
-  CREATE_USER_SUCCESS,
-  CREATE_USER_FAILURE,
-  FETCH_USER_FAILURE,
-  FETCH_USER_SUCCESS,
-  FETCH_USER_PENDING,
-  SAVE_USER_PENDING,
-  SAVE_USER_SUCCESS,
+import {AsyncStorage} from 'react-native';
+import {
+    CREATE_USER_FAILURE,
+    CREATE_USER_PENDING,
+    CREATE_USER_SUCCESS,
+    FETCH_PROFILE_FAILURE,
+    FETCH_PROFILE_PENDING,
+    FETCH_PROFILE_SUCCESS,
+    FETCH_USER_FAILURE,
+    FETCH_USER_PENDING,
+    FETCH_USER_SUCCESS,
 } from './types';
 
-import { SERVER_URL } from '../config/api';
+import {SERVER_URL} from '../config/api';
 
 const createUserPending = () => ({
-  type: CREATE_USER_PENDING
+    type: CREATE_USER_PENDING
 })
 
 const createUserSuccess = (user) => ({
-  type: CREATE_USER_SUCCESS,
-  payload: user
+    type: CREATE_USER_SUCCESS,
+    payload: user
 });
 
 const createUserFailure = (err) => ({
-  type: CREATE_USER_FAILURE,
-  payload: err
+    type: CREATE_USER_FAILURE,
+    payload: err
 });
 
-export const fetchUserPending = () => ({
+const fetchUserPending = () => ({
     type: FETCH_USER_PENDING
 });
 
-export const fetchUserSuccess = (user) => {
-  return {
+const fetchUserSuccess = (user) => ({
     type: FETCH_USER_SUCCESS,
     payload: user
-  }
-};
+});
 
-export const fetchUserFailure = (err) => {
-  return {
+const fetchUserFailure = (err) => ({
     type: FETCH_USER_FAILURE,
     payload: err
-  }
-};
+});
 
+const fetchProfilePending = () => ({
+    type: FETCH_PROFILE_PENDING
+});
+
+const fetchProfileSuccess = (profile) => ({
+    type: FETCH_PROFILE_SUCCESS,
+    payload: profile
+});
+
+const fetchProfileFailure = (err) => ({
+    type: FETCH_PROFILE_FAILURE,
+    payload: err
+});
 
 //dispatch actions
 
 export const createUser = (newUser) => {
-  return async (dispatch) => {
-    dispatch(createUserPending())
-    try{
-      let {data} = await axios.post(`${SERVER_URL}/users`, newUser);
-      dispatch(createUserSuccess(data));
-    }catch(err){
-      dispatch(createUserFailure(err));
+    return async (dispatch) => {
+        dispatch(createUserPending())
+        try {
+            let {data} = await axios.post(`${SERVER_URL}/users`, newUser);
+            dispatch(createUserSuccess(data));
+        } catch (err) {
+            dispatch(createUserFailure(err));
+        }
     }
-  }
 }
 
 export const fetchUser = (id) => {
-  return async dispatch => {
-    dispatch(fetchUserPending());
-    try{
-      var {data} = await axios.get(`${SERVER_URL}/users/${id}`);
-      dispatch(fetchUserSuccess(data));
-    }catch(err){
-      dispatch(fetchUserFailure(err));
+    return async dispatch => {
+        dispatch(fetchUserPending());
+        try {
+            var {data} = await axios.get(`${SERVER_URL}/users/${id}`);
+            dispatch(fetchUserSuccess(data));
+        } catch (err) {
+            dispatch(fetchUserFailure(err));
+        }
     }
-  }
 
 };
 
-export const saveUser = (user) => {
-  return async (dispatch, getState) => {
-    dispatch({
-      type: SAVE_USER_PENDING
-    });
-    setTimeout(() => {
-      dispatch({
-        type: SAVE_USER_SUCCESS
-      })
-    }, 3000);
-  }
-
+export const fetchProfile = () => {
+    return async dispatch => {
+        dispatch(fetchProfilePending());
+        try {
+            let token = await AsyncStorage.getItem('auth_token');
+            let config = {headers: {'x-access-token': token ? token : ''}};
+            let {data} = await axios.get(`${SERVER_URL}/users/me`, config);
+            console.log(data);
+            dispatch(fetchProfileSuccess(data));
+        } catch (err) {
+            dispatch(fetchProfileFailure({error: err}));
+        }
+    }
 };
+
