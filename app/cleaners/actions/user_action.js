@@ -56,8 +56,6 @@ const fetchProfileFailure = (err) => ({
     payload: err
 });
 
-//dispatch actions
-
 export const createUser = (newUser) => {
     return async (dispatch) => {
         dispatch(createUserPending())
@@ -74,10 +72,10 @@ export const fetchUser = (id) => {
     return async dispatch => {
         dispatch(fetchUserPending());
         try {
-            var {data} = await axios.get(`${SERVER_URL}/users/${id}`);
+            let {data} = await axios.get(`${SERVER_URL}/users/${id}`);
             dispatch(fetchUserSuccess(data));
         } catch (err) {
-            dispatch(fetchUserFailure(err));
+            dispatch(fetchUserFailure({error: err}));
         }
     }
 
@@ -89,7 +87,7 @@ export const fetchProfile = () => {
         try {
             let token = await AsyncStorage.getItem('auth_token');
             let config = {headers: {'x-access-token': token ? token : ''}};
-            let {data} = await axios.get(`${SERVER_URL}/users/me`, config);
+            let {data} = await axios.get(`${SERVER_URL}/users/user-profile`, config);
             console.log(data);
             dispatch(fetchProfileSuccess(data));
         } catch (err) {

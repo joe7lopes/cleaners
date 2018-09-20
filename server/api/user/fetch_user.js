@@ -11,13 +11,13 @@ module.exports = async (req, res) => {
   try{
     let snap = await admin.database().ref(`/users/${id}`).once('value');
     let user = snap.val();
-    if(!user) {
-      return res.status(404).send();
+    if(user === null) {
+      return res.status(404).send({msg: "user not found"});
     }else{
       return res.send(user);
     }
   }catch(err){
-    return res.status(422).send(err);
+    return res.status(422).send({error: err});
   }
 
 }

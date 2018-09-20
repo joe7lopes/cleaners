@@ -1,12 +1,25 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {View, Text, StyleSheet, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {route} from '../config/routes/navigation';
 import {ActionCreators} from '../actions';
-import {CLIENT, CLEANER} from "../config/profileTypes";
+import {CLEANER, CLIENT} from '../config/profileTypes';
+import {FAILURE, SUCCESS} from '../actions/types';
 
 class AppLoading extends React.Component {
+
+    getAppFor = (profileType) => {
+        const type = String(profileType).toUpperCase() || undefined;
+        if (type === CLIENT) {
+            return route.clientApp;
+        } else if (type === CLEANER) {
+            return route.cleanerApp
+        } else {
+            console.log("App error: unable to retrieve profile type", type);
+            return route.onboarding
+        }
+    }
 
     componentWillMount() {
         // AsyncStorage.clear();
@@ -14,20 +27,13 @@ class AppLoading extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {isNewUser, type} = nextProps.profile;
-        console.log("new user %s profile type %s", isNewUser, type);
-        this.props.navigation.navigate(isNewUser ? route.onboarding : this.getAppFor(type));
-    }
 
-    getAppFor = (profileType) => {
-        const type = String(profileType).toUpperCase() || undefined;
-        if(type === CLIENT){
-            return route.clientApp;
-        }else if(type === CLEANER){
-            return route.cleanerApp
-        }else{
-            console.log("unable to retrieve profile type", type);
-            return route.onboarding
+        if (nextProps.status === SUCCESS) {
+            const {isNewUser, type} = nextProps.profile;
+            this.props.navigation.navigate(isNewUser ? route.onboarding : this.getAppFor(type));
+        } else if (nextProps.status === FAILURE) {
+            console.log("App Error: unable to fetch current user.");
+            this.props.navigation.navigate(route.auth);
         }
     }
 
@@ -42,7 +48,8 @@ class AppLoading extends React.Component {
 }
 
 const mapStateToProps = ({user}) => ({
-    profile: user.profile
+    profile: user.profile,
+    status: user.status
 });
 
 const mapDispatchToProps = (dispatch) => {

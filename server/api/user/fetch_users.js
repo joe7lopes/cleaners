@@ -14,8 +14,7 @@ module.exports = async (req, res) => {
     let snap = await admin.database().ref('users').orderByChild('type').equalTo(CLEANER).once('value');
     return res.send(snap.val());
   }catch(err){
-    console.log(err);
-    return res.status(400).send(err);
+    return res.status(400).send({error: err});
   }
   
-}
+};
