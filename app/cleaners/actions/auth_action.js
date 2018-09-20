@@ -1,4 +1,5 @@
 import axios from 'axios';
+import ResponseError from './response_error';
 import {
     LOGIN_FAILURE,
     LOGIN_PENDING,
@@ -49,7 +50,6 @@ export const login = (phone, verificationCode) => {
             console.log(err);
             dispatch(loginFailure({err}));
         }
-
     }
 }
 
@@ -60,7 +60,8 @@ export const registerPhone = (phone) => {
             await axios.post(`${SERVER_URL}/auth/register`, {phone});
             dispatch(registerPhoneSuccess({phone}));
         } catch (err) {
-            dispatch(registerPhoneFailure(err));
+            const error = new ResponseError(err.response);
+            dispatch(registerPhoneFailure(error));
         }
     }
 };

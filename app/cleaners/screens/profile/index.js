@@ -13,4 +13,4 @@ const profile = (profileType) => {
 }
 
 //TODO, get the value from the store.
-export default profile('client');
+export default profile(CLIENT);

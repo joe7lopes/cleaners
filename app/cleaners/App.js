@@ -10,10 +10,10 @@ import store from './config/store';
 //   </Provider>
 // );
 
-import Step1 from './screens/onboarding/client/Step1';
+import ClientProfile from './screens/profile';
 
 export default App = () => (
     <Provider store={store}>
-      <Step1 />
+      <ClientProfile />
     </Provider>
   );

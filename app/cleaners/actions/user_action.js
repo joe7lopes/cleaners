@@ -13,6 +13,7 @@ import {
 } from './types';
 
 import {SERVER_URL} from '../config/api';
+import ResponseError from "./response_error";
 
 const createUserPending = () => ({
     type: CREATE_USER_PENDING
@@ -60,10 +61,13 @@ export const createUser = (newUser) => {
     return async (dispatch) => {
         dispatch(createUserPending())
         try {
-            let {data} = await axios.post(`${SERVER_URL}/users`, newUser);
+            let token = await AsyncStorage.getItem('auth_token');
+            let config = {headers: {'x-access-token': token ? token : ''}};
+            let {data} = await axios.post(`${SERVER_URL}/users`, newUser, config);
             dispatch(createUserSuccess(data));
         } catch (err) {
-            dispatch(createUserFailure(err));
+            const error = new ResponseError(err.response);
+            dispatch(createUserFailure(error));
         }
     }
 }
@@ -75,7 +79,8 @@ export const fetchUser = (id) => {
             let {data} = await axios.get(`${SERVER_URL}/users/${id}`);
             dispatch(fetchUserSuccess(data));
         } catch (err) {
-            dispatch(fetchUserFailure({error: err}));
+            const error = new ResponseError(err.response);
+            dispatch(fetchUserFailure(error));
         }
     }
 
@@ -91,7 +96,8 @@ export const fetchProfile = () => {
             console.log(data);
             dispatch(fetchProfileSuccess(data));
         } catch (err) {
-            dispatch(fetchProfileFailure({error: err}));
+            const error = new ResponseError(err.response);
+            dispatch(fetchProfileFailure(error));
         }
     }
 };

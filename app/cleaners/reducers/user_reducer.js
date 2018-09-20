@@ -17,7 +17,7 @@ export default (state = {}, action) => {
         case CREATE_USER_SUCCESS:
             return {...state, status: SUCCESS, profile: action.payload};
         case CREATE_USER_FAILURE:
-            return {...state, status: FAILURE};
+            return {...state, status: FAILURE, error: action.payload};
         case FETCH_PROFILE_PENDING:
             return {...state, status: PENDING};
         case FETCH_PROFILE_SUCCESS:

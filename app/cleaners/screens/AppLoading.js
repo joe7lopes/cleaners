@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, AsyncStorage} from 'react-native';
 import {route} from '../config/routes/navigation';
 import {ActionCreators} from '../actions';
 import {CLEANER, CLIENT} from '../config/profileTypes';
