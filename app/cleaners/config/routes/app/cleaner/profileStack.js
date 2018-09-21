@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import Profile from '../../../../screens/profile';
+import Profile from '../../../../screens/account';
 import {screen} from '../../../routes/navigation';
 
 const profileStack = createStackNavigator({

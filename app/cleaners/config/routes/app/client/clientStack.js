@@ -1,24 +1,25 @@
-import { createBottomTabNavigator } from 'react-navigation';
+import {createBottomTabNavigator} from 'react-navigation';
 import searchStack from './search';
-import profileStack from './profile';
 import offersStack from './offers';
+import accountStack from './account';
+import {route} from '../../navigation'
 
 const clientStack = createBottomTabNavigator({
-  search: {
-    screen: searchStack,
-    navigationOptions: {
-      tabBarLabel: 'Search'
+    [route.search]: {
+        screen: searchStack,
+        navigationOptions: {
+            tabBarLabel: 'Search'
+        }
+    },
+    [route.offers]: {
+        screen: offersStack
+    },
+    [route.account]: {
+        screen: accountStack,
+        navigationOptions: {
+            tabBarLabel: 'Account'
+        }
     }
-  },
-  offers: {
-    screen: offersStack
-  },
-  profile: {
-    screen: profileStack,
-    navigationOptions: {
-      tabBarLabel: 'Profile'
-    }
-  }
 });
 
 export default clientStack;

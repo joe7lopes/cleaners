@@ -5,6 +5,7 @@ module.exports = async (req, res) => {
     const uid = req.userUid;
 
     try{
+        console.log("uid", uid);
         let snap = await admin.database().ref(`users/${uid}`).once('value');
         const user = snap.val();
         if(user === null){

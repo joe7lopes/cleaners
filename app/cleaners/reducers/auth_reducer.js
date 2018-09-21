@@ -2,7 +2,7 @@ import {
     FAILURE,
     LOGIN_FAILURE,
     LOGIN_PENDING,
-    LOGIN_SUCCESS,
+    LOGIN_SUCCESS, LOGOUT_FAILURE, LOGOUT_PENDING, LOGOUT_SUCCESS,
     PENDING,
     REGISTER_PHONE_FAILURE,
     REGISTER_PHONE_PENDING,
@@ -13,15 +13,18 @@ import {
 export default (state = {}, action) => {
     switch (action.type) {
         case LOGIN_PENDING:
-            return {
-                ...state,
-                status: PENDING
-            }
+            return {...state, status: PENDING};
         case LOGIN_SUCCESS:
             const {token, phone} = action.payload;
-            return {...state, status: SUCCESS, token, phone}
+            return {...state, status: SUCCESS, token, phone};
         case LOGIN_FAILURE:
-            return {...state, status: FAILURE};
+            return {...state, status: FAILURE, error: action.payload};
+        case LOGOUT_PENDING:
+            return {...state, status: PENDING};
+        case LOGOUT_SUCCESS:
+            return {...state, status: SUCCESS};
+        case LOGOUT_FAILURE:
+            return {...state, status: FAILURE, error:action.payload};
         case REGISTER_PHONE_PENDING:
             return {...state, status: PENDING};
         case REGISTER_PHONE_SUCCESS:

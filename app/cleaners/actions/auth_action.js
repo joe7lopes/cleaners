@@ -1,9 +1,10 @@
 import axios from 'axios';
+import {AsyncStorage} from 'react-native';
 import ResponseError from './response_error';
 import {
     LOGIN_FAILURE,
     LOGIN_PENDING,
-    LOGIN_SUCCESS,
+    LOGIN_SUCCESS, LOGOUT_FAILURE, LOGOUT_PENDING, LOGOUT_SUCCESS,
     REGISTER_PHONE_FAILURE,
     REGISTER_PHONE_PENDING,
     REGISTER_PHONE_SUCCESS
@@ -32,12 +33,25 @@ const loginSuccess = (token) => ({
 
 const loginFailure = (err) => ({
     type: LOGIN_FAILURE,
-    error: err
+    payload: err
 });
 
 const loginPending = () => ({
     type: LOGIN_PENDING
 });
+
+const logoutSuccess = () => ({
+    type: LOGOUT_SUCCESS
+})
+
+const logoutFailure = (err) => ({
+    type: LOGOUT_FAILURE,
+    payload: err
+})
+
+const logoutPending = () => ({
+    type: LOGOUT_PENDING
+})
 
 
 export const login = (phone, verificationCode) => {
@@ -45,13 +59,28 @@ export const login = (phone, verificationCode) => {
         dispatch(loginPending());
         try {
             let {data} = await axios.post(`${SERVER_URL}/auth/login`, {phone, verificationCode});
-            dispatch(loginSuccess({token: data.token, phone}));
+            const token = data.token;
+            if(!token){dispatch(loginFailure({error: 'token not present'})); }
+            await AsyncStorage.setItem('auth_token', token);
+            dispatch(loginSuccess({token, phone}));
         } catch (err) {
-            console.log(err);
-            dispatch(loginFailure({err}));
+            const error = new ResponseError(err.response);
+            dispatch(loginFailure(error));
         }
     }
-}
+};
+
+export const logout = () => {
+    return async dispatch => {
+        dispatch(logoutPending());
+        try{
+            await AsyncStorage.removeItem('auth_token');
+            dispatch(logoutSuccess());
+        }catch(err){
+            dispatch(logoutFailure({error: 'unable to logout'}));
+        }
+    }
+};
 
 export const registerPhone = (phone) => {
     return async dispatch => {

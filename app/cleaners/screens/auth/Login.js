@@ -5,6 +5,7 @@ import {StyleSheet, View, SafeAreaView, Text, AsyncStorage} from 'react-native';
 import {FormLabel, FormInput, Button, Divider} from 'react-native-elements'
 import {ActionCreators} from '../../actions';
 import {route} from '../../config/routes/navigation';
+import {SUCCESS} from "../../actions/types";
 
 class Login extends React.Component {
 
@@ -18,16 +19,9 @@ class Login extends React.Component {
     this.setState({phone});
   }
 
-  componentWillReceiveProps = async (nextProps) =>{
-    let token = nextProps.token || undefined;
-    if(token){
-      try{
-        console.log("has token",token);
-        await AsyncStorage.setItem('auth_token', token);
+  componentWillReceiveProps(nextProps){
+    if(nextProps.status === SUCCESS){
         this.props.navigation.navigate(route.app);
-      }catch(err){
-        console.log(err);
-      }
     }
     
   }
@@ -75,13 +69,10 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-const mapStateToProps = ({auth}) => {
-  return {
+const mapStateToProps = ({auth}) => ({
     status: auth.status,
     error: auth.error,
-    token: auth.token
-  }
-};
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
 

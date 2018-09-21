@@ -16,7 +16,7 @@ class AppLoading extends React.Component {
         } else if (type === CLEANER) {
             return route.cleanerApp
         } else {
-            console.log("App error: unable to retrieve profile type", type);
+            console.log("App error: unable to retrieve account type", type);
             return route.onboarding
         }
     }

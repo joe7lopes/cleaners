@@ -7,9 +7,9 @@ import {
     FETCH_PROFILE_FAILURE,
     FETCH_PROFILE_PENDING,
     FETCH_PROFILE_SUCCESS,
-    FETCH_USER_FAILURE,
-    FETCH_USER_PENDING,
-    FETCH_USER_SUCCESS,
+    SAVE_PROFILE_FAILURE,
+    SAVE_PROFILE_PENDING,
+    SAVE_PROFILE_SUCCESS,
 } from './types';
 
 import {SERVER_URL} from '../config/api';
@@ -29,20 +29,6 @@ const createUserFailure = (err) => ({
     payload: err
 });
 
-const fetchUserPending = () => ({
-    type: FETCH_USER_PENDING
-});
-
-const fetchUserSuccess = (user) => ({
-    type: FETCH_USER_SUCCESS,
-    payload: user
-});
-
-const fetchUserFailure = (err) => ({
-    type: FETCH_USER_FAILURE,
-    payload: err
-});
-
 const fetchProfilePending = () => ({
     type: FETCH_PROFILE_PENDING
 });
@@ -54,6 +40,20 @@ const fetchProfileSuccess = (profile) => ({
 
 const fetchProfileFailure = (err) => ({
     type: FETCH_PROFILE_FAILURE,
+    payload: err
+});
+
+const saveProfilePending = () => ({
+    type: SAVE_PROFILE_PENDING
+});
+
+const saveProfileSuccess = (profile) => ({
+    type: SAVE_PROFILE_SUCCESS,
+    payload: profile
+});
+
+const saveProfileFailure = (err) => ({
+    type: SAVE_PROFILE_FAILURE,
     payload: err
 });
 
@@ -72,20 +72,6 @@ export const createUser = (newUser) => {
     }
 }
 
-export const fetchUser = (id) => {
-    return async dispatch => {
-        dispatch(fetchUserPending());
-        try {
-            let {data} = await axios.get(`${SERVER_URL}/users/${id}`);
-            dispatch(fetchUserSuccess(data));
-        } catch (err) {
-            const error = new ResponseError(err.response);
-            dispatch(fetchUserFailure(error));
-        }
-    }
-
-};
-
 export const fetchProfile = () => {
     return async dispatch => {
         dispatch(fetchProfilePending());
@@ -93,11 +79,26 @@ export const fetchProfile = () => {
             let token = await AsyncStorage.getItem('auth_token');
             let config = {headers: {'x-access-token': token ? token : ''}};
             let {data} = await axios.get(`${SERVER_URL}/users/user-profile`, config);
-            console.log(data);
             dispatch(fetchProfileSuccess(data));
         } catch (err) {
             const error = new ResponseError(err.response);
             dispatch(fetchProfileFailure(error));
+        }
+    }
+};
+
+export const saveProfile = (profile) => {
+    return async dispatch => {
+        dispatch(saveProfilePending());
+        try {
+            let token = await AsyncStorage.getItem('auth_token');
+            let config = {headers: {'x-access-token': token ? token : ''}};
+            let {data} = await axios.patch(`${SERVER_URL}/users/${profile.uid}`,profile, config);
+            dispatch(saveProfileSuccess(data));
+        } catch (err) {
+            console.log("error in saving profile");
+            const error = new ResponseError(err.response);
+            dispatch(saveProfileFailure(error));
         }
     }
 };

@@ -1,5 +1,6 @@
 const admin = require('firebase-admin');
-
+const languages = require('../config/languages');
+const { CLEANER, CLIENT } = require('../constants');
 module.exports = async (req, res) => {
 
     const userUid = req.userUid;
@@ -8,13 +9,20 @@ module.exports = async (req, res) => {
         return res.status(403).send({error: 'Invalid or outdated token'});
     }
 
-    const updates = req.body;
-    delete updates.phone;
-
     try {
 
-        if (!userExists(userUid)) {
+        const user = await getUser(userUid);
+        if (!user || !user.type) {
             return res.status(400).send({error: 'user does not exist'});
+        }
+
+        let updates = {}
+        if(user.type === CLIENT){
+            updates = getRequestDataForClient(req.body);
+        }else if(user.type === CLEANER){
+            updates = getRequestDataForCleaner(req.body);
+        }else{
+            return res.status(400).send({error: 'unable to get user type'});
         }
 
         let ref = await admin.database().ref(`users/${userUid}`);
@@ -22,7 +30,7 @@ module.exports = async (req, res) => {
         let snap = await ref.once('value');
 
         const updatedUser = snap.val();
-        if(updatedUser === null){
+        if (updatedUser === null) {
             res.status(409).send({error: 'unable to retrieve updated user'});
         }
 
@@ -32,7 +40,32 @@ module.exports = async (req, res) => {
     }
 }
 
-const userExists = async (userUid) => {
+const getUser = async (userUid) => {
     let req = await admin.database().ref(`users/${userUid}`).once('value');
-    return req.val() !== null;
+    return req.val();
+}
+
+const getRequestDataForClient = (reqData) => {
+    const {address=''} = reqData;
+    const languages = getLanguagesFromRequest(reqData);
+    console.log('final languages', languages);
+    return {address, languages}
+}
+
+const getRequestDataForCleaner = (reqData) => {
+    const {address=''} = reqData;
+    const languages = getLanguagesFromRequest(reqData);
+    return {address, languages}
+}
+
+const getLanguagesFromRequest = (reqData) => {
+    const reqLanguages = reqData.languages || [];
+    const availableLanguages = Object.keys(languages);
+    let result = {};
+    reqLanguages.forEach(code=>{
+        if(availableLanguages.includes(code)) {
+            result[code] = code
+        }
+    });
+    return result;
 }
