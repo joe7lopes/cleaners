@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import {
   View,
   Text,
@@ -10,24 +12,19 @@ import {
 import {Icon, Button, FormInput, FormLabel} from 'react-native-elements';
 import {DatePicker, TimePicker, ServicesBox} from '../../../components/UI';
 import {services as servicesData} from '../../../config/data';
+import {ActionCreators} from '../../../actions';
 
 class ContactCleaner extends React.Component {
 
   state = {
-    address: 'Ul aaa',
+    address: undefined,
     date: new Date(),
     services: [],
-    message: 'message /n sss'
+    message: undefined
   }
 
   componentWillMount() {
-    let services = servicesData.map(lang => {
-      return {
-        ...lang,
-        selected: false
-      };
-    });
-    this.setState({services})
+  
   }
 
   renderServices = () => {
@@ -69,8 +66,9 @@ class ContactCleaner extends React.Component {
   }
 
   handleOnSend = () => {
-    //fire action with data
-    this.props.onSend();
+    
+    const data = {...this.state};
+    this.props.createJob(data);
   }
 
   render() {
@@ -123,7 +121,11 @@ class ContactCleaner extends React.Component {
   }
 }
 
-export default ContactCleaner;
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(ActionCreators, dispatch);
+}
+
+export default connect (undefined, mapDispatchToProps)(ContactCleaner);
 
 const styles = StyleSheet.create({
   container: {

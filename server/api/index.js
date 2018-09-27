@@ -5,30 +5,30 @@ const bodyParser = require('body-parser');
 const serviceAccount = require('./config/service_account.json');
 const AuthController = require('./auth/auth_controller');
 const UserController = require('./user/user_controller');
-
-// const createOffer = require('./offers/create_offer');
-// const updateOffer = require('./offers/update_offer');
+const SearchController = require('./search/search_controller');
+const JobsController = require('./job/job_controller');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://cleaners-test.firebaseio.com"
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://cleaners-test.firebaseio.com"
 });
 
 const app = express();
 
-//MIDLEWARE
+//MIDDLEWARE
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 //AUTH
-app.use('/auth',AuthController);
+app.use('/auth', AuthController);
 
 //USERS
-app.use('/users',UserController);
+app.use('/users', UserController);
 
+//SEARCH
+app.use('/search',SearchController);
 
-//OFFERS
-// app.post('/offers', createOffer);
-// app.patch('/offers/:id', updateOffer);
+//JOBS
+app.use('/jobs', JobsController);
 
 exports.api = functions.https.onRequest(app);

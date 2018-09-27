@@ -48,7 +48,7 @@ class ClientProfile extends React.Component {
 
     componentDidMount() {
         let languages = languagesData;
-        const userSelectedLanguages = this.props.user.languages;
+        const userSelectedLanguages = this.props.user.languages || {};
         Object.keys(languages)
             .forEach(key=> languages[key].selected = userSelectedLanguages[key] ? true: false);
         this.setState({languages});

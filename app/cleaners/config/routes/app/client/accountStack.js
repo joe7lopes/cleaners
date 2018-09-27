@@ -1,6 +1,5 @@
 import React from 'react';
 import {createStackNavigator} from 'react-navigation';
-
 import {screen} from '../../navigation';
 import {Account, ClientProfile} from '../../../../screens/account';
 

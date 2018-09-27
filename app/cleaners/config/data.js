@@ -20,11 +20,20 @@ export const languages = {
     }
 ;
 
-export const services = [
-    {id: 1, name: 'Cleaning'},
-    {id: 2, name: 'Ironing'},
-    {id: 3, name: 'Washing'},
-]
+export const services = {
+    1: {
+        id: 1,
+        name: 'Cleaning'
+    },
+    2: {
+        id: 2,
+        name: 'Ironing'
+    },
+    3: {
+        id: 3,
+        name: 'Washing'
+    }
+}
 
 export const rating = [
     {id: 1, name: '1'},

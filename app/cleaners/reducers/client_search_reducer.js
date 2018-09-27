@@ -12,18 +12,21 @@ export default (state = {filter: {}}, action) => {
     case FETCH_CLEANERS_SUCCESS:
       return {
         ...state,
-        cleaners: action.payload,
+        cleaners: action.payload.cleaners,
+        filter: action.payload.filter,
         status: SUCCESS
       };
     case FETCH_CLEANERS_FAILURE:
       return {
         ...state,
-        error: action.payload,
+        filter: action.payload.filter,
+        error: action.payload.error,
         status: FAILURE
       };
     case FETCH_CLEANERS_PENDING:
       return {
         ...state,
+        filter: action.payload,
         status: PENDING
       };
     default:

@@ -3,32 +3,38 @@ import {FETCH_CLEANERS_PENDING, FETCH_CLEANERS_SUCCESS, FETCH_CLEANERS_FAILURE} 
 import {CLEANER} from '../config/profileTypes';
 import {SERVER_URL} from '../config/api';
 
-const fetchCleanersSuccess = (cleaners) => {
-  return {type: FETCH_CLEANERS_SUCCESS, payload: cleaners}
-}
+const fetchCleanersSuccess = (results) => ({
+  type: FETCH_CLEANERS_SUCCESS, 
+  payload: results
+});
 
-const fetchCleanersFailure = (error) => {
-  return {type: FETCH_CLEANERS_FAILURE, payload: error}
-}
+const fetchCleanersFailure = (results) => ({
+  type: FETCH_CLEANERS_FAILURE, 
+  payload: results
+});
 
-const fetchCleanersPending = () => {
-  return {type: FETCH_CLEANERS_PENDING}
-}
+const fetchCleanersPending = (filter) => ({
+  type: FETCH_CLEANERS_PENDING,
+  payload: filter
+});
 
 export const fetchCleaners = (criteria) => {
   return async dispatch => {
-    dispatch(fetchCleanersPending());
-
+    const filter = criteria;
+    dispatch(fetchCleanersPending(filter));
     try{
       if(criteria){
-        var {data} = await axios.get(`${SERVER_URL}/users?type=${CLEANER}`,criteria);
-        dispatch(fetchCleanersSuccess(data));
+        console.log("criteria", criteria);
+        var {data} = await axios.get(`${SERVER_URL}/search/cleaners`,{params: criteria});
+        result = {cleaners: data, filter}
+        dispatch(fetchCleanersSuccess(result));
       }else{
-        var {data} = await axios.get(`${SERVER_URL}/users?type=${CLEANER}`);
-        dispatch(fetchCleanersSuccess(data))
+        var {data} = await axios.get(`${SERVER_URL}/search/cleaners`);
+        const result = {cleaners: data, filter};
+        dispatch(fetchCleanersSuccess(result));
       }
-    }catch(err){
-      dispatch(fetchCleanersFailure(err));
+    }catch(error){
+      dispatch(fetchCleanersFailure({error, filter}));
     }
     
   }

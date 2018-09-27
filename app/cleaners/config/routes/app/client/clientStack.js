@@ -1,8 +1,8 @@
 import {createBottomTabNavigator} from 'react-navigation';
-import searchStack from './search';
-import offersStack from './offers';
-import accountStack from './account';
-import {route} from '../../navigation'
+import searchStack from './searchStack';
+import offersStack from './offersStack';
+import accountStack from './accountStack';
+import {route} from '../../navigation';
 
 const clientStack = createBottomTabNavigator({
     [route.search]: {
@@ -12,7 +12,10 @@ const clientStack = createBottomTabNavigator({
         }
     },
     [route.offers]: {
-        screen: offersStack
+        screen: offersStack,
+        navigationOptions: {
+            tabBarLabel: 'Offers'
+        }
     },
     [route.account]: {
         screen: accountStack,

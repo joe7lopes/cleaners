@@ -34,19 +34,10 @@ export const FETCH_CLEANERS_SUCCESS = 'fetch_cleaners_success';
 export const FETCH_CLEANERS_FAILURE = 'fetch_cleaners_failure';
 export const FETCH_CLEANERS_PENDING = 'fetch_cleaners_pending';
 
-//OFFER ACTIONS
-
-export const FETCH_OFFERS_SUCCESS = 'fetch_offers_success';
-export const FETCH_OFFERS_FAILURE = 'fetch_offers_failure';
-export const FETCH_OFFERS_PENDING = 'fetch_offers_pending';
-
-export const APPROVE_OFFER_PENDING = 'approve_offer_pending';
-export const APPROVE_OFFER_SUCCESS = 'approve_offer_success';
-export const APPROVE_OFFER_FAILURE = 'approve_offer_failure';
-
-export const REJECT_OFFER_PENDING = 'reject_offer_pending';
-export const REJECT_OFFER_SUCCESS = 'reject_offer_success';
-export const REJECT_OFFER_FAILURE = 'reject_offer_failure';
+//JOB ACTIONS
+export const CREATE_JOB_SUCCESS = 'create_job_success';
+export const CREATE_JOB_FAILURE = 'create_job_failure';
+export const CREATE_JOB_PENDING = 'create_job_pending';
 
 export const APPROVED = 'APPROVED';
 export const REJECTED = 'REJECTED';

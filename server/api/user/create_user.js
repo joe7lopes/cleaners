@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
         newUser.isNewUser = false;
         newUser.phone = userUid;
         await admin.database().ref(`users/${userUid}`).update(newUser);
-        res.send(newUser);
+        res.status(201).send(newUser);
     }catch(err){
         console.log(err);
         res.status(400).send({err});
