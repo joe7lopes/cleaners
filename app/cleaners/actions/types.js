@@ -39,5 +39,17 @@ export const CREATE_JOB_SUCCESS = 'create_job_success';
 export const CREATE_JOB_FAILURE = 'create_job_failure';
 export const CREATE_JOB_PENDING = 'create_job_pending';
 
+export const FETCH_JOBS_SUCCESS = 'fetch_job_success';
+export const FETCH_JOBS_FAILURE = 'fetch_job_failure';
+export const FETCH_JOBS_PENDING = 'fetch_job_pending';
+
+export const jobStatus = {
+  cleanerPending: 'CLEANER_PENDING',
+  cleanerRejected: 'CLEANER_REJECTED',
+  cleanerApproved: 'CLEANER_APPROVED',
+  clientRejected: 'CLIENT_REJECTED',
+}
+
+// todo do the rest of the action.
 export const APPROVED = 'APPROVED';
 export const REJECTED = 'REJECTED';

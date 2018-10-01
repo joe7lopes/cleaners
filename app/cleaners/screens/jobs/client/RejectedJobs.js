@@ -1,12 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import _ from 'lodash';
 import {ActionCreators} from '../../../actions';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
-import ClientOfferCard from '../../../components/ClientOfferCard';
+import {View, Text, FlatList} from 'react-native';
+import ClientJobCard from '../../../components/ClientJobCard';
 import { PENDING, SUCCESS} from '../../../actions/types';
 
-class RejectedOffers extends React.Component {
+class RejectedJobs extends React.Component {
 
   //HANDLERS
 
@@ -23,14 +24,15 @@ class RejectedOffers extends React.Component {
       date={item.date}/>)
   }
 
-  renderOffers = () => {
-    const {offers, fetchStatus} = this.props;
+  renderJobs = () => {
+    const {jobs, fetchStatus} = this.props;
     if (fetchStatus === PENDING) {
       return this.renderFetching();
-    } else if (offers.length <= 0) {
-      return this.renderNoPendingOffers()
-    } else if (fetchStatus === SUCCESS) {
-      return this.renderOffersList();
+    }else if(fetchStatus === SUCCESS){
+      if(_.isEmpty(jobs)){
+        return this.renderNoPendingJobs();
+      }
+      return this.renderJobsList();
     }
   }
 
@@ -40,34 +42,37 @@ class RejectedOffers extends React.Component {
     </View>
   )
 
-  renderNoPendingOffers = () => (
+  renderNoPendingJobs = () => (
     <View>
       <Text>No rejected orders found</Text>
     </View>
   )
 
-  renderOffersList = () => (
+  renderJobsList = () => {
+    const data = _.values(this.props.jobs);
+    return (
     <FlatList
-      data={this.props.offers}
+      data={data}
       renderItem={this.renderCard}
       keyExtractor={(item) => item.id.toString()}/>
-  )
+  )}
 
   render() {
     return (
       <View>
-        {this.renderOffers()}
+        {this.renderJobs()}
       </View>
     );
   }
 }
 
-mapStateToProps = ({offers}) => {
-  return {offers: offers.offers.rejected, fetchStatus: offers.fetchStatus}
-}
+mapStateToProps = ({jobs}) => ({
+  jobs: jobs.rejected, 
+  fetchStatus: jobs.fetchStatus
+});
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RejectedOffers);
+export default connect(mapStateToProps, mapDispatchToProps)(RejectedJobs);

@@ -3,7 +3,6 @@ const { CLEANER } = require('../constants');
 const _ = require('lodash');
 
 module.exports =  async (req, res) => {
-    console.log("dam===========", req.query);
     const {priceMin, priceMax, sex} = req.query;
 
     try{

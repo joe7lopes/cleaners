@@ -1,11 +1,11 @@
 import React from 'react';
 import {SafeAreaView, View, Text, StyleSheet, Dimensions} from 'react-native';
 import {TabView, SceneMap} from 'react-native-tab-view';
-import PedingOffers from './PendingOffers';
-import ApprovedOffers from './ApprovedOffers';
-import RejectedOffers from './RejectedOffers';
+import PedingJobs from './PendingJobs';
+import ApprovedJobs from './ApprovedJobs';
+import RejectedJobs from './RejectedJobs';
 
-class Offer extends React.Component {
+class Jobs extends React.Component {
 
   state = {
     index: 0,
@@ -25,11 +25,11 @@ class Offer extends React.Component {
     
   };
 
-  renderPendingOffers = () => (<PedingOffers/>)
+  renderPendingJobs = () => (<PedingJobs/>)
 
-  renderApprovedOffers = () => <ApprovedOffers/>
+  renderApprovedJobs = () => <ApprovedJobs/>
 
-  renderRejectedOffers = () => <RejectedOffers/>
+  renderRejectedJobs = () => <RejectedJobs/>
 
   render() {
     return (
@@ -41,7 +41,10 @@ class Offer extends React.Component {
         <View style={styles.body}>
           <TabView
             navigationState={this.state}
-            renderScene={SceneMap({first: this.renderPendingOffers, second: this.renderApprovedOffers, third: this.renderRejectedOffers})}
+            renderScene={SceneMap({
+              first: this.renderPendingJobs, 
+              second: this.renderApprovedJobs, 
+              third: this.renderRejectedJobs})}
             onIndexChange={index => this.setState({index})}
             initialLayout={{
             width: Dimensions
@@ -55,7 +58,7 @@ class Offer extends React.Component {
   }
 }
 
-export default Offer;
+export default Jobs;
 
 const styles = StyleSheet.create({
   container: {

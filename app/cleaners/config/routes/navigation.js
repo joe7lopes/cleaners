@@ -2,7 +2,7 @@ const screen = {
     account: 'account',
     appLoading: 'appLoading',
     authLoading: 'authLoading',
-    offers: 'offers',
+    jobs: 'jobs',
     onboardingUserTypeSelection: 'onboardingUserTypeSelection',
     onboardingStep1: 'onboardingStep1',
     profile: 'profile',
@@ -17,7 +17,7 @@ const route = {
     clientApp: 'clientApp',
     cleanerApp: 'cleanerApp',
     search: 'search',
-    offers: 'offers',
+    jobs: 'jobs',
     account: 'account'
 }
 
