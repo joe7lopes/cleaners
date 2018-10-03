@@ -5,16 +5,12 @@ import _ from 'lodash';
 import {ActionCreators} from '../../../actions';
 import {View, Text, FlatList} from 'react-native';
 import ClientJobCard from '../../../components/ClientJobCard';
-import { PENDING, SUCCESS} from '../../../actions/types';
+import { PENDING } from '../../../actions/types';
 
 class ApprovedJobs extends React.Component {
 
-  componentWillReceiveProps(){
-    console.log("in approve props");
-  }
-
-  handleOnReject = (id) => {
-    this.props.rejectOffer(id);
+  handleOnReject = (uid) => {
+    this.props.rejectJob(uid);
   }
 
   handleOnRefresh = () => {

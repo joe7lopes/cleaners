@@ -89,7 +89,8 @@ const createJobFake = async (data) => {
 const fetchJobsFake = () => {
   const response = [
     {uid: 1, address: 'ul sss', cleanerUid: "1", price:"20", message: 'aaaa', status: 'CLEANER_PENDING', services: [], createdAt: new Date() },
-    {uid: 2, address: 'ul sss2222', cleanerUid: "2", price:"100", message: 'asdsd', status: 'CLEANER_PENDING', services: [], createdAt: new Date() }
+    {uid: 2, address: 'ul sss2222', cleanerUid: "2", price:"100", message: 'asdsd', status: 'CLEANER_PENDING', services: [], createdAt: new Date() },
+    {uid: 3, address: 'ul grabiszinzka', cleanerUid: "3", price:"40", message: 'bla bla bla', status: 'CLEANER_APPROVED', services: [], createdAt: new Date() }
   ]
 
   return returnResponseAsPromise(response);

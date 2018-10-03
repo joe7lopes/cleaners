@@ -65,11 +65,12 @@ export default (state = {}, action) => {
         return {...state, status: PENDING};
       case REJECT_JOB_SUCCESS:{
         const jobUid = action.payload;
-        let {rejected, pending, approved} = state;
-        rejected[jobUid] = pending[jobUid] || approved[jobUid];
+        let { rejected, pending, approved} = state;
+        const job= pending[jobUid] || approved[jobUid];
+        let rejectedJobs = {...rejected, [jobUid]: job};
         pending = _.omit(pending, jobUid);
         approved = _.omit(approved, jobUid);
-        return {...state,status: SUCCESS, pending, approved, rejected};
+        return {...state,status: SUCCESS, pending, approved, rejected: rejectedJobs};
       }
       case REJECT_JOB_FAILURE:
         return {...state, status: FAILURE}

@@ -7,9 +7,9 @@ import { PENDING} from '../../../actions/types';
 
 class RejectedJobs extends React.Component {
 
- componentWillReceiveProps(nextProps){
-   console.log("in reject props");
- }
+  handleOnRefresh = () => {
+    this.props.fetchJobs();
+  }
 
   renderCard = ({item}) => {
     return (<ClientJobCard
@@ -34,13 +34,13 @@ class RejectedJobs extends React.Component {
     const data = _.values(this.props.jobs);
     return (
       <View>
-        {/* <FlatList
+       <FlatList
+          refreshing={this.props.fetchStatus === PENDING}
+          onRefresh={this.handleOnRefresh}
           data={data}
           renderItem={this.renderCard}
           ListEmptyComponent={this.renderEmptyList}
-          keyExtractor={(item) => item.uid.toString()}/> */}
-          <Text>{data.uid}</Text>
-          <Text>something</Text>
+          keyExtractor={(item) => item.uid.toString()}/>
       </View>
     );
   }
@@ -49,6 +49,6 @@ class RejectedJobs extends React.Component {
 mapStateToProps = ({jobs}) => ({
   jobs: jobs.rejected, 
   fetchStatus: jobs.fetchStatus
-});
+})
 
 export default connect(mapStateToProps, undefined)(RejectedJobs);

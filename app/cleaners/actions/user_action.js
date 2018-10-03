@@ -107,6 +107,10 @@ export const saveProfile = (profile) => {
 //MOCK API
 
 const getUser = () => {
+    return {};
+}
+
+const getCLient = () => {
     const user = {
         firstName: "jhon",
         lastName: "Due",
@@ -116,6 +120,21 @@ const getUser = () => {
         rating: 7,
         type: 'CLIENT',
         uid: "123"
+    }
+
+    return returnAsPromise(user);
+}
+
+const getCleaner = () => {
+    const user = {
+        firstName: "Cleaner1",
+        lastName: "Sadek",
+        phone: "122233",
+        address: "Ul. grabiszinka",
+        isNewUser: false,
+        rating: 9,
+        type: 'CLEANER',
+        uid: "c1"
     }
 
     return returnAsPromise(user);
