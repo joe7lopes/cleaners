@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { 
  FETCH_CLEANERS_SUCCESS,
  FETCH_CLEANERS_FAILURE,
@@ -10,9 +11,10 @@ import {
 export default (state = {filter: {}}, action) => {
   switch(action.type) {
     case FETCH_CLEANERS_SUCCESS:
+      const cleaners = _.mapKeys(action.payload,'uid');
       return {
         ...state,
-        cleaners: action.payload.cleaners,
+        cleaners,
         filter: action.payload.filter,
         status: SUCCESS
       };

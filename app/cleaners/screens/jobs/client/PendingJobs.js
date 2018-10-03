@@ -5,7 +5,7 @@ import _ from 'lodash';
 import {ActionCreators} from '../../../actions';
 import {View, Text, FlatList} from 'react-native';
 import ClientJobCard from '../../../components/ClientJobCard';
-import { PENDING, SUCCESS} from '../../../actions/types';
+import { PENDING} from '../../../actions/types';
 
 class PendingJobs extends React.Component {
 
@@ -13,12 +13,12 @@ class PendingJobs extends React.Component {
     this.props.fetchJobs();
   }
 
-  handleOnApprove = (id) => {
-    this.props.approveJob(id);
+  handleOnReject = (uid) => {
+    this.props.rejectJob(uid);
   }
 
-  handleOnReject = (id) => {
-    this.props.rejectJob(id);
+  handleOnRefresh = () => {
+    this.props.fetchJobs();
   }
 
   renderCard = ({item}) => {
@@ -32,47 +32,26 @@ class PendingJobs extends React.Component {
       price={item.price}
       address={item.address}
       date={item.date}
-      onApprove={() => this.handleOnApprove(item.uid)}
       onReject={() => this.handleOnReject(item.uid)}/>)
   }
 
-  renderJobs = () => {
-    const {jobs, fetchStatus} = this.props;
-    if (fetchStatus === PENDING) {
-      return this.renderFetching();
-    }else if(fetchStatus === SUCCESS){
-      if(_.isEmpty(jobs)){
-        return this.renderNoPendingJobs();
-      }
-      return this.renderJobsList();
-    }
-  }
-
-  renderFetching = () => (
-    <View>
-      <Text>Loading...</Text>
+  renderEmptyList = () => (
+    <View style={{height: 60}}>
+      <Text>No Jobs found</Text>
     </View>
   )
-
-  renderNoPendingJobs = () => (
-    <View>
-      <Text>No pending orders found</Text>
-    </View>
-  )
-
-  renderJobsList = () => {
-   const data = _.values(this.props.jobs);
-    return (
-    <FlatList
-      data={data}
-      renderItem={this.renderCard}
-      keyExtractor={(item) => item.uid.toString()}/>
-  )}
 
   render() {
+    const data = _.values(this.props.jobs);
     return (
       <View>
-        {this.renderJobs()}
+        <FlatList
+          refreshing={this.props.fetchStatus === PENDING}
+          onRefresh={this.handleOnRefresh}
+          data={data}
+          renderItem={this.renderCard}
+          ListEmptyComponent={this.renderEmptyList}
+          keyExtractor={(item) => item.uid.toString()}/>
       </View>
     );
   }

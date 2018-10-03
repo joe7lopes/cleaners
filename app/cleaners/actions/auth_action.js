@@ -58,8 +58,9 @@ export const login = (phone, verificationCode) => {
     return async dispatch => {
         dispatch(loginPending());
         try {
-            let {data} = await axios.post(`${SERVER_URL}/auth/login`, {phone, verificationCode});
-            const token = data.token;
+            // let {data} = await axios.post(`${SERVER_URL}/auth/login`, {phone, verificationCode});
+            // const token = data.token;
+            const token = 123
             if(!token){dispatch(loginFailure({error: 'token not present'})); }
             await AsyncStorage.setItem('auth_token', token);
             dispatch(loginSuccess({token, phone}));
@@ -86,7 +87,7 @@ export const registerPhone = (phone) => {
     return async dispatch => {
         dispatch(registerPhonePending());
         try {
-            await axios.post(`${SERVER_URL}/auth/register`, {phone});
+            // await axios.post(`${SERVER_URL}/auth/register`, {phone});
             dispatch(registerPhoneSuccess({phone}));
         } catch (err) {
             const error = new ResponseError(err.response);

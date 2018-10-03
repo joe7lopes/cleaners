@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import {Icon, Button, FormInput, FormLabel} from 'react-native-elements';
 import {DatePicker, TimePicker, ServicesBox} from '../../../components/UI';
-import {services as servicesData} from '../../../config/data';
 import {ActionCreators} from '../../../actions';
 
 class ContactCleaner extends React.Component {
@@ -23,36 +22,37 @@ class ContactCleaner extends React.Component {
     message: undefined
   }
 
-  componentWillMount() {
-  
+  componentWillMount () {
+    const {cleaner} = this.props;
+    const services = cleaner.services.map(service =>{
+      return {...service, selected: false}
+    })
+    const {address} = this.props;
+    this.setState({services, address});
   }
 
   renderServices = () => {
-    return this
-      .state
-      .services
+    const {services} = this.state
+    return services
       .map(service => {
-        const {id, name, selected} = service;
+        const {uid, name, selected} = service;
         return <ServicesBox
-          key={id}
+          key={uid}
           style={{
           marginLeft: 8
         }}
           text={name}
           selected={selected}
-          onSelect={() => this.handleServiceSelection(id)}/>
+          onSelect={() => this.handleServiceSelection(uid)}/>
       });
   };
 
   // handlers
 
-  handleServiceSelection = (id) => {
-    let services = this
-      .state
-      .services
-      .slice();
+  handleServiceSelection = (uid) => {
+    let {services} = this.state
     const index = services.findIndex(el => {
-      return id === el.id;
+      return uid === el.uid;
     });
 
     services[index].selected = !services[index].selected;
@@ -66,13 +66,15 @@ class ContactCleaner extends React.Component {
   }
 
   handleOnSend = () => {
-    
-    const data = {...this.state};
-    this.props.createJob(data);
+    const {cleaner} = this.props;
+    const {services} = this.state;
+    const selectedServices = services.filter(service => service.selected === true);
+    const viewModel = {...this.state, services: selectedServices, cleaner};
+    this.props.createJob(viewModel);
   }
 
   render() {
-    const {address, message} = this.state;
+    const {address} = this.props;
     return (
       <ScrollView bounces={false}>
         <View style={styles.container}>
@@ -82,7 +84,7 @@ class ContactCleaner extends React.Component {
           <View style={styles.body}>
             <Text>Service should be realised in:</Text>
             <FormLabel>Address</FormLabel>
-            <FormInput value={address}/>
+            <FormInput value={address} onChangeText={(address)=> this.setState({address})}/>
 
             <FormLabel>Date</FormLabel>
             <View style={styles.datePickerContainer}>
@@ -108,7 +110,11 @@ class ContactCleaner extends React.Component {
             </View>
 
             <FormLabel>Aditional message</FormLabel>
-            <TextInput style={styles.textArea} multiline={true} value={message}/>
+            <TextInput 
+            style={styles.textArea} 
+            multiline={true} 
+            placeholder="enter important aditional details"
+            onChangeText={(message)=> this.setState({message})}/>
 
           </View>
 
@@ -121,11 +127,15 @@ class ContactCleaner extends React.Component {
   }
 }
 
+const mapStateToProps = ({user}) => ({
+  address: user.profile.address
+});
+
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-export default connect (undefined, mapDispatchToProps)(ContactCleaner);
+export default connect (mapStateToProps, mapDispatchToProps)(ContactCleaner);
 
 const styles = StyleSheet.create({
   container: {

@@ -11,6 +11,9 @@ import {
   FETCH_JOBS_SUCCESS,
   FETCH_JOBS_FAILURE,
   jobStatus,
+  REJECT_JOB_PENDING,
+  REJECT_JOB_SUCCESS,
+  REJECT_JOB_FAILURE,
 } from '../actions/types';
 
 export default (state = {}, action) => {
@@ -31,9 +34,8 @@ export default (state = {}, action) => {
     case FETCH_JOBS_PENDING:
       return {...state, fetchStatus: PENDING};
     case FETCH_JOBS_SUCCESS: 
-      const jobs = action.payload;
-
-      _.forOwn(jobs,(val, key)=>{
+      const jobs = _.mapKeys(action.payload, 'uid');
+      _.forOwn(jobs,(_, key)=>{
         const job = jobs[key];
         const status = String(job.status);
 
@@ -58,7 +60,19 @@ export default (state = {}, action) => {
         }
       
       case FETCH_JOBS_FAILURE:
-      return {...state, fetchStatus: FAILURE, error: action.payload};
+        return {...state, fetchStatus: FAILURE, error: action.payload};
+      case REJECT_JOB_PENDING:
+        return {...state, status: PENDING};
+      case REJECT_JOB_SUCCESS:{
+        const jobUid = action.payload;
+        let {rejected, pending, approved} = state;
+        rejected[jobUid] = pending[jobUid] || approved[jobUid];
+        pending = _.omit(pending, jobUid);
+        approved = _.omit(approved, jobUid);
+        return {...state,status: SUCCESS, pending, approved, rejected};
+      }
+      case REJECT_JOB_FAILURE:
+        return {...state, status: FAILURE}
     default:
       return state;
   }

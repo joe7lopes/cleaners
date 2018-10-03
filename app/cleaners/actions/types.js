@@ -43,6 +43,10 @@ export const FETCH_JOBS_SUCCESS = 'fetch_job_success';
 export const FETCH_JOBS_FAILURE = 'fetch_job_failure';
 export const FETCH_JOBS_PENDING = 'fetch_job_pending';
 
+export const REJECT_JOB_PENDING = 'reject_job_pending';
+export const REJECT_JOB_SUCCESS = 'reject_job_success';
+export const REJECT_JOB_FAILURE = 'reject_job_failure';
+
 export const jobStatus = {
   cleanerPending: 'CLEANER_PENDING',
   cleanerRejected: 'CLEANER_REJECTED',

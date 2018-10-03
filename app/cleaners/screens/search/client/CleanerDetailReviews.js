@@ -18,7 +18,7 @@ export default class CleanerDetailReviews extends React.Component {
        <FlatList
         data={this.props.reviews}
         renderItem={this.renderReviewCard}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.uid.toString()}
     />
       </View>
     );

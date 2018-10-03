@@ -76,9 +76,10 @@ export const fetchProfile = () => {
     return async dispatch => {
         dispatch(fetchProfilePending());
         try {
-            let token = await AsyncStorage.getItem('auth_token');
-            let config = {headers: {'x-access-token': token ? token : ''}};
-            let {data} = await axios.get(`${SERVER_URL}/users/user-profile`, config);
+            // let token = await AsyncStorage.getItem('auth_token');
+            // let config = {headers: {'x-access-token': token ? token : ''}};
+            // let {data} = await axios.get(`${SERVER_URL}/users/user-profile`, config);
+            let data = await getUser();
             dispatch(fetchProfileSuccess(data));
         } catch (err) {
             const error = new ResponseError(err.response);
@@ -103,3 +104,27 @@ export const saveProfile = (profile) => {
     }
 };
 
+//MOCK API
+
+const getUser = () => {
+    const user = {
+        firstName: "jhon",
+        lastName: "Due",
+        phone: "123",
+        address: "Ul. traugutta 101",
+        isNewUser: false,
+        rating: 7,
+        type: 'CLIENT',
+        uid: "123"
+    }
+
+    return returnAsPromise(user);
+}
+
+const returnAsPromise = (data) => {
+    return new Promise((resolve, reject)=>{
+        setTimeout(() => {
+            resolve(data);
+        }, 2000);
+    });
+}

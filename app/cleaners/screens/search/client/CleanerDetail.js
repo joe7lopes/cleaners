@@ -44,18 +44,18 @@ class CleanerDetail extends React.Component {
   }
 
   renderContact = () => {
-   
+    const cleaner = this.props.navigation.getParam('cleaner', undefined);
     return (
     <Modal
     transparent={false}>
-      <ContactCleaner onClose={this.handleOnCloseContact} onSend={this.handleOnOfferSent} />
+      <ContactCleaner onClose={this.handleOnCloseContact} onSend={this.handleOnJobOfferSent} cleaner={cleaner} />
     </Modal>
     )
   }
 
   //HANDLERS
 
-  handleOnOfferSent = () => {
+  handleOnJobOfferSent = () => {
     // show some message status??
     this.setState({isModalVisible: false})
     this.props.navigation.pop();
@@ -79,7 +79,7 @@ class CleanerDetail extends React.Component {
         {isModalVisible && this.renderContact()}
         <View style={styles.header}>
           <View style={styles.headerSubContainer}>
-            <Text>122</Text>
+            <Text>{reviewsCount}</Text>
             <Text>Jobs</Text>
           </View>
           <View style={styles.headerSubContainer}>

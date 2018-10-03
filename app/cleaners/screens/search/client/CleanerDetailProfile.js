@@ -8,8 +8,8 @@ export default class CleanerDetailProfile extends React.Component {
   renderServices = () => {
     const {services} = this.props;
     return services.map(service => {
-      const {id, name} = service;
-      return <ServicesBox key={id} text={name} selected={true}/>
+      const {uid, name} = service;
+      return <ServicesBox key={uid} text={name} selected={true}/>
     });
   };
 

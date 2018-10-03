@@ -1,18 +1,18 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import _ from 'lodash';
-import {ActionCreators} from '../../../actions';
 import {View, Text, FlatList} from 'react-native';
 import ClientJobCard from '../../../components/ClientJobCard';
-import { PENDING, SUCCESS} from '../../../actions/types';
+import { PENDING} from '../../../actions/types';
 
 class RejectedJobs extends React.Component {
 
-  //HANDLERS
+ componentWillReceiveProps(nextProps){
+   console.log("in reject props");
+ }
 
   renderCard = ({item}) => {
-    return (<ClientOfferCard
+    return (<ClientJobCard
       style={{
       marginTop: 20,
       paddingHorizontal: 20
@@ -24,43 +24,23 @@ class RejectedJobs extends React.Component {
       date={item.date}/>)
   }
 
-  renderJobs = () => {
-    const {jobs, fetchStatus} = this.props;
-    if (fetchStatus === PENDING) {
-      return this.renderFetching();
-    }else if(fetchStatus === SUCCESS){
-      if(_.isEmpty(jobs)){
-        return this.renderNoPendingJobs();
-      }
-      return this.renderJobsList();
-    }
-  }
-
-  renderFetching = () => (
-    <View>
-      <Text>Loading...</Text>
+  renderEmptyList = () => (
+    <View style={{height: 60}}>
+      <Text>No Jobs found</Text>
     </View>
   )
-
-  renderNoPendingJobs = () => (
-    <View>
-      <Text>No rejected orders found</Text>
-    </View>
-  )
-
-  renderJobsList = () => {
-    const data = _.values(this.props.jobs);
-    return (
-    <FlatList
-      data={data}
-      renderItem={this.renderCard}
-      keyExtractor={(item) => item.id.toString()}/>
-  )}
 
   render() {
+    const data = _.values(this.props.jobs);
     return (
       <View>
-        {this.renderJobs()}
+        {/* <FlatList
+          data={data}
+          renderItem={this.renderCard}
+          ListEmptyComponent={this.renderEmptyList}
+          keyExtractor={(item) => item.uid.toString()}/> */}
+          <Text>{data.uid}</Text>
+          <Text>something</Text>
       </View>
     );
   }
@@ -71,8 +51,4 @@ mapStateToProps = ({jobs}) => ({
   fetchStatus: jobs.fetchStatus
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(ActionCreators, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(RejectedJobs);
+export default connect(mapStateToProps, undefined)(RejectedJobs);

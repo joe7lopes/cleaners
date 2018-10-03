@@ -35,7 +35,7 @@ class Jobs extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <Text>Offers</Text>
+          <Text>Jobs</Text>
         </View>
 
         <View style={styles.body}>
