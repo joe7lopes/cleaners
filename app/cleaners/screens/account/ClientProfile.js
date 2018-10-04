@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import _ from 'lodash';
 import {ActionCreators} from '../../actions';
 import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {Avatar, Button, FormInput, FormLabel} from 'react-native-elements';
@@ -13,6 +14,28 @@ class ClientProfile extends React.Component {
     state = {
         address: '',
         languages: {}
+    }
+
+    componentDidMount() {
+        let availableLanguages = languagesData.map(lang => ({...lang, selected: false}));
+        availableLanguages = _.mapKeys(availableLanguages, 'code');
+        console.log("l", availableLanguages);
+        _.forOwn(this.props.user.languages,(_,k)=>{ console.log("k", k); console.log("avl",availableLanguages[k]); availableLanguages[k].selected = true});
+        this.setState({languages: availableLanguages});
+    }
+
+    handleLanguageSelection = (code) =>{
+        const {languages} = this.state;
+        let selected = languages[code].selected;
+        languages[code].selected = !selected;
+        this.setState({languages});
+    }
+
+    handleSaveProfile = () => {
+        let viewModel = Object.assign({}, this.state);
+        const selectedLanguages = _.pickBy(this.state.languages,(v,_)=> v.selected === true);
+        viewModel.languages = selectedLanguages;
+        this.props.saveProfile(viewModel);
     }
 
     renderLanguages = () => {
@@ -28,40 +51,6 @@ class ClientProfile extends React.Component {
                 selected={selected}
                 onSelect={() => this.handleLanguageSelection(code)}/>
         });
-    }
-
-    handleLanguageSelection = (code) =>{
-        const {languages} = this.state;
-        let selected = languages[code].selected;
-        languages[code].selected = !selected;
-        this.setState({languages});
-    }
-
-    handleSaveProfile = () => {
-        let viewModel = Object.assign({}, this.state);
-        const {languages} = this.state;
-        const keys = Object.keys(languages);
-        const selectedLanguages = keys.filter(key=> languages[key].selected === true)
-        viewModel.languages = selectedLanguages;
-        this.props.saveProfile(viewModel);
-    }
-
-    componentDidMount() {
-        let languages = languagesData;
-        const userSelectedLanguages = this.props.user.languages || {};
-        Object.keys(languages)
-            .forEach(key=> languages[key].selected = userSelectedLanguages[key] ? true: false);
-        this.setState({languages});
-    }
-
-    componentWillReceiveProps(nextProps){
-        if(nextProps.status === SUCCESS){
-            const languages = nextProps.user.languages || {};
-            let stateLanguages = Object.assign({},this.state.languages);
-            const codes = Object.keys(languages);
-            codes.forEach(code => stateLanguages[code].selected = true);
-            this.setState({languages: stateLanguages});
-        }
     }
 
     render() {

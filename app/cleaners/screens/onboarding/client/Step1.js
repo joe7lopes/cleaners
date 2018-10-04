@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {SafeAreaView, StyleSheet, Text} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, KeyboardAvoidingView, ScrollView} from 'react-native';
 import {Button, FormInput, FormLabel} from 'react-native-elements';
 import {route} from '../../../config/routes/navigation';
 import {ActionCreators} from '../../../actions';
@@ -60,6 +60,10 @@ class Step1 extends React.Component {
         this.props.createUser(newUser);
     }
 
+    handleOnBack = () => {
+        this.props.navigation.pop();
+    }
+
     componentWillReceiveProps(nextProps) {
         if (nextProps.status === SUCCESS) {
             this.props.navigation.navigate(route.clientApp);
@@ -70,23 +74,30 @@ class Step1 extends React.Component {
         const {firstName, lastName, address, email, isFormValid} = this.state;
         return (
             <SafeAreaView style={styles.container}>
-                <FormLabel>First Name</FormLabel>
-                <FormInput
-                    value={firstName}
-                    onChangeText={(firstName) => this.handleUserInput('firstName', firstName)}/>
-                <FormLabel>last Name</FormLabel>
-                <FormInput value={lastName} onChangeText={(text) => this.handleUserInput('lastName', text)}/>
-                <Text>By letting us know where you live, we will filter cleaners of your area.</Text>
-                <FormLabel>Address</FormLabel>
-                <FormInput value={address} onChangeText={(text) => this.handleUserInput('address', text)}/>
-                <FormLabel>Email Address</FormLabel>
-                <FormInput value={email} onChangeText={(text) => this.handleUserInput('email', text)}/>
+            <ScrollView>
+            <Button title="<" buttonStyle={{width: 40, height: 40}} onPress={this.handleOnBack}/>
+            
+                <KeyboardAvoidingView behavior="padding" enabled>
+                    <FormLabel>First Name</FormLabel>
+                    <FormInput
+                        value={firstName}
+                        onChangeText={(firstName) => this.handleUserInput('firstName', firstName)}/>
+                    <FormLabel>last Name</FormLabel>
+                    <FormInput value={lastName} onChangeText={(text) => this.handleUserInput('lastName', text)}/>
+                    <Text>By letting us know where you live, we will filter cleaners of your area.</Text>
+                    <FormLabel>Address</FormLabel>
+                    <FormInput value={address} onChangeText={(text) => this.handleUserInput('address', text)}/>
+                    <FormLabel>Email Address</FormLabel>
+                    <FormInput value={email} onChangeText={(text) => this.handleUserInput('email', text)}/>
+                </KeyboardAvoidingView>
+            
                 <Button
                     style={styles.doneButton}
                     title='Done'
                     onPress={this.handleOnDone}
                     disabled={!isFormValid}
                 />
+                </ScrollView>
             </SafeAreaView>
         );
     }

@@ -107,11 +107,12 @@ export const saveProfile = (profile) => {
 //MOCK API
 
 const getUser = () => {
-    return {};
+    return getClient();
 }
 
-const getCLient = () => {
+const getClient = () => {
     const user = {
+        uid: "123",
         firstName: "jhon",
         lastName: "Due",
         phone: "123",
@@ -119,7 +120,9 @@ const getCLient = () => {
         isNewUser: false,
         rating: 7,
         type: 'CLIENT',
-        uid: "123"
+        languages: [
+            {code: 'en', name:'ENGLISH'}
+        ]
     }
 
     return returnAsPromise(user);

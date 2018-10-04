@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
     CREATE_USER_FAILURE,
     CREATE_USER_PENDING,
@@ -23,8 +24,12 @@ export default (state = {}, action) => {
             return {...state, status: FAILURE, error: action.payload};
         case FETCH_PROFILE_PENDING:
             return {...state, status: PENDING};
-        case FETCH_PROFILE_SUCCESS:
-            return {...state, status: SUCCESS, profile: action.payload};
+        case FETCH_PROFILE_SUCCESS:{
+            let profile = action.payload;
+            const languages = _.mapKeys(profile.languages, 'code');
+            profile.languages = languages
+            return {...state, status: SUCCESS, profile};
+        }
         case FETCH_PROFILE_FAILURE:
             return {...state, status: FAILURE};
         case SAVE_PROFILE_PENDING:
