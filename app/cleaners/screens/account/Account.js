@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginVertical: 8
+        marginVertical: 4
     },
     body: {
         flex: 2
