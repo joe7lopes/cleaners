@@ -1,13 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import _ from 'lodash';
 import {ActionCreators} from '../../actions';
-import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import {Avatar, Button, FormInput, FormLabel} from 'react-native-elements';
-import {LanguageBox, Loader, StatusActivityStatusIndicator} from '../../components/UI';
+import {SUCCESS, PENDING, FAILURE} from '../../actions/types';
 import {languages as languagesData} from '../../config/data';
-import {SUCCESS, PENDING, FAILURE} from "../../actions/types";
+import {
+    Loader,
+    StatusActivityStatusIndicator,
+    Avatar, PrimaryTextButton as Button,
+    LabledInput,
+    LabledAddressInput,
+    LabledLanguageBox
+} from '../../components/UI';
 
 class ClientProfile extends React.Component {
 
@@ -43,23 +49,7 @@ class ClientProfile extends React.Component {
         let viewModel = Object.assign({}, this.state);
         const selectedLanguages = _.pickBy(this.state.languages,(v,_)=> v.selected === true);
         viewModel.languages = selectedLanguages;
-        console.log("saving", viewModel);
         this.props.saveProfile(viewModel);
-    }
-
-    renderLanguages = () => {
-        const {languages} = this.state;
-        const codes = Object.keys(languages);
-
-        return codes.map(key => {
-            const {code, name, selected} = languages[key];
-            return <LanguageBox
-                style={styles.languageBox}
-                key={code}
-                text={name}
-                selected={selected}
-                onSelect={() => this.handleLanguageSelection(code)}/>
-        });
     }
 
     renderStatusIndicator = () => {
@@ -92,6 +82,7 @@ class ClientProfile extends React.Component {
     render() {
         const {firstName = '', lastName = '', phone, address} = this.props.user;
         const title = `${firstName.toUpperCase()[0] || ""}${lastName.toUpperCase()[0] || ""}`;
+        const languages = _.values(this.state.languages);
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 <Loader message="Saving..." loading={this.props.status === PENDING}/>
@@ -107,25 +98,30 @@ class ClientProfile extends React.Component {
 
                 <View style={styles.body}>
                     <KeyboardAvoidingView behavior="padding" enabled>
-                        <View>
-                            <FormLabel>Name</FormLabel>
-                            <Text style={styles.readOnlyText}>{`${firstName} ${lastName}`}</Text>
-                            <FormLabel>Home Address</FormLabel>
-                            <FormInput value={address} onChangeText={address => this.setState({address})}/>
-                            <FormLabel>Phone</FormLabel>
-                            <Text style={styles.readOnlyText}>{phone}</Text>
-                        </View>
-
-                        <FormLabel>Languages</FormLabel>
-                        <View style={styles.row}>
-                            {this.renderLanguages()}
-                        </View>
+                        
+                        <LabledInput
+                            label="Name"
+                            value={`${firstName} ${lastName}`} />
+                        <LabledInput
+                            containerStyle={styles.marginTop}
+                            label="Phone"
+                            value={phone} />
+                        <LabledAddressInput 
+                            containerStyle={styles.marginTop}
+                            label="Address"
+                            value={address}/>
+                    
+                        <LabledLanguageBox
+                            containerStyle={styles.marginTop}
+                            label="I speak"
+                            languages={languages}/>
+                        
                     </KeyboardAvoidingView>
                 </View>
 
                 <Button
                     title="Save"
-                    buttonStyle={styles.saveButton}
+                    style={styles.saveButton}
                     onPress={this.handleSaveProfile}/>
 
             </ScrollView>
@@ -138,7 +134,11 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = ({user}) => ({
-    user: user.profile || {},
+    user: user.profile || {
+        firstName: 'Andres',
+        lastName: 'Mean',
+        phone: "+46 444ii"
+    },
     status: user.status
 });
 
@@ -160,22 +160,16 @@ const styles = StyleSheet.create({
         paddingLeft: 8,
         paddingRight: 8
     },
-    row: {
-        paddingLeft: 20,
-        paddingTop: 20,
-        paddingBottom: 20,
-        flexDirection: 'row'
-    },
-    readOnlyText: {
-        paddingLeft: 20,
-        paddingTop: 8,
-        color: 'gray'
-    },
-    languageBox: {
-        marginRight: 8
-    },
     saveButton: {
-        marginVertical: 20
+        marginVertical: 20,
+        marginHorizontal: 8
+    },
+    marginTop: {
+        marginTop: 16
+    },
+    languages: {
+        marginTop: 16,
+        flexDirection: 'row'
     }
 
 });
