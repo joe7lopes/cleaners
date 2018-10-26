@@ -3,11 +3,11 @@ import { Provider } from 'react-redux';
 import ApplicationNavigator  from './config/routes';
 import store from './config/store';
 
-export default App = () => (
-  <Provider store={store}>
-    <ApplicationNavigator />
-  </Provider>
-);
+// export default App = () => (
+//   <Provider store={store}>
+//     <ApplicationNavigator />
+//   </Provider>
+// );
 
 
 //USED FOR DEVELOPMENT
@@ -16,9 +16,9 @@ export default App = () => (
 //
 // store.dispatch(logout());
 
-// import Account from './screens/account/Account';
-// export default App = () => (
-//     <Provider store={store}>
-//       <Account />
-//     </Provider>
-//   );
+import ClientProfile from './screens/account/ClientProfile';
+export default App = () => (
+    <Provider store={store}>
+      <ClientProfile />
+    </Provider>
+  );
