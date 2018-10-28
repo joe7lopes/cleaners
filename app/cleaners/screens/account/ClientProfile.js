@@ -26,7 +26,8 @@ class ClientProfile extends React.Component {
     componentDidMount() {
         let availableLanguages = languagesData.map(lang => ({...lang, selected: false}));
         availableLanguages = _.mapKeys(availableLanguages, 'code');
-        _.forOwn(this.props.user.languages,(_,k)=> availableLanguages[k].selected = true);
+        console.log(availableLanguages);
+        this.props.user.languages.map(lang => availableLanguages[lang.code].selected = true);
         const {address} = this.props.user
         this.setState({address, languages: availableLanguages});
     }
@@ -112,9 +113,10 @@ class ClientProfile extends React.Component {
                             value={address}/>
                     
                         <LabledLanguageBox
-                            containerStyle={styles.marginTop}
+                            containerStyle={[styles.marginTop]}
                             label="I speak"
-                            languages={languages}/>
+                            languages={languages}
+                            onLanguageSelect={this.handleLanguageSelection}/>
                         
                     </KeyboardAvoidingView>
                 </View>
@@ -137,7 +139,9 @@ const mapStateToProps = ({user}) => ({
     user: user.profile || {
         firstName: 'Andres',
         lastName: 'Mean',
-        phone: "+46 444ii"
+        phone: "+46 444ii",
+        languages: [{code:'en'}],
+        address: 'ul traugutta'
     },
     status: user.status
 });
@@ -157,8 +161,7 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 2,
-        paddingLeft: 8,
-        paddingRight: 8
+        marginHorizontal: 16
     },
     saveButton: {
         marginVertical: 20,

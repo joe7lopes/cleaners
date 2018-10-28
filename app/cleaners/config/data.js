@@ -8,6 +8,9 @@ export const languages = [
     }, {
         code: 'pl',
         name: 'POLISH'
+    }, {
+        code: 'ru',
+        name: 'RUSSIAN'
     }
 
 ];

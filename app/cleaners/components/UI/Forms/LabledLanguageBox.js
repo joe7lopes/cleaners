@@ -3,18 +3,17 @@ import {View, Text, StyleSheet} from 'react-native';
 import {color, font} from '../../../config/styles';
 import {LanguageBox} from '../../UI'
 
-const renderLanguages = (languages) => {
-  console.log("languages", languages);
+const renderLanguages = (languages, onSelect) => {
   return languages.map(lang => (
-    <LanguageBox key={lang.code} text={lang.name}/>
+    <LanguageBox style={{marginTop: 8}} key={lang.code} text={lang.name} selected={lang.selected} onSelect={()=>onSelect(lang.code)}/>
   ));
 }
-export default ({label='Languages', containerStyle, languages}) => {
+export default ({label='Languages', containerStyle, languages, onLanguageSelect}) => {
   return (
     <View style={containerStyle}>
       <Text style={styles.labelText}>{label}</Text>
       <View style={styles.languageContainer}>
-      {renderLanguages(languages)}
+        {renderLanguages(languages, onLanguageSelect)}
       </View>
     </View>
   )
@@ -27,9 +26,10 @@ const styles = StyleSheet.create({
     fontSize: font.m_1,
   },
   languageContainer: {
-    flex: 1,
+    flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginTop: 16,
   }
   
 });

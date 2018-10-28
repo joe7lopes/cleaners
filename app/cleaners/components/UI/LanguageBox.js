@@ -1,15 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import {color} from '../../config/styles';
 
 export default (props) => {
   const { selected, text }= props; 
-  const backgroundColor = selected ? 'blue' : 'white';
-  const color = selected ? 'white' : 'black';
+  const backgroundColor = selected ? color.primary : 'white';
+  const boxColor = selected ? 'white' : 'black';
   return (
-    <View style={[props.style, styles.container ,{backgroundColor}]}>
+    <View style={[styles.container ,{backgroundColor}, props.style]}>
       <TouchableWithoutFeedback onPress={props.onSelect}>
         <View>
-          <Text style={{color}}>{text}</Text>
+          <Text style={{color: boxColor}}>{text}</Text>
         </View>
       </TouchableWithoutFeedback>
     </View>
@@ -17,10 +18,10 @@ export default (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 5,
-    paddingHorizontal: 5,
-    borderRadius:5,
-    borderColor: '#d3d3d3',
+    paddingVertical: 8,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    borderColor: color.gray,
     borderWidth: 1
   }
 });
