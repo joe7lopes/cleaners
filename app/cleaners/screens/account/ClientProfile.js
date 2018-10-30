@@ -1,7 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View, Image} from 'react-native';
+import PhotoUpload from 'react-native-photo-upload'
 import _ from 'lodash';
 import {ActionCreators} from '../../actions';
 import {SUCCESS, PENDING, FAILURE} from '../../actions/types';
@@ -26,8 +27,8 @@ class ClientProfile extends React.Component {
     componentDidMount() {
         let availableLanguages = languagesData.map(lang => ({...lang, selected: false}));
         availableLanguages = _.mapKeys(availableLanguages, 'code');
-        console.log(availableLanguages);
-        this.props.user.languages.map(lang => availableLanguages[lang.code].selected = true);
+        const {userLanguages =[]} = this.props.user;
+        userLanguages.map(lang => availableLanguages[lang.code].selected = true);
         const {address} = this.props.user
         this.setState({address, languages: availableLanguages});
     }
@@ -82,19 +83,21 @@ class ClientProfile extends React.Component {
 
     render() {
         const {firstName = '', lastName = '', phone, address} = this.props.user;
-        const title = `${firstName.toUpperCase()[0] || ""}${lastName.toUpperCase()[0] || ""}`;
         const languages = _.values(this.state.languages);
         return (
             <ScrollView contentContainerStyle={styles.container}>
                 <Loader message="Saving..." loading={this.props.status === PENDING}/>
                 {this.state.showStatusIndicator && this.renderStatusIndicator()}
                 <View style={styles.header}>
-                    <Avatar
-                        xlarge
-                        rounded
-                        title={title}
-                        onPress={() => console.log("upload picture not implemented")}
-                        activeOpacity={0.7}/>
+                <PhotoUpload>
+                    <Image
+                    style={styles.image}
+                      resizeMode='cover'
+                        source={{
+                        uri: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg'
+                        }}
+                    />
+                    </PhotoUpload>
                 </View>
 
                 <View style={styles.body}>
@@ -162,6 +165,11 @@ const styles = StyleSheet.create({
     body: {
         flex: 2,
         marginHorizontal: 16
+    },
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 50
     },
     saveButton: {
         marginVertical: 20,

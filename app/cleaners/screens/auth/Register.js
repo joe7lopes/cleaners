@@ -6,6 +6,7 @@ import {Button, FormInput, FormLabel} from 'react-native-elements';
 import {ActionCreators} from '../../actions';
 import {FAILURE, SUCCESS} from '../../actions/types';
 import {screen} from '../../config/routes/navigation';
+import {screenId} from '../../tests';
 
 class Register extends React.Component {
 
@@ -37,7 +38,7 @@ class Register extends React.Component {
     render() {
         const {phone} = this.state;
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView testID={screenId.registration} style={styles.container}>
 
                 <View style={styles.body}>
                     <View style={styles.title}>

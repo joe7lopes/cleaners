@@ -1,0 +1,7 @@
+{
+  "rootDir": "../",
+  "setupTestFrameworkScriptFile" : "./e2e/init.js",
+  "testEnvironment": "node",
+  "bail": true,
+  "preset": "react-native"
+}
