@@ -68,5 +68,9 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>YOUR_REASON_FOR_USING_USER_PHOTOS_HERE</string>
+	<key>NSCameraUsageDescription</key>
+	<string>YOUR_REASON_FOR_USING_USER_CAMERA_HERE</string>
 </dict>
 </plist>
