@@ -1,27 +1,42 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import _ from 'lodash';
 import {ActionCreators} from '../../actions';
-import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View} from 'react-native';
-import {Avatar, Button, FormInput, FormLabel} from 'react-native-elements';
-import {LanguageBox} from '../../components/UI';
+import {SUCCESS, PENDING, FAILURE} from '../../actions/types';
 import {languages as languagesData} from '../../config/data';
-import {SUCCESS} from "../../actions/types";
+import {
+    Loader,
+    StatusActivityStatusIndicator,
+    Avatar, PrimaryTextButton as Button,
+    LabledInput,
+    LabledAddressInput,
+    LabledLanguageBox
+} from '../../components/UI';
 
 class ClientProfile extends React.Component {
 
     state = {
         address: '',
-        languages: {}
+        languages: {},
+        showStatusIndicator: false
     }
 
     componentDidMount() {
         let availableLanguages = languagesData.map(lang => ({...lang, selected: false}));
         availableLanguages = _.mapKeys(availableLanguages, 'code');
-        console.log("l", availableLanguages);
-        _.forOwn(this.props.user.languages,(_,k)=>{ console.log("k", k); console.log("avl",availableLanguages[k]); availableLanguages[k].selected = true});
-        this.setState({languages: availableLanguages});
+        console.log(availableLanguages);
+        this.props.user.languages.map(lang => availableLanguages[lang.code].selected = true);
+        const {address} = this.props.user
+        this.setState({address, languages: availableLanguages});
+    }
+
+    componentWillReceiveProps(nextProps){
+        const {status} = nextProps;
+        if(status === SUCCESS || status === FAILURE){
+            this.setState({showStatusIndicator: true});
+        }
     }
 
     handleLanguageSelection = (code) =>{
@@ -38,26 +53,41 @@ class ClientProfile extends React.Component {
         this.props.saveProfile(viewModel);
     }
 
-    renderLanguages = () => {
-        const {languages} = this.state;
-        const codes = Object.keys(languages);
+    renderStatusIndicator = () => {
+        const {showStatusIndicator} = this.state;
+        const {status} = this.props;
 
-        return codes.map(key => {
-            const {code, name, selected} = languages[key];
-            return <LanguageBox
-                style={styles.languageBox}
-                key={code}
-                text={name}
-                selected={selected}
-                onSelect={() => this.handleLanguageSelection(code)}/>
-        });
+        switch (status) {
+            case SUCCESS:
+                message = "Profile saved successfully";
+                break;
+            case FAILURE:
+                message = "Error: Unable to save profile";
+            default:
+                message = "Something went wrong";
+                break;
+        }
+
+        setTimeout(() => {
+            this.setState({showStatusIndicator: false});
+        }, 2000);
+        
+        return (
+        <StatusActivityStatusIndicator 
+            visible={showStatusIndicator}
+            status={status}
+            message={message}/>
+        )
     }
 
     render() {
         const {firstName = '', lastName = '', phone, address} = this.props.user;
         const title = `${firstName.toUpperCase()[0] || ""}${lastName.toUpperCase()[0] || ""}`;
+        const languages = _.values(this.state.languages);
         return (
             <ScrollView contentContainerStyle={styles.container}>
+                <Loader message="Saving..." loading={this.props.status === PENDING}/>
+                {this.state.showStatusIndicator && this.renderStatusIndicator()}
                 <View style={styles.header}>
                     <Avatar
                         xlarge
@@ -69,25 +99,31 @@ class ClientProfile extends React.Component {
 
                 <View style={styles.body}>
                     <KeyboardAvoidingView behavior="padding" enabled>
-                        <View>
-                            <FormLabel>Name</FormLabel>
-                            <Text style={styles.readOnlyText}>{`${firstName} ${lastName}`}</Text>
-                            <FormLabel>Home Address</FormLabel>
-                            <FormInput value={address} onChangeText={address => this.setState({address})}/>
-                            <FormLabel>Phone</FormLabel>
-                            <Text style={styles.readOnlyText}>{phone}</Text>
-                        </View>
-
-                        <FormLabel>Languages</FormLabel>
-                        <View style={styles.row}>
-                            {this.renderLanguages()}
-                        </View>
+                        
+                        <LabledInput
+                            label="Name"
+                            value={`${firstName} ${lastName}`} />
+                        <LabledInput
+                            containerStyle={styles.marginTop}
+                            label="Phone"
+                            value={phone} />
+                        <LabledAddressInput 
+                            containerStyle={styles.marginTop}
+                            label="Address"
+                            value={address}/>
+                    
+                        <LabledLanguageBox
+                            containerStyle={[styles.marginTop]}
+                            label="I speak"
+                            languages={languages}
+                            onLanguageSelect={this.handleLanguageSelection}/>
+                        
                     </KeyboardAvoidingView>
                 </View>
 
                 <Button
                     title="Save"
-                    buttonStyle={styles.saveButton}
+                    style={styles.saveButton}
                     onPress={this.handleSaveProfile}/>
 
             </ScrollView>
@@ -100,7 +136,13 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const mapStateToProps = ({user}) => ({
-    user: user.profile,
+    user: user.profile || {
+        firstName: 'Andres',
+        lastName: 'Mean',
+        phone: "+46 444ii",
+        languages: [{code:'en'}],
+        address: 'ul traugutta'
+    },
     status: user.status
 });
 
@@ -119,25 +161,18 @@ const styles = StyleSheet.create({
     },
     body: {
         flex: 2,
-        paddingLeft: 8,
-        paddingRight: 8
-    },
-    row: {
-        paddingLeft: 20,
-        paddingTop: 20,
-        paddingBottom: 20,
-        flexDirection: 'row'
-    },
-    readOnlyText: {
-        paddingLeft: 20,
-        paddingTop: 8,
-        color: 'gray'
-    },
-    languageBox: {
-        marginRight: 8
+        marginHorizontal: 16
     },
     saveButton: {
-        marginVertical: 20
+        marginVertical: 20,
+        marginHorizontal: 8
+    },
+    marginTop: {
+        marginTop: 16
+    },
+    languages: {
+        marginTop: 16,
+        flexDirection: 'row'
     }
 
 });

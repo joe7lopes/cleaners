@@ -1,13 +1,16 @@
 export const languages = [
     {
         code: 'en',
-        name: 'EN'
+        name: 'ENGLISH'
     }, {
         code: 'de',
-        name: 'GER'
+        name: 'GERMAN'
     }, {
         code: 'pl',
-        name: 'PL'
+        name: 'POLISH'
+    }, {
+        code: 'ru',
+        name: 'RUSSIAN'
     }
 
 ];

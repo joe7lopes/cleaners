@@ -60,7 +60,7 @@ export const login = (phone, verificationCode) => {
         try {
             // let {data} = await axios.post(`${SERVER_URL}/auth/login`, {phone, verificationCode});
             // const token = data.token;
-            const token = 123
+            const token = String(123);
             if(!token){dispatch(loginFailure({error: 'token not present'})); }
             await AsyncStorage.setItem('auth_token', token);
             dispatch(loginSuccess({token, phone}));

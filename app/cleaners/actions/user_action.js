@@ -89,13 +89,15 @@ export const fetchProfile = () => {
 };
 
 export const saveProfile = (profile) => {
-    return async dispatch => {
+    return async (dispatch, getState) => {
         dispatch(saveProfilePending());
         try {
-            let token = await AsyncStorage.getItem('auth_token');
-            let config = {headers: {'x-access-token': token ? token : ''}};
-            let {data} = await axios.patch(`${SERVER_URL}/users/${profile.uid}`,profile, config);
-            dispatch(saveProfileSuccess(data));
+            const { user } = getState();
+            const currentProfile = user.profile;
+            const {address, languages} = profile;
+            let newProfile = {...currentProfile, address, languages }
+            await saveProfileFake(newProfile);
+            dispatch(saveProfileSuccess(newProfile));
         } catch (err) {
             console.log("error in saving profile");
             const error = new ResponseError(err.response);
@@ -141,6 +143,10 @@ const getCleaner = () => {
     }
 
     return returnAsPromise(user);
+}
+
+const saveProfileFake = (data) => {
+    return returnAsPromise();
 }
 
 const returnAsPromise = (data) => {

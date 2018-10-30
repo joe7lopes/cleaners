@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-
 const AccountRow = ({title, image, style}) =>(
     <View style={[styles.container, style]}>
-        <View style={styles.image}><Text>{image}</Text></View>
+        <View style={styles.image}>
+            <View>{image}</View>
+        </View>
         <Text>{title}</Text>
     </View>
     )

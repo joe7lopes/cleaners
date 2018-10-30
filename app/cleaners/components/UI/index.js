@@ -1,21 +1,31 @@
-import Text from './Text/Text';
-import TextInput from './TextInput/LabeledTextInput';
-import SemiRoundedButton from './Buttons/SemiRounded';
-import FloatingButton from './Buttons/FloatingButton';
+import {Avatar} from 'react-native-elements';
 import ActivityStatusIndicator from './ActivityIndicators/ActivityStatusIndicator';
+import Loader from './ActivityIndicators/Loader';
+import StatusActivityStatusIndicator from './ActivityIndicators/StatusActivityIndicator';
 import LanguageBox from './LanguageBox';
 import ServicesBox from './ServicesBox';
 import DatePicker from './pickers/DatePicker';
 import TimePicker from './pickers/TimePicker';
 
+//BUTTONS
+import PrimaryTextButton from './Buttons/PrimaryTextButton';
+
+//FORMS
+import LabledInput from './Forms/LabledInput';
+import LabledAddressInput from './Forms/LabledAddressInput';
+import LabledLanguageBox from './Forms/LabledLanguageBox';
+
 export {
-  Text,
-  TextInput,
-  SemiRoundedButton,
-  FloatingButton,
   ActivityStatusIndicator,
   LanguageBox,
   ServicesBox,
   DatePicker,
-  TimePicker
+  TimePicker,
+  Loader,
+  StatusActivityStatusIndicator,
+  Avatar,
+  PrimaryTextButton,
+  LabledInput,
+  LabledAddressInput,
+  LabledLanguageBox
 }

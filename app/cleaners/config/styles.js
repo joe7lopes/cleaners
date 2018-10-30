@@ -1,25 +1,33 @@
 //COLORS
-export const PRIMARY_COLOR = '#80ffe8';
-export const PRIMARY_LIGHT_COLOR = '#b6ffff';
-export const PRIMARY_DARK_COLOR = '#47cbb6';
-export const SECONDARY_COLOR = '#651fff';
-export const SECONDARY_DARK_COLOR = '#0100ca';
-export const TERTIARY_COLOR = '#ffe981';
-export const BACKGROUND_COLOR = '#ffffff';
-export const GRAY_COLOR = '#d3d3d3';
-export const GRAY_LIGHT_COLOR = '#D3D3D3';
-export const GRAY_DARK_COLOR = '#A9A9A9';
-export const WHITE_COLOR = '#fff';
-export const BLACK_COLOR = '#000'
+const PRIMARY_COLOR = '#3185FF';
+const FORM_LABEL_COLOR = '#808080'
+const GRAY_COLOR = '#D3D3D3';
+const FORM_LABEL_LINE_COLOR = GRAY_COLOR;
+
+//Others
+const PRIMARY_LIGHT_COLOR = '#b6ffff';
+const PRIMARY_DARK_COLOR = '#47cbb6';
+const SECONDARY_COLOR = '#651fff';
+const SECONDARY_DARK_COLOR = '#0100ca';
+const TERTIARY_COLOR = '#ffe981';
+
+const GRAY_LIGHT_COLOR = '#D3D3D3';
+const GRAY_DARK_COLOR = '#A9A9A9';
+const WHITE_COLOR = '#fff';
+const BLACK_COLOR = '#000'
+
 
 export const color = {
   primary: PRIMARY_COLOR,
+  formLabel: FORM_LABEL_COLOR,
+  formLabelLine: FORM_LABEL_LINE_COLOR,
+  gray: GRAY_COLOR,
+
   primaryLight: PRIMARY_LIGHT_COLOR,
   primaryDark: PRIMARY_DARK_COLOR,
   secondary: SECONDARY_COLOR,
   secondary_dark: SECONDARY_DARK_COLOR,
   tertiary: TERTIARY_COLOR,
-  gray: GRAY_COLOR,
   gray_light: GRAY_LIGHT_COLOR,
   gray_dark: GRAY_DARK_COLOR,
   white: WHITE_COLOR,
@@ -28,13 +36,12 @@ export const color = {
 
 
 //FONT SIZE
-export const MEDIUM_TEXT = 20;
+const M_1 = 16;
+const M_2 = 18;
 
 export const font = {
-  medium: MEDIUM_TEXT
+  m_1: M_1,
+  m_2: M_2
 };
 
-
-//BORDERS
-export const ROUNDED_BORDER_RADIUS = 5;
 

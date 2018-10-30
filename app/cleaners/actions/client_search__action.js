@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {FETCH_CLEANERS_PENDING, FETCH_CLEANERS_SUCCESS, FETCH_CLEANERS_FAILURE} from './types';
-import {CLEANER} from '../config/profileTypes';
 import {SERVER_URL} from '../config/api';
 
 const fetchCleanersSuccess = (results) => ({
