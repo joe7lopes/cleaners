@@ -1,0 +1,51 @@
+# iOS CircleCI 2.0 configuration file
+
+version: 2
+jobs:
+  build-and-test:
+
+    # Specify the Xcode version to use
+    macos:
+      xcode: "10.0.0"
+
+    steps:
+      - checkout
+
+      # Install Homebrew
+      - run:
+          name: Install Homebrew
+          command: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+      # Install node
+      - run:
+          name: Install node
+          command: brew update && brew install node@9.8.0
+      
+       # Check node version installed
+      - run:
+          name: Check node installation
+          command: node --version
+      
+       # Add Detox repository to brew
+      - run:
+          name: Add Detox repository to brew
+          command: brew tap wix/brew
+
+      # Install applesimutils
+      - run:
+          name: Install applesimutils
+          command: brew install applesimutils
+      # Install node dependencies
+      - run: 
+          name: Install node dependencies
+          command: node install
+
+      # Build With Detox
+      - run: 
+          name: Build With Detox
+          command: npm run build:e2e
+      
+      # Test With Detox
+      - run: 
+          name: Test With Detox
+          command: npm run test:e2e
