@@ -9,7 +9,6 @@ export default App = () => (
   </Provider>
 );
 
-
 //USED FOR DEVELOPMENT
 
 // import {logout} from './actions/auth_action';
@@ -22,3 +21,13 @@ export default App = () => (
 //       <ClientProfile />
 //     </Provider>
 //   );
+
+//USED for tests
+// import {View, Text} from 'react-native';
+// export default App = () => (
+  
+//   <View testID='MyUniqueId123'>
+//     <Text>Hello</Text>
+//   </View>  
+  
+// );
