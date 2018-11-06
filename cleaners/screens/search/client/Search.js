@@ -65,9 +65,7 @@ class Search extends React.Component {
         style={styles.cleanerCard}
         firstName={item.firstName}
         lastName={item.lastName}
-        phone={item.phone}
         services={item.services}
-        languages={item.languages}
         rating={item.rating}
         price={item.price}/>
     </TouchableOpacity>
