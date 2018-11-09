@@ -13,6 +13,7 @@ import {
   Modal,
   Platform
 } from 'react-native';
+import {color, font} from '../../../config/styles';
 import SearchFilter from './SearchFilter';
 import CleanerCard from '../../../components/CleanerCard';
 import {PENDING, SUCCESS} from '../../../actions/types';
@@ -65,9 +66,7 @@ class Search extends React.Component {
         style={styles.cleanerCard}
         firstName={item.firstName}
         lastName={item.lastName}
-        phone={item.phone}
         services={item.services}
-        languages={item.languages}
         rating={item.rating}
         price={item.price}/>
     </TouchableOpacity>
@@ -107,6 +106,7 @@ class Search extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         {isFilterVisible && this.renderFilter()}
+        
         <View style={styles.header}>
           <TouchableWithoutFeedback onPress={this.hadleFilterTap}>
             <View style={styles.searchBar}>
@@ -116,7 +116,12 @@ class Search extends React.Component {
         </View >
 
         <View style={styles.body}>
-          <Text style={styles.resultCount}>{`(${count} results)`}</Text>
+
+          <View style={styles.listHeaderContainer}>
+            <Text style={styles.listTitle}>Discover</Text>
+            <Text style={styles.resultCount}>{`${count} Results`}</Text>
+          </View>
+          
           {this.renderSearchResults()}
         </View>
 
@@ -157,20 +162,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  cleanerCard: {
-    marginTop: 20,
-    backgroundColor: 'white',
-    shadowOffset: {
-      width: 0.5,
-      height: 1
-    },
-    shadowColor: 'gray',
-    shadowOpacity: 0.7,
-    shadowRadius: 0.5
+  listHeaderContainer: {
+    height: '10%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 8
+  },
+  listTitle: {
+    color: color.gray_dark,
+    fontWeight: 'bold',
+    fontSize: font.m2
   },
   resultCount: {
-    marginVertical: 10,
-    alignSelf: 'flex-end'
+    fontWeight: 'bold',
+    color: color.primary
   },
   searchBar: {
     flex: 1,
@@ -182,5 +187,16 @@ const styles = StyleSheet.create({
       ? 64
       : 54,
     backgroundColor: 'white'
+  },
+  cleanerCard: {
+    marginTop: 20,
+    backgroundColor: 'white',
+    shadowOffset: {
+      width: 0.5,
+      height: 1
+    },
+    shadowColor: 'gray',
+    shadowOpacity: 0.7,
+    shadowRadius: 0.5
   }
 });

@@ -1,4 +1,5 @@
 import {Avatar} from 'react-native-elements';
+import PhotoUpload from 'react-native-photo-upload'
 import ActivityStatusIndicator from './ActivityIndicators/ActivityStatusIndicator';
 import Loader from './ActivityIndicators/Loader';
 import StatusActivityStatusIndicator from './ActivityIndicators/StatusActivityIndicator';
@@ -27,5 +28,6 @@ export {
   PrimaryTextButton,
   LabledInput,
   LabledAddressInput,
-  LabledLanguageBox
+  LabledLanguageBox,
+  PhotoUpload 
 }

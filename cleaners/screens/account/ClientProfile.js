@@ -2,15 +2,15 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {KeyboardAvoidingView, ScrollView, StyleSheet, Text, View, Image} from 'react-native';
-import PhotoUpload from 'react-native-photo-upload'
 import _ from 'lodash';
 import {ActionCreators} from '../../actions';
 import {SUCCESS, PENDING, FAILURE} from '../../actions/types';
 import {languages as languagesData} from '../../config/data';
 import {
+    PhotoUpload,
     Loader,
     StatusActivityStatusIndicator,
-    Avatar, PrimaryTextButton as Button,
+    PrimaryTextButton as Button,
     LabledInput,
     LabledAddressInput,
     LabledLanguageBox

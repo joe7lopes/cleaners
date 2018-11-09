@@ -10,7 +10,7 @@ const clientStack = createBottomTabNavigator({
     [route.search]: {
         screen: searchStack,
         navigationOptions: {
-            tabBarLabel: 'Search'
+            tabBarLabel: 'Search',
         }
     },
     [route.jobs]: {
