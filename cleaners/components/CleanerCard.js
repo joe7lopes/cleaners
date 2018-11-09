@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
-import {PhotoUpload} from '../components/UI';
 import {color} from '../config/styles';
 import {Waching, Ironing, Cleaning, Star} from '../assets/images';
 
@@ -36,16 +35,14 @@ export default CleanerCard = ({
 
   return (
     <View style={[styles.container, style]}>
-      <PhotoUpload>
+    
+      <View style={styles.imageContainer}>
         <Image
-        style={styles.image}
+          style={styles.image}
           resizeMode='cover'
-            source={{
-            uri: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg'
-            }}
+          source={require('../assets/images/default_avatar.png')}
         />
-      </PhotoUpload>
-
+      </View>
       <View style={styles.detailsContainer}>
         <Text style={[styles.price, {marginBottom: 5}]}>{price}zl /h</Text>
         <Text style={styles.name}>{`${firstName} ${lastName}`}</Text>
@@ -56,7 +53,7 @@ export default CleanerCard = ({
 
       <View style={[styles.rating, {flexDirection: 'row'}]}>
         <Star />
-        <Text>{rating}</Text>
+        <Text style={styles.ratingText}>{rating}</Text>
       </View>
 
     </View>
@@ -68,12 +65,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 8,
     paddingHorizontal:8,
-    borderRadius: 10
+    borderRadius: 10,
+  },
+  imageContainer: {
+    flex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   detailsContainer:{
-    flex:2,
-    marginRight: 8,
-    marginLeft: 8
+    flex:3,
+    paddingHorizontal: 16
   },
   rating:{
     flex: 1,
@@ -81,16 +82,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: {
-    width: 50,
-    height: 50,
-    borderRadius: 25
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    borderColor: color.gray,
+    borderWidth: 0.5
   },
   price: {
     color: color.primary,
     fontWeight: 'bold'
   },
   name: {
-    color: color.black,
+    color: '#424242',
+    fontWeight: 'bold'
+  },
+  ratingText: {
+    color: color.primary,
     fontWeight: 'bold'
   }
 });
