@@ -1,3 +1,4 @@
+import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {Avatar} from 'react-native-elements';
 import PhotoUpload from 'react-native-photo-upload'
 import ActivityStatusIndicator from './ActivityIndicators/ActivityStatusIndicator';
@@ -29,5 +30,8 @@ export {
   LabledInput,
   LabledAddressInput,
   LabledLanguageBox,
-  PhotoUpload 
+  PhotoUpload,
+  TabView,
+  SceneMap,
+  TabBar
 }

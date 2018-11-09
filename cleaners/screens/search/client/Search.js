@@ -148,7 +148,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(Search);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginHorizontal: 20
+    marginHorizontal: 20,
+    marginTop: 16
   },
   searchContainer: {
     height: '10%',
