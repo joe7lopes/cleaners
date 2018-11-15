@@ -1,15 +1,13 @@
 import React from 'react';
 import {View} from 'react-native';
 import Svg, {G, Path, Rect} from 'react-native-svg';
-import {color} from '../../config/styles';
 
-export default ({selected=false, width=30, height=30}) => {
-  let fillColor = selected ? color.primary : 'black';
+export default ({color='black', width=30, height=30}) => {
  return (
   <View>
     <Svg height={height} width={width} viewBox="0 0 512 512">
       <G>
-        <Path fill={fillColor} d="M416,336h-12.528c-8.786,0.008-17.45,2.053-25.312,5.976c-11.439,5.686-24.881,5.686-36.32,0
+        <Path fill={color} d="M416,336h-12.528c-8.786,0.008-17.45,2.053-25.312,5.976c-11.439,5.686-24.881,5.686-36.32,0
           c-4.563-2.239-9.406-3.854-14.4-4.8L343.032,216H360c4.418,0,8-3.582,8-8v-32c0-4.418-3.582-8-8-8h-32v-24
           c0-2.122-0.844-4.156-2.344-5.656L288,100.688V75.84l12.128-9.696l20.712,41.432l14.32-7.152L312.904,55.92L322.8,48H352
           c4.418,0,8-3.582,8-8V8c0-4.418-3.582-8-8-8h-80c-39.744,0.048-71.952,32.256-72,72c0,4.418,3.582,8,8,8h16v20.688l-21.656,21.656
@@ -36,10 +34,10 @@ export default ({selected=false, width=30, height=30}) => {
           c-17.673,0-32-14.327-32-32c0-17.673,14.327-32,32-32h12.528c6.301,0.009,12.514,1.476,18.152,4.288
           c15.951,7.92,34.689,7.92,50.64,0c5.638-2.812,11.851-4.279,18.152-4.288H416c17.673,0,32,14.327,32,32
           C448,401.673,433.673,416,416,416z"/>
-        <Rect fill={fillColor} x="408" y="368" width="16" height="16"/>
-        <Rect fill={fillColor} x="328" y="368" width="16" height="16"/>
-        <Rect fill={fillColor} x="296" y="376" width="16" height="16"/>
-        <Rect fill={fillColor} x="376" y="376" width="16" height="16"/>
+        <Rect fill={color} x="408" y="368" width="16" height="16"/>
+        <Rect fill={color} x="328" y="368" width="16" height="16"/>
+        <Rect fill={color} x="296" y="376" width="16" height="16"/>
+        <Rect fill={color} x="376" y="376" width="16" height="16"/>
       </G>
     </Svg>
   </View>

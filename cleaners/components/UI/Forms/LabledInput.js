@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, TextInput, StyleSheet} from 'react-native';
 import {color, font} from '../../../config/styles';
-export default ({label='Text', value, onChangeText, placeholder, containerStyle}) => {
+export default ({label='Text', value, onChangeText, placeholder, containerStyle, readOnly=false}) => {
   return (
     <View style={containerStyle}>
       <Text style={styles.labelText}>{label}</Text>
@@ -11,7 +11,7 @@ export default ({label='Text', value, onChangeText, placeholder, containerStyle}
         value={value}
         placeholder={placeholder}>
         </TextInput>
-        <View style={styles.rowView} />
+      {!readOnly && <View style={styles.rowView} /> }
     </View>
   )
 };
