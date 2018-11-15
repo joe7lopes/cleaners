@@ -31,21 +31,21 @@ class ContactCleaner extends React.Component {
     this.setState({services, address});
   }
 
-  renderServices = () => {
-    const {services} = this.state
-    return services
-      .map(service => {
-        const {uid, name, selected} = service;
-        return <ServicesBox
-          key={uid}
-          style={{
-          marginLeft: 8
-        }}
-          text={name}
-          selected={selected}
-          onSelect={() => this.handleServiceSelection(uid)}/>
-      });
-  };
+  // renderServices = () => {
+  //   const {services} = this.state
+  //   return services
+  //     .map(service => {
+  //       const {uid, name, selected} = service;
+  //       return <ServicesBox
+  //         key={uid}
+  //         style={{
+  //         marginLeft: 8
+  //       }}
+  //         text={name}
+  //         selected={selected}
+  //         onSelect={() => this.handleServiceSelection(uid)}/>
+  //     });
+  // };
 
   // handlers
 
@@ -106,7 +106,7 @@ class ContactCleaner extends React.Component {
 
             <FormLabel>Services that you'll request</FormLabel>
             <View style={styles.servicesContainer}>
-              {this.renderServices()}
+              {/* {this.renderServices()} */}
             </View>
 
             <FormLabel>Aditional message</FormLabel>

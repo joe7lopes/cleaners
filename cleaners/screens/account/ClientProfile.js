@@ -13,7 +13,7 @@ import {
     PrimaryTextButton as Button,
     LabledInput,
     LabledAddressInput,
-    LabledLanguageBox
+    LabledItemsBox
 } from '../../components/UI';
 
 class ClientProfile extends React.Component {
@@ -115,11 +115,11 @@ class ClientProfile extends React.Component {
                             label="Address"
                             value={address}/>
                     
-                        <LabledLanguageBox
+                        <LabledItemsBox
                             containerStyle={[styles.marginTop]}
                             label="I speak"
-                            languages={languages}
-                            onLanguageSelect={this.handleLanguageSelection}/>
+                            items={languages}
+                            onItemPress={this.handleLanguageSelection}/>
                         
                     </KeyboardAvoidingView>
                 </View>

@@ -34,7 +34,8 @@ class CleanerDetail extends React.Component {
     lastName={lastName}
     price={price}
     languages={languages}
-    services={services}/>
+    services={services}
+    onContactPress={this.handleOnContactPress}/>
   };
 
   renderReviews = () => {
@@ -64,7 +65,7 @@ class CleanerDetail extends React.Component {
   handleOnCloseContact = () => {
     this.setState({isModalVisible: false})
   }
-  handleOnConnect = () => {
+  handleOnContactPress = () => {
     this.setState({isModalVisible: true})
   }
 
@@ -88,8 +89,8 @@ class CleanerDetail extends React.Component {
             <Avatar large rounded title={title} activeOpacity={0.7}/>
           </View>
           <View style={styles.headerSubContainer}>
-            <Text>{`rating ${rating}`}</Text>
-            <Text>{`${reviewsCount} Reviews`}</Text>
+            <Text>{rating}</Text>
+            <Text>Rating</Text>
           </View>
 
         </View>
@@ -111,10 +112,7 @@ class CleanerDetail extends React.Component {
             .width,
           height: 100
         }}/>
-        <Button 
-        style={styles.button} 
-        title='Contact'
-        onPress={this.handleOnConnect}/>
+        
       </View>
     );
   }
@@ -136,10 +134,6 @@ const styles = StyleSheet.create({
   headerSubContainer: {
     flex: 1,
     alignItems: 'center'
-  },
-  button: {
-    marginVertical: 20,
-    marginHorizontal: 16
   },
   tabBarText: {
     color: color.gray_dark,
