@@ -1,45 +1,43 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {FormLabel} from 'react-native-elements';
-import {ServicesBox, LanguageBox} from '../../../components/UI';
+import {View, StyleSheet, ScrollView} from 'react-native';
+import { LabledInput, LabledItemsBox, LabledServicesBox, PrimaryTextButton as Button} from '../../../components/UI';
 
 export default class CleanerDetailProfile extends React.Component {
 
-  renderServices = () => {
-    const {services} = this.props;
-    return services.map(service => {
-      const {uid, name} = service;
-      return <ServicesBox key={uid} text={name} selected={true}/>
-    });
-  };
-
-  renderLanguages = () => {
-    const {languages} = this.props;
-    return languages.map(lang => {
-      const {code, name} = lang;
-      return <LanguageBox key={code} text={name} selected ={true}/>
-    });
-  }
-
   render() {
-    const {firstName, lastName, price, services = [], languages = []} = this.props;
+    const {firstName, lastName, price, services = [], languages = [], onContactPress} = this.props;
+    const cLanguages = languages.map(lang => ({...lang, selected: true}));
+    const cServices =  services.map(service => ({...service, selected: true}));
     return (
       <View style={styles.container}>
-        <FormLabel>Name</FormLabel>
-        <Text style={styles.text}>
-          {`${firstName} ${lastName}`}
-        </Text>
-        <FormLabel>Services</FormLabel>
-        <View style={styles.boxContainer}>
-          { services.length > 0 && this.renderServices()}
-        </View>
+        <ScrollView>
+          <LabledInput
+            label="Name"
+            readOnly={true}
+            value={`${firstName} ${lastName}`} />
 
-        <FormLabel>Languages</FormLabel>
-        <View style={styles.boxContainer}>
-          {languages.length > 0 && this.renderLanguages()}
-        </View>
-        <FormLabel>Price</FormLabel>
-        <Text style={styles.text}>{`${price}zl`}</Text>
+          <LabledInput
+          containerStyle={styles.marginTop}
+          label="Price"
+          readOnly={true}
+          value={`${price} zl - per hour`} />
+
+          <LabledItemsBox
+            containerStyle={[styles.marginTop]}
+            label="Speaks"
+            items={cLanguages}/>
+
+            <LabledServicesBox
+            containerStyle={[styles.marginTop]}
+            label="Services"
+            items={cServices}/>
+
+            <Button 
+              style={styles.button} 
+              title='Contact'
+              onPress={onContactPress}/>
+
+        </ScrollView>
       </View>
     );
   }
@@ -48,15 +46,18 @@ export default class CleanerDetailProfile extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20
+    marginTop: 20,
+    marginHorizontal: 16
   },
   text: {
     marginLeft: 20,
     marginTop: 8
   },
-  boxContainer: {
-    flexDirection: 'row',
-    marginTop: 8,
-    marginLeft: 20
+  marginTop: {
+    marginTop: 16
+  },
+  button: {
+    marginTop: 18
   }
+
 });

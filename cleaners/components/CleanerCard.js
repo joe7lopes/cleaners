@@ -16,11 +16,11 @@ export default CleanerCard = ({
     const width = height= '25';
     switch (serviceName) {
       case 'IRONING':
-        return (<Ironing width={width} height={height} selected={true}/>)
+        return (<Ironing width={width} height={height} color={color.primary}/>)
       case 'WACHING':
-        return (<Waching width={width} height={height} selected={true}/>)
+        return (<Waching width={width} height={height} color={color.primary}/>)
       case 'CLEANING':
-        return (<Cleaning width={width} height={height} selected={true}/>)
+        return (<Cleaning width={width} height={height} color={color.primary}/>)
     }
   }
 
