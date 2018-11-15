@@ -107,10 +107,10 @@ class Search extends React.Component {
       <SafeAreaView style={styles.container}>
         {isFilterVisible && this.renderFilter()}
         
-        <View style={styles.header}>
+        <View style={styles.searchContainer}>
           <TouchableWithoutFeedback onPress={this.hadleFilterTap}>
-            <View style={styles.searchBar}>
-              <Text>filter</Text>
+            <View>
+              <Text style={styles.searchText}>Search...</Text>
             </View>
           </TouchableWithoutFeedback>
         </View >
@@ -147,15 +147,27 @@ export default connect(mapStateToProps, mapDispatchToProps)(Search);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginHorizontal: 20,
+    marginTop: 16
   },
-  header: {
-    height: '20%',
-    backgroundColor: 'red'
+  searchContainer: {
+    height: '10%',
+    marginVertical: 8,
+    paddingHorizontal: 8,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    justifyContent: 'center',
+    shadowColor: 'gray',
+    shadowOffset: {
+      width: 0.5,
+      height: 1
+    },
+    shadowOpacity: 0.7,
+    shadowRadius: 0.5
   },
   body: {
-    height: '80%',
-    marginHorizontal: 20
+    height: '80%'
   },
   statusContainer: {
     flex: 1,
@@ -163,10 +175,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   listHeaderContainer: {
-    height: '10%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 8
+    paddingTop: 8,
   },
   listTitle: {
     color: color.gray_dark,
@@ -177,9 +188,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: color.primary
   },
-  searchBar: {
-    flex: 1,
-    backgroundColor: 'pink'
+  searchText: {
+    color: color.gray_dark,
+    fontWeight: 'bold',
+    fontSize: font.m2
   },
   searchModal: {
     flex: 1,

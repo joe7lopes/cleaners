@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions, Modal} from 'react-native';
-import { Avatar, Button } from 'react-native-elements';
-import {TabView, SceneMap} from 'react-native-tab-view';
+import { Avatar,TabView, SceneMap, TabBar, PrimaryTextButton as Button } from '../../../components/UI'
 import CleanerDetailProfile from './CleanerDetailProfile';
 import CleanerDetailReviews from './CleanerDetailReviews';
 import ContactCleaner from './ContactCleaner';
+import { color, font } from '../../../config/styles';
 
 class CleanerDetail extends React.Component {
 
@@ -77,7 +77,9 @@ class CleanerDetail extends React.Component {
     return (
       <View style={styles.container}>
         {isModalVisible && this.renderContact()}
+
         <View style={styles.header}>
+
           <View style={styles.headerSubContainer}>
             <Text>{reviewsCount}</Text>
             <Text>Jobs</Text>
@@ -96,6 +98,13 @@ class CleanerDetail extends React.Component {
           navigationState={this.state}
           renderScene={SceneMap({first: this.renderProfile, second: this.renderReviews})}
           onIndexChange={index => this.setState({index})}
+          renderTabBar={props => 
+            <TabBar 
+              {...props} 
+              indicatorStyle={{ backgroundColor: color.primary }} 
+              style={{backgroundColor: 'white'}}
+              labelStyle={styles.tabBarText}
+            />}
           initialLayout={{
           width: Dimensions
             .get('window')
@@ -122,14 +131,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    backgroundColor: '#42A5F5',
-    height: '20%'
+    height: '20%',
   },
   headerSubContainer: {
     flex: 1,
     alignItems: 'center'
   },
   button: {
-    marginVertical: 20
+    marginVertical: 20,
+    marginHorizontal: 16
+  },
+  tabBarText: {
+    color: color.gray_dark,
+    fontWeight: 'bold',
+    fontSize: font.m1
   }
 });

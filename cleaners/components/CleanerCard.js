@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
-import {color} from '../config/styles';
+import {color, font} from '../config/styles';
 import {Waching, Ironing, Cleaning, Star} from '../assets/images';
 
 export default CleanerCard = ({
@@ -52,7 +52,7 @@ export default CleanerCard = ({
       </View>
 
       <View style={[styles.rating, {flexDirection: 'row'}]}>
-        <Star />
+        <Star width='20' height='20' />
         <Text style={styles.ratingText}>{rating}</Text>
       </View>
 
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   rating:{
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   image: {
     width: 80,
@@ -97,7 +97,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   ratingText: {
+    marginLeft: 4,
     color: color.primary,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: font.m2
   }
 });

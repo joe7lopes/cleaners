@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, Text}from 'react-native';
 import _ from 'lodash';
-import {color} from '../../../config/styles';
+import {color, font} from '../../../config/styles';
 
 
 export default ({onPress, style, title}) => {
@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: 'center',
-    color: color.white,
+    color: 'white',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: font.m1,
   }
 });
