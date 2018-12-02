@@ -1,9 +1,11 @@
 
-import  Search from './client/Search';
+import Search from './client/Search';
 import CleanerDetail from './client/CleanerDetail';
-import { CLEANER, CLIENT } from '../../config/profileTypes';
+import SearchFilter from './client/SearchFilter';
+import React from "react";
 
 export {
   Search,
+  SearchFilter,
   CleanerDetail
 }

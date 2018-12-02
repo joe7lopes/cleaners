@@ -1,5 +1,5 @@
 import { createStackNavigator } from 'react-navigation';
-import  { Search, CleanerDetail } from '../../../../screens/search';
+import  { Search, SearchFilter, CleanerDetail } from '../../../../screens/search';
 import {color} from '../../../styles';
 
 const navigationBarTheme = {
@@ -10,19 +10,26 @@ const navigationBarTheme = {
 };
 
 const searchStack = createStackNavigator({
-  search:{
-    screen: Search,
-    navigationOptions: {
-      headerTitle: 'Seach',
-      ...navigationBarTheme
+    search: {
+        screen: Search,
+        navigationOptions: {
+            headerTitle: 'Seach',
+            ...navigationBarTheme
+        }
+    },
+    filter: {
+        screen: SearchFilter,
+        navigationOptions: {
+            headerTitle: 'Filter',
+            ...navigationBarTheme
+        }
+    },
+    cleanerDetail: {
+        screen: CleanerDetail,
+        navigationOptions: {
+            ...navigationBarTheme
+        }
     }
-  },
-  cleanerDetail:{
-    screen: CleanerDetail,
-    navigationOptions: {
-      ...navigationBarTheme
-    }
-  }
 });
 
 export default searchStack;

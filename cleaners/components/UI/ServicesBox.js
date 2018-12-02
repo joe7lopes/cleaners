@@ -1,27 +1,32 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import {color} from '../../config/styles';
 
 export default (props) => {
   const { selected, text }= props; 
-  const backgroundColor = selected ? '#1E88E5' : 'white';
-  const color = selected ? 'white' : 'black';
+  const backgroundColor = selected ? color.primary : color.primary + '26';
+  const textColor = selected ? 'white' : color.primary;
   return (
-    <View style={[props.style, styles.container ,{backgroundColor}]}>
+    <View style={[props.style, styles.container, {backgroundColor}]}>
       <TouchableWithoutFeedback onPress={props.onSelect}>
-        <View>
-          <Text>Image</Text>
-          <Text style={{color}}>{text}</Text>
+        <View style={styles.innerContainer}>
+          {props.image}
+          <Text style={[styles.text, {color: textColor}]}>{text.slice(0, 1) + text.slice(1, text.length).toLowerCase()}</Text>
         </View>
       </TouchableWithoutFeedback>
     </View>
 )};
 
 const styles = StyleSheet.create({
-  container: {
-    paddingVertical: 5,
-    paddingHorizontal: 5,
-    borderRadius:5,
-    borderColor: '#d3d3d3',
-    borderWidth: 1
-  }
+    container: {
+        paddingVertical: 7,
+        paddingHorizontal: 11,
+        borderRadius: 25
+    },
+    innerContainer: {
+        flexDirection: 'row'
+    },
+    text: {
+        paddingLeft: 5
+    }
 });

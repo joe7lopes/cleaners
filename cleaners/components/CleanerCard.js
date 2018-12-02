@@ -13,14 +13,14 @@ export default CleanerCard = ({
 }) => {
 
   const getServiceImage = (serviceName) => {
-    const width = height= '25';
+    const width = height = '25';
     switch (serviceName) {
       case 'IRONING':
-        return (<Ironing width={width} height={height} color={color.primary}/>)
+        return (<Ironing width={width} height={height} selected={false}/>);
       case 'WACHING':
-        return (<Waching width={width} height={height} color={color.primary}/>)
+        return (<Waching width={width} height={height} selected={false}/>);
       case 'CLEANING':
-        return (<Cleaning width={width} height={height} color={color.primary}/>)
+        return (<Cleaning width={width} height={height} selected={false}/>);
     }
   }
 

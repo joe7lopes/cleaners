@@ -10,11 +10,9 @@ import {
   FlatList,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Modal,
   Platform
 } from 'react-native';
 import {color, font} from '../../../config/styles';
-import SearchFilter from './SearchFilter';
 import CleanerCard from '../../../components/CleanerCard';
 import {PENDING, SUCCESS} from '../../../actions/types';
 
@@ -22,7 +20,6 @@ class Search extends React.Component {
 
   state = {
     cleaners: [],
-    isFilterVisible: false
   }
 
   componentDidMount() {
@@ -70,18 +67,7 @@ class Search extends React.Component {
         rating={item.rating}
         price={item.price}/>
     </TouchableOpacity>
-  )
-
-  renderFilter = () => {
-
-    return (
-      <Modal transparent={true}>
-        <View style={styles.searchModal}>
-          <SearchFilter onClose={this.handleOnFilterClose}/>
-        </View>
-      </Modal>
-    )
-  }
+  );
 
   //HANDLERS
   handleSelectedCleaner(cleaner) {
@@ -92,23 +78,16 @@ class Search extends React.Component {
       .navigate('cleanerDetail', {cleaner, title});
   }
 
-  hadleFilterTap = () => {
-    this.setState({isFilterVisible: true});
-  }
-
-  handleOnFilterClose = () => {
-    this.setState({isFilterVisible: false});
+  handleSearchScreen() {
+      this.props.navigation.navigate('filter');
   }
 
   render() {
     const count = this.props.cleaners.length;
-    const {isFilterVisible} = this.state;
     return (
       <SafeAreaView style={styles.container}>
-        {isFilterVisible && this.renderFilter()}
-        
         <View style={styles.searchContainer}>
-          <TouchableWithoutFeedback onPress={this.hadleFilterTap}>
+          <TouchableWithoutFeedback onPress={this.handleSearchScreen.bind(this)}>
             <View>
               <Text style={styles.searchText}>Search...</Text>
             </View>
@@ -192,13 +171,6 @@ const styles = StyleSheet.create({
     color: color.gray_dark,
     fontWeight: 'bold',
     fontSize: font.m2
-  },
-  searchModal: {
-    flex: 1,
-    marginTop: Platform.OS === 'ios'
-      ? 64
-      : 54,
-    backgroundColor: 'white'
   },
   cleanerCard: {
     marginTop: 20,

@@ -72,12 +72,12 @@ class ClientProfile extends React.Component {
         setTimeout(() => {
             this.setState({showStatusIndicator: false});
         }, 2000);
-        
+
         return (
-        <StatusActivityStatusIndicator 
-            visible={showStatusIndicator}
-            status={status}
-            message={message}/>
+            <StatusActivityStatusIndicator
+                visible={showStatusIndicator}
+                status={status}
+                message={message}/>
         )
     }
 
@@ -89,20 +89,20 @@ class ClientProfile extends React.Component {
                 <Loader message="Saving..." loading={this.props.status === PENDING}/>
                 {this.state.showStatusIndicator && this.renderStatusIndicator()}
                 <View style={styles.header}>
-                <PhotoUpload>
-                    <Image
-                    style={styles.image}
-                      resizeMode='cover'
-                        source={{
-                        uri: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg'
-                        }}
-                    />
+                    <PhotoUpload>
+                        <Image
+                            style={styles.image}
+                            resizeMode='cover'
+                            source={{
+                                uri: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg'
+                            }}
+                        />
                     </PhotoUpload>
                 </View>
 
                 <View style={styles.body}>
                     <KeyboardAvoidingView behavior="padding" enabled>
-                        
+
                         <LabledInput
                             label="Name"
                             value={`${firstName} ${lastName}`} />
@@ -110,17 +110,17 @@ class ClientProfile extends React.Component {
                             containerStyle={styles.marginTop}
                             label="Phone"
                             value={phone} />
-                        <LabledAddressInput 
+                        <LabledAddressInput
                             containerStyle={styles.marginTop}
                             label="Address"
                             value={address}/>
-                    
+
                         <LabledItemsBox
                             containerStyle={[styles.marginTop]}
                             label="I speak"
                             items={languages}
                             onItemPress={this.handleLanguageSelection}/>
-                        
+
                     </KeyboardAvoidingView>
                 </View>
 

@@ -4,9 +4,12 @@ import PhotoUpload from 'react-native-photo-upload'
 import ActivityStatusIndicator from './ActivityIndicators/ActivityStatusIndicator';
 import Loader from './ActivityIndicators/Loader';
 import StatusActivityStatusIndicator from './ActivityIndicators/StatusActivityIndicator';
-import TextItemBox from './TextItemBox';
+import LanguageBox from './LanguageBox';
+import ServicesBox from './ServicesBox';
 import DatePicker from './pickers/DatePicker';
 import TimePicker from './pickers/TimePicker';
+import TextItemBox from './TextItemBox';
+
 
 //BUTTONS
 import PrimaryTextButton from './Buttons/PrimaryTextButton';
@@ -18,20 +21,22 @@ import LabledItemsBox from './Forms/LabledItemsBox';
 import LabledServicesBox from './Forms/LabledServicesBox';
 
 export {
-  ActivityStatusIndicator,
-  TextItemBox,
-  DatePicker,
-  TimePicker,
-  Loader,
-  StatusActivityStatusIndicator,
-  Avatar,
-  PrimaryTextButton,
-  LabledInput,
-  LabledAddressInput,
-  LabledItemsBox,
-  LabledServicesBox,
-  PhotoUpload,
-  TabView,
-  SceneMap,
-  TabBar
+    ActivityStatusIndicator,
+    LanguageBox,
+    ServicesBox,
+    TextItemBox,
+    DatePicker,
+    TimePicker,
+    Loader,
+    StatusActivityStatusIndicator,
+    Avatar,
+    PrimaryTextButton,
+    LabledInput,
+    LabledAddressInput,
+    LabledItemsBox,
+    LabledServicesBox,
+    PhotoUpload,
+    TabView,
+    SceneMap,
+    TabBar
 }

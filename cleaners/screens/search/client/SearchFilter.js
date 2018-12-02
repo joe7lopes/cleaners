@@ -1,38 +1,58 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import _ from 'lodash';
-import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
-import {Button, FormInput, FormLabel, Icon} from 'react-native-elements';
-import {Dropdown} from 'react-native-material-dropdown';
-import {LanguageBox, ServicesBox} from '../../../components/UI';
-import {languages as languagesData, rating, services as servicesData} from '../../../config/data';
-import {ActionCreators} from '../../../actions';
+import { StyleSheet, View, SafeAreaView, ScrollView } from 'react-native';
+import { FormInput, FormLabel } from 'react-native-elements';
+import { LanguageBox, ServicesBox, PrimaryTextButton as Button } from '../../../components/UI';
+import { languages as languagesData, rating, services as servicesData } from '../../../config/data';
+import { ActionCreators } from '../../../actions';
+import Rating from "../../../components/UI/Ratings/Rating";
+import { Ironing, Waching, Cleaning } from "../../../assets/images";
+import { color } from '../../../config/styles';
 
 class SearchFilter extends React.Component {
 
     state = {
         address: '',
-        priceMin: undefined,
-        priceMax: undefined,
-        languages: [],
-        services: [],
-        ratingMin: undefined,
-        ratingMax: undefined
-    }
+        priceMin: 0,
+        priceMax: 100,
+        languages: [
+            {code: 'pol', name: 'Polish', selected: false},
+            {code: 'ukr', name: 'Ukrainian', selected: true},
+            {code: 'eng', name: 'English', selected: false}
+        ],
+        services: [
+            {id: 1, name: 'CLEANING', selected: true},
+            {id: 2, name: 'IRONING', selected: false},
+            {id: 3, name: 'WACHING', selected: false}
+        ],
+        ratingMin: 0,
+    };
+
+    getServiceImage = (serviceName, selected) => {
+        const height = 20;
+        const width = 20;
+        switch (serviceName) {
+            case 'IRONING':
+                return (<Ironing width={width} height={height} color={selected ? 'white' : color.primary} selected={selected}/>);
+            case 'WACHING':
+                return (<Waching width={width} height={height} color={selected ? 'white' : color.primary} selected={selected}/>);
+            case 'CLEANING':
+                return (<Cleaning width={width} height={height} color={selected ? 'white' : color.primary} selected={selected}/>);
+        }
+    };
+
     renderServices = () => {
         const {services} = this.state;
 
         return services.map(service => {
             const {id, name, selected} = service;
             return (<ServicesBox
-                style={{
-                    marginLeft: 8
-                }}
                 key={id}
+                image={this.getServiceImage(name, selected)}
                 text={name}
-                selected
-                    ={selected}
+                selected={selected}
                 onSelect={() => this.handleServiceSelection(id)}/>)
         });
     };
@@ -42,9 +62,6 @@ class SearchFilter extends React.Component {
         return languages.map(lang => {
             const {code, name, selected} = lang;
             return (<LanguageBox
-                style={{
-                    marginLeft: 8
-                }}
                 key={code}
                 text={name}
                 selected={selected}
@@ -93,14 +110,9 @@ class SearchFilter extends React.Component {
     }
     handleOnFilter = () => {
         let criteria = {...this.state};
-        this.props.fetchCleaners(criteria);
-        this.props.onClose();
     }
-    handleOnRatingMinChanged = (ratingMin) => {
-        this.setState({ratingMin});
-    }
-    handleOnRatingMaxChanged = (ratingMax) => {
-        this.setState({ratingMax})
+    handleOnRatingChanged = (ratingMin) => {
+        this.setState({ratingMin})
     }
 
     componentDidMount() {
@@ -127,83 +139,81 @@ class SearchFilter extends React.Component {
     render() {
         const {address, priceMin, priceMax, ratingMin, ratingMax} = this.state;
         return (
-            <View style={styles.container}>
-
-                <TouchableOpacity
-                    style={{
-                        alignItems: 'flex-end'
-                    }}
-                    onPress={this.props.onClose}>
-                    <Icon name='cancel' color='#d3d3d3'/>
-                </TouchableOpacity>
-
-                <FormLabel>Address</FormLabel>
-                <FormInput value={address} onChangeText={this.handleOnAddressChanged}/>
-
-                <View style={styles.row}>
-
-                    <View>
-                        <FormLabel>price min.</FormLabel>
-                        <TextInput
-                            style={{
-                                paddingLeft: 20
+            <ScrollView>
+                <SafeAreaView style={styles.container}>
+                    <View style={styles.whiteBox}>
+                        <FormLabel labelStyle={styles.label}>Address</FormLabel>
+                        <FormInput
+                            containerStyle={{
+                                borderBottomWidth: 1,
+                                borderBottomColor: '#ccc'
                             }}
-                            multiline={false}
-                            maxLength={3}
-                            value={priceMin}
-                            placeholder="not set"
-                            onChangeText={this.handleOnPriceMinChanged}/>
+                            value={address}
+                            onChangeText={this.handleOnAddressChanged}
+                        />
                     </View>
 
-                    <View>
-                        <FormLabel>price max.</FormLabel>
-                        <TextInput
-                            style={{
-                                paddingLeft: 20
-                            }}
-                            multiline={false}
-                            maxLength={3}
-                            value={priceMax}
-                            placeholder="not set"
-                            onChangeText={this.handleOnPriceMaxChanged}/>
+                    <View style={styles.whiteBox}>
+                        <View style={[styles.priceContainer, styles.row]}>
+
+                            <View style={{
+                                width: '50%'
+                            }}>
+                                <FormLabel labelStyle={styles.label}>Price min.</FormLabel>
+                                <FormInput
+                                    containerStyle={{
+                                        borderBottomWidth: 1,
+                                        borderBottomColor: '#ccc'
+                                    }}
+                                    value={priceMin.toString()}
+                                    keyboardType='numeric'
+                                    onChangeText={this.handleOnPriceMinChanged}
+                                />
+                            </View>
+
+                            <View style={{
+                                width: '50%'
+                            }}>
+                                <FormLabel labelStyle={styles.label}>Price max.</FormLabel>
+                                <FormInput
+                                    containerStyle={{
+                                        borderBottomWidth: 1,
+                                        borderBottomColor: '#ccc'
+                                    }}
+                                    value={priceMax.toString()}
+                                    keyboardType='numeric'
+                                    onChangeText={this.handleOnPriceMaxChanged}
+                                />
+                            </View>
+
+                        </View>
+
+                        <FormLabel labelStyle={styles.label}>Languages</FormLabel>
+                        <View style={[styles.languagesContainer, styles.row]}>
+                            {this.renderLanguages()}
+                        </View>
+
+                        <FormLabel labelStyle={styles.label}>Services</FormLabel>
+                        <View style={[styles.servicesContainer, styles.row]}>
+                            {this.renderServices()}
+                        </View>
+
+                        <FormLabel labelStyle={styles.label}>Rating</FormLabel>
+                        <View style={styles.ratingContainer}>
+                            <Rating
+                                max={10}
+                                rating={ratingMin}
+                                handleOnRatingChanged={this.handleOnRatingChanged}
+                                reversed={true}
+                            />
+                        </View>
                     </View>
 
-                </View>
-
-                <FormLabel>Languages</FormLabel>
-                <View style={[styles.languagesContainer, styles.row]}>
-                    {this.renderLanguages()}
-                </View>
-
-                <FormLabel>Services</FormLabel>
-                <View style={[styles.languagesContainer, styles.row]}>
-                    {this.renderServices()}
-                </View>
-                <View style={styles.ratingContainer}>
-                    <Dropdown
-                        containerStyle={{
-                            width: '45%'
-                        }}
-                        label="rating min."
-                        value={ratingMin}
-                        data={this.getRatingData()}
-                        onChangeText={this.handleOnRatingMinChanged}/>
-                    <Dropdown
-                        containerStyle={{
-                            width: '45%',
-                            marginLeft: '10%'
-                        }}
-                        label="rating max."
-                        value={ratingMax}
-                        data={this.getRatingData()}
-                        onChangeText={this.handleOnRatingMaxChanged}/>
-                </View>
-                <Button
-                    style={{
-                        paddingTop: 20
-                    }}
-                    onPress={this.handleOnFilter} title="filter"/>
-            </View>
+                    <Button
+                        onPress={this.handleOnFilter}
+                        title="Filter"/>
+                </SafeAreaView>
+            </ScrollView>
         );
     }
 }
@@ -226,15 +236,36 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row'
     },
+    priceContainer: {
+        paddingVertical: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: color.gray
+    },
     languagesContainer: {
-        paddingTop: 20,
-        paddingLeft: 20
+        paddingVertical: 20,
+        paddingHorizontal: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: color.gray
     },
     servicesContainer: {
-        paddingTop: 20,
-        paddingLeft: 20
+        justifyContent: 'space-between',
+        paddingVertical: 20,
+        paddingHorizontal: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: color.gray
     },
     ratingContainer: {
+        marginTop: 15,
+        marginHorizontal: 22,
         flexDirection: 'row'
+    },
+    whiteBox: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        marginBottom: 20,
+        paddingBottom: 20
+    },
+    label: {
+        color: color.gray_dark
     }
 });

@@ -6,10 +6,10 @@ import {color} from '../../../styles';
 
 const navigationBarTheme = {
     headerStyle: {
-      backgroundColor: color.primary,
+        backgroundColor: color.primary,
     },
     headerTintColor: '#fff'
-  };
+};
 
 const accountStack = createStackNavigator({
 
